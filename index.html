@@ -1,1 +1,48 @@
-
+<!DOCTYPE html>
+<html lang="hu">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boldog Mancs Állatmenhely</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/fav.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/fav.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/fav.png">
+</head>
+<body>
+    <!-- Fejléc -->
+    <header id="mainHeader">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-paw"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Boldog Mancs Állatmenhely</h1>
+                    <p>Minden állat egy otthonra vágyik!</p>
+                </div>
+            </div>
+            
+            <!-- Login/Register gombok -->
+            <div id="authButtons" style="margin-left: auto; display: flex; gap: 10px; align-items: center;">
+                <button id="loginBtn" class="btn" style="background: transparent; border: 2px solid var(--white);">
+                    <i class="fas fa-sign-in-alt"></i> Bejelentkezés
+                </button>
+                <button id="registerBtn" class="btn" style="background: var(--accent);">
+                    <i class="fas fa-user-plus"></i> Regisztráció
+                </button>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Főoldal</a></li>
+                    <li><a href="#" class="nav-link" data-page="adoption">Örökbefogadás</a></li>
+                    <li><a href="#" class="nav-link" data-page="about">Bemutatkozás</a></li>
+                    <li><a href="#" class="nav-link" data-page="story">Történet</a></li>
+                    <li><a href="#" class="nav-link" data-page="contact">Elérhetőség</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
