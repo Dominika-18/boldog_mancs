@@ -46,3 +46,82 @@
             </nav>
         </div>
     </header>
+<!-- Főoldal -->
+    <main id="home" class="page active">
+        <!-- Hero szekció -->
+        <section class="hero">
+            <div class="slideshow">
+                <div class="slide active" style="background-image: url('img/blog3.jpg')">
+                    <div class="slide-content">
+                        <h2>Adj otthont egy szeretetgombócnak!</h2>
+                        <p>Menhelyünk több mint 50 kutyus és cicus várja, hogy végre megtalálja az örökbefogadóját.</p>
+                        <a href="#" class="btn slideshow-btn" data-slide-page="adoption">Örökbefogadás</a>
+                    </div>
+                </div>
+                <div class="slide" style="background-image: url('img/blog2.jpg')">
+                    <div class="slide-content">
+                        <h2>Új családtagod vár!</h2>
+                        <p>Fedezd fel menhelyünk szeretetre vágyó lakóit és találd meg az új családtagodat!</p>
+                        <a href="#" class="btn slideshow-btn" data-slide-page="adoption">Ismerd meg őket</a>
+                    </div>
+                </div>
+                <div class="slide" style="background-image: url('img/blog5.jpg')">
+                    <div class="slide-content">
+                        <h2>Miért örökbefogadni?</h2>
+                        <p>Az örökbefogadás életeket ment és boldoggá tesz mindenkit!</p>
+                        <a href="#" class="btn slideshow-btn" data-slide-page="story">Tudj meg többet</a>
+                    </div>
+                </div>
+                <div class="slide" style="background-image: url('img/blog4.jpg')">
+                    <div class="slide-content">
+                        <h2>Önkéntes programunk</h2>
+                        <p>Csatlakozz hozzánk és segíts az állatok boldoggá tételében!</p>
+                        <a href="#" class="btn slideshow-btn" data-slide-page="contact">Kapcsolat</a>
+                    </div>
+                </div>
+
+                <!-- Slideshow navigációs nyilak -->
+                <div class="slideshow-arrow prev">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="slideshow-arrow next">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="slideshow-nav">
+                <div class="slideshow-dot active" data-slide="0"></div>
+                <div class="slideshow-dot" data-slide="1"></div>
+                <div class="slideshow-dot" data-slide="2"></div>
+                <div class="slideshow-dot" data-slide="3"></div>
+            </div>
+        </section>
+
+        <!-- Kiemelt állatok -->
+        <section class="featured-animals">
+            <div class="container">
+                <div class="section-title fade-in">
+                    <h2>Kiemelt állatkák</h2>
+                    <p>Ismerd meg azokat a szeretetgombócokat, akik különösen sürgősen várják az örökbefogadójukat!</p>
+                </div>
+                <div class="animal-grid" id="featuredAnimals">
+                    <!-- Kiemelt állatok JavaScriptből jönnek -->
+                </div>
+                <div class="text-center" style="margin-top: 40px;">
+                    <a href="#" class="btn nav-link" data-page="adoption">Összes állat megtekintése</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hírek -->
+        <section class="news">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Legfrissebb híreink</h2>
+                    <p>Maradj naprakész menhelyünk legújabb eseményeiről és híreiről!</p>
+                </div>
+                <div class="news-grid" id="newsGrid">
+                    <!-- Blog bejegyzések JavaScriptből jönnek -->
+                </div>
+            </div>
+        </section>
+    </main>
