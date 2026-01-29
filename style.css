@@ -525,3 +525,292 @@ nav ul li a.active {
     z-index: 3;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
+/* Szűrő legördülő menü */
+.filter-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.filter-dropdown-button {
+    background: var(--white);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 200px;
+    justify-content: space-between;
+}
+
+.filter-dropdown-button:hover {
+    background: rgba(26, 71, 42, 0.1);
+}
+
+.filter-dropdown-button .arrow {
+    transition: var(--transition);
+}
+
+.filter-dropdown-button.active .arrow {
+    transform: rotate(180deg);
+}
+
+.filter-dropdown-content {
+    display: none;
+    position: absolute;
+    background: var(--white);
+    min-width: 250px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    z-index: 1000;
+    margin-top: 10px;
+    border: 1px solid rgba(26, 71, 42, 0.1);
+}
+
+.filter-dropdown-content.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.filter-dropdown-group {
+    padding: 15px;
+    border-bottom: 1px solid rgba(26, 71, 42, 0.1);
+}
+
+.filter-dropdown-group:last-child {
+    border-bottom: none;
+}
+
+.filter-dropdown-group h4 {
+    margin-bottom: 10px;
+    color: var(--primary);
+    font-size: 1rem;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--accent);
+}
+
+.filter-dropdown-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-dropdown-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filter-dropdown-option:hover {
+    background: rgba(26, 71, 42, 0.05);
+}
+
+.filter-dropdown-option.active {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.filter-dropdown-option input[type="checkbox"] {
+    margin: 0;
+}
+
+.filter-dropdown-option label {
+    cursor: pointer;
+    flex: 1;
+    margin: 0;
+}
+
+/* Aktív szűrők címke */
+.active-filters-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.active-filter-tag {
+    display: inline-flex;
+    align-items: center;
+    background: var(--accent);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    gap: 8px;
+}
+
+.active-filter-tag .remove-filter {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.active-filter-tag .remove-filter:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Szűrő műveletek */
+.filter-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: var(--light);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.filter-stats {
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.filter-stats span {
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.clear-filters-btn {
+    background: transparent;
+    border: 2px solid #e74c3c;
+    color: #e74c3c;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.clear-filters-btn:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+/* "Nincs találat" üzenet */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.no-results p {
+    font-size: 1.2rem;
+    color: var(--text);
+    margin-bottom: 20px;
+}
+
+/* Bemutatkozás oldal */
+.about-page {
+    background-color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.about-text p {
+    margin-bottom: 25px;
+    font-size: 1.15rem;
+    line-height: 1.8;
+}
+
+.shelter-status {
+    margin-top: 40px;
+}
+
+.shelter-status h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--primary);
+}
+
+.status-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.status-card {
+    display: flex;
+    align-items: center;
+    padding: 25px;
+    background: var(--light);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid rgba(74, 124, 89, 0.1);
+}
+
+.status-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(26, 71, 42, 0.15);
+}
+
+.status-icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-right: 20px;
+}
+
+.status-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary);
+    display: block;
+    line-height: 1;
+}
+
+.status-label {
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.team-members {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.team-member {
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 15px;
+    background: var(--light);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid rgba(74, 124, 89, 0.1);
+}
