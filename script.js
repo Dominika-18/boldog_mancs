@@ -996,3 +996,458 @@ function handleHeaderScroll() {
         header.classList.remove('scrolled');
     }
 }
+// =========================
+// REGISZTRÁCIÓ ÉS BEJELENTKEZÉS FUNKCIÓK
+// =========================
+
+// Auth gombok beállítása
+function setupAuthButtons() {
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const showLogin = document.getElementById('showLogin');
+    const showRegister = document.getElementById('showRegister');
+    const closeRegister = document.getElementById('closeRegister');
+    const closeLogin = document.getElementById('closeLogin');
+    const cancelRegister = document.getElementById('cancelRegister');
+    const cancelLogin = document.getElementById('cancelLogin');
+    const logoutLink = document.getElementById('logoutLink');
+    const adminLink = document.getElementById('adminLink');
+    const profileLink = document.getElementById('profileLink');
+    const userMenu = document.getElementById('userMenu');
+
+    // Login gomb
+    if (loginBtn) {
+        loginBtn.addEventListener('click', () => showModal('loginModal'));
+    }
+
+    // Register gomb
+    if (registerBtn) {
+        registerBtn.addEventListener('click', () => showModal('registerModal'));
+    }
+
+    // Modal váltások
+    if (showLogin) {
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideModal('registerModal');
+            showModal('loginModal');
+        });
+    }
+
+    if (showRegister) {
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideModal('loginModal');
+            showModal('registerModal');
+        });
+    }
+
+    // Modal bezárások
+    if (closeRegister) {
+        closeRegister.addEventListener('click', () => hideModal('registerModal'));
+    }
+
+    if (closeLogin) {
+        closeLogin.addEventListener('click', () => hideModal('loginModal'));
+    }
+
+    if (cancelRegister) {
+        cancelRegister.addEventListener('click', () => hideModal('registerModal'));
+    }
+
+    if (cancelLogin) {
+        cancelLogin.addEventListener('click', () => hideModal('loginModal'));
+    }
+
+    // Kijelentkezés
+    if (logoutLink) {
+        logoutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            logout();
+        });
+    }
+
+    // Admin link
+    if (adminLink) {
+        adminLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'admin.html';
+        });
+    }
+
+    // Profil link
+    if (profileLink) {
+        profileLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Profil oldal fejlesztés alatt áll!');
+        });
+    }
+
+    // User menü megjelenítése/elrejtése
+    const authButtons = document.getElementById('authButtons');
+    if (authButtons) {
+        authButtons.addEventListener('click', () => {
+            if (currentUser && userMenu) {
+                userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+            }
+        });
+    }
+
+    // User menü bezárása ha kívülre kattintanak
+    document.addEventListener('click', (e) => {
+        if (userMenu && !userMenu.contains(e.target) && 
+            authButtons && !authButtons.contains(e.target)) {
+            userMenu.style.display = 'none';
+        }
+    });
+
+    // Modal háttér kattintás
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }
+        });
+    });
+}
+
+// Modal megjelenítése
+function showModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.classList.add('modal-open');
+    }
+}
+
+// Modal elrejtése
+function hideModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    }
+}
+
+// Bejelentkezés
+// script.js - Frissített setupLogin
+function setupLogin() {
+    const loginForm = document.getElementById('loginForm');
+    if (!loginForm) return;
+    
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const errorDiv = document.getElementById('loginError');
+        
+        // Reset error
+        if (errorDiv) {
+            errorDiv.textContent = '';
+            errorDiv.style.display = 'none';
+        }
+        
+        if (!username || !password) {
+            if (errorDiv) {
+                errorDiv.textContent = 'Kérjük, töltsd ki mindkét mezőt!';
+                errorDiv.style.display = 'block';
+            }
+            return;
+        }
+        
+        try {
+            // Valódi API kérés
+            const response = await fetch('api.php?action=login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Sikeres bejelentkezés
+                currentUser = result.user;
+                
+                // Mentés localStorage-ba
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                localStorage.setItem('authToken', result.token);
+                
+                // UI frissítés
+                updateUIForLoggedInUser();
+                hideModal('loginModal');
+                loginForm.reset();
+                
+                // Üdvözlő üzenet
+                showNotification(`Sikeres bejelentkezés! Üdvözöljük, ${currentUser.fullname}!`);
+                
+            } else {
+                throw new Error(result.error || 'Bejelentkezés sikertelen');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            if (errorDiv) {
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = 'block';
+            } else {
+                alert(error.message);
+            }
+        }
+    });
+}
+
+// Frissített UI update függvény
+function updateUIForLoggedInUser() {
+    const authButtons = document.getElementById('authButtons');
+    const userMenu = document.getElementById('userMenu');
+    const userDisplayName = document.getElementById('userDisplayName');
+    const userRole = document.getElementById('userRole');
+    const adminLink = document.getElementById('adminLink');
+    
+    if (currentUser) {
+        // Elrejtjük a login/register gombokat
+        if (authButtons) {
+            authButtons.style.display = 'none';
+        }
+        
+        // Megjelenítjük a user menüt
+        if (userMenu) {
+            userMenu.style.display = 'block';
+            
+            // Frissítjük a felhasználó adatait
+            if (userDisplayName) {
+                userDisplayName.textContent = currentUser.fullname || currentUser.username;
+            }
+            
+            if (userRole) {
+                userRole.textContent = currentUser.role === 'admin' ? 'Adminisztrátor' : 'Felhasználó';
+            }
+            
+            // Admin link megjelenítése CSAK ha admin
+            if (adminLink) {
+                if (currentUser.role === 'admin') {
+                    adminLink.style.display = 'block';
+                    adminLink.onclick = function(e) {
+                        e.preventDefault();
+                        window.location.href = 'admin.html';
+                    };
+                } else {
+                    adminLink.style.display = 'none';
+                }
+            }
+        }
+    } else {
+        // Megjelenítjük a login/register gombokat
+        if (authButtons) {
+            authButtons.style.display = 'flex';
+        }
+        
+        // Elrejtjük a user menüt
+        if (userMenu) {
+            userMenu.style.display = 'none';
+        }
+    }
+}
+
+// Notification függvény
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+            <span>${message}</span>
+        </div>
+        <button class="notification-close"><i class="fas fa-times"></i></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Automatikus eltűnés
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+    
+    // Kézi bezárás
+    notification.querySelector('.notification-close').onclick = () => {
+        notification.remove();
+    };
+}
+
+// Regisztráció
+// script.js - setupRegistration függvény javítása
+function setupRegistration() {
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('regUsername').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const fullname = document.getElementById('regFullName').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const passwordConfirm = document.getElementById('regPasswordConfirm').value.trim();
+            const terms = document.getElementById('regTerms').checked;
+            
+            // Validáció
+            if (!username || !email || !fullname || !password || !passwordConfirm || !terms) {
+                alert('Kérjük, töltsd ki az összes mezőt és fogadd el a feltételeket!');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('A jelszónak legalább 6 karakter hosszúnak kell lennie!');
+                return;
+            }
+            
+            if (password !== passwordConfirm) {
+                alert('A jelszavak nem egyeznek!');
+                return;
+            }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Kérjük, érvényes email címet adj meg!');
+                return;
+            }
+            
+            try {
+                // JAVÍTOTT URL: api.php?action=register
+                const response = await fetch('api.php?action=register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        email: email,
+                        fullname: fullname,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentUser = data.user;
+                    
+                    // Mentés localStorage-ba
+                    localStorage.setItem('user', JSON.stringify(currentUser));
+                    localStorage.setItem('authToken', data.token);
+                    
+                    updateUIForLoggedInUser();
+                    hideModal('registerModal');
+                    registerForm.reset();
+                    
+                    // Üdvözlő üzenet
+                    showNotification('Sikeres regisztráció! Üdvözöljük!', 'success');
+                    
+                } else {
+                    alert(data.error || 'Hiba történt a regisztráció során!');
+                }
+            } catch (error) {
+                console.error('Regisztrációs hiba:', error);
+                alert('Hiba történt a regisztráció során!');
+            }
+        });
+    }
+}
+
+// Kijelentkezés
+// script.js fájlban keresd meg a logout függvényt (kb. 1400. sor) és cseréld le:
+
+// Kijelentkezés - JAVÍTVA
+async function logout() {
+    try {
+        if (confirm('Biztosan ki szeretnél jelentkezni?')) {
+            // Összes felhasználói adat törlése
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            
+            // UI frissítése
+            currentUser = null;
+            updateUIForLoggedInUser();
+            
+            // Bezárjuk a user menüt
+            const userMenu = document.getElementById('userMenu');
+            if (userMenu) {
+                userMenu.style.display = 'none';
+            }
+            
+            // Ha admin oldalon vagyunk, visszairányítjuk a főoldalra
+            if (window.location.pathname.includes('admin.html')) {
+                window.location.href = 'index.html';
+            }
+            
+            // Üzenet megjelenítése
+            showNotification('Sikeres kijelentkezés!', 'success');
+        }
+    } catch (error) {
+        console.error('Kijelentkezési hiba:', error);
+        showNotification('Hiba történt a kijelentkezés során!', 'error');
+    }
+}
+
+// Felhasználói interfész frissítése
+function updateUIForLoggedInUser() {
+    const authButtons = document.getElementById('authButtons');
+    const userMenu = document.getElementById('userMenu');
+    const userDisplayName = document.getElementById('userDisplayName');
+    const userRole = document.getElementById('userRole');
+    const adminLink = document.getElementById('adminLink');
+    
+    if (currentUser) {
+        // Elrejtjük a login/register gombokat
+        if (authButtons) authButtons.style.display = 'none';
+        
+        // Megjelenítjük a user menüt
+        if (userMenu) {
+            userMenu.style.display = 'block';
+        }
+        
+        // Frissítjük a felhasználó adatait
+        if (userDisplayName) userDisplayName.textContent = currentUser.fullname;
+        if (userRole) userRole.textContent = currentUser.role === 'admin' ? 'Adminisztrátor' : 'Felhasználó';
+        
+        // Ha admin, akkor megjelenítjük az admin linket
+        if (adminLink) {
+            adminLink.style.display = currentUser.role === 'admin' ? 'block' : 'none';
+        }
+    } else {
+        // Megjelenítjük a login/register gombokat
+        if (authButtons) authButtons.style.display = 'flex';
+        
+        // Elrejtjük a user menüt
+        if (userMenu) userMenu.style.display = 'none';
+        
+        // Ha admin oldalon vagyunk, visszairányítjuk
+        if (window.location.pathname.includes('admin.html')) {
+            alert('Nincs bejelentkezve!');
+            window.location.href = 'index.html';
+        }
+    }
+}
+
+// Felhasználó betöltése session storage-ból
+async function loadUserFromSession() {
+    try {
+        const response = await fetch('api.php/user', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            const userData = await response.json();
+            currentUser = userData;
+            updateUIForLoggedInUser();
+        }
+    } catch (error) {
+        console.log('Nincs bejelentkezett felhasználó');
+    }
+}
