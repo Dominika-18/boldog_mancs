@@ -924,3 +924,48 @@ window.startAdoption = function(animalId) {
         }
     }, 100);
 }
+// =========================
+// BLOG BEJEGYZÉSEK MEGJELENÍTÉSE
+// =========================
+function renderBlogPosts() {
+    const newsGrid = document.getElementById('newsGrid');
+    if (!newsGrid) {
+        console.error("Nem található: newsGrid");
+        return;
+    }
+    
+    newsGrid.innerHTML = '';
+
+    blogPosts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.className = 'news-card fade-in';
+
+        postElement.innerHTML = `
+            <div class="news-image">
+                <img src="${post.image}" alt="${post.title}">
+            </div>
+            <div class="news-content">
+                <h3>${post.title}</h3>
+                <p class="news-excerpt">${post.excerpt}</p>
+                <div class="news-meta">
+                    <span class="news-date">${formatDate(post.date)}</span>
+                    <span class="news-author">Írta: ${post.author}</span>
+                </div>
+                <button class="news-read-more" data-id="${post.id}">Tovább olvasom</button>
+            </div>
+        `;
+
+        newsGrid.appendChild(postElement);
+    });
+
+    // Tovább olvasom gombok
+    document.querySelectorAll('.news-read-more').forEach(button => {
+        button.addEventListener('click', function() {
+            const postId = this.getAttribute('data-id');
+            const post = blogPosts.find(p => p.id == postId);
+            if (post) {
+                alert(`A teljes cikk megjelenítése jelenleg fejlesztés alatt áll.\n\n${post.title}\n\n${post.content}`);
+            }
+        });
+    });
+}
