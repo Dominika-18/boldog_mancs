@@ -125,3 +125,133 @@
             </div>
         </section>
     </main>
+ <!-- Örökbefogadás oldal -->
+    <section id="adoption" class="page adoption-page">
+        <div class="container">
+            <div class="section-title">
+                <h2>Örökbefogadható állatkák</h2>
+                <p>Fedezd fel menhelyünk szeretetre vágyó lakóit és találd meg az új családtagodat!</p>
+            </div>
+            
+            <!-- Szűrő legördülő menü -->
+            <div class="filter-dropdown">
+                <button class="filter-dropdown-button" id="filterDropdownBtn">
+                    <span>Szűrés</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="filter-dropdown-content" id="filterDropdownContent">
+                    <!-- Faj csoport -->
+                    <div class="filter-dropdown-group">
+                        <h4>Faj</h4>
+                        <div class="filter-dropdown-options">
+                            <div class="filter-dropdown-option" data-filter-type="faj" data-filter-value="all">
+                                <input type="checkbox" id="faj-all" hidden>
+                                <label for="faj-all">Összes faj</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="faj" data-filter-value="kutya">
+                                <input type="checkbox" id="faj-kutya" hidden>
+                                <label for="faj-kutya">Kutyák</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="faj" data-filter-value="macska">
+                                <input type="checkbox" id="faj-macska" hidden>
+                                <label for="faj-macska">Macskák</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nem csoport -->
+                    <div class="filter-dropdown-group">
+                        <h4>Nem</h4>
+                        <div class="filter-dropdown-options">
+                            <div class="filter-dropdown-option" data-filter-type="nem" data-filter-value="all-nem">
+                                <input type="checkbox" id="nem-all" hidden>
+                                <label for="nem-all">Összes nem</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="nem" data-filter-value="him">
+                                <input type="checkbox" id="nem-him" hidden>
+                                <label for="nem-him">Hím</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="nem" data-filter-value="nosteny">
+                                <input type="checkbox" id="nem-nosteny" hidden>
+                                <label for="nem-nosteny">Nőstény</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Kor csoport -->
+                    <div class="filter-dropdown-group">
+                        <h4>Kor</h4>
+                        <div class="filter-dropdown-options">
+                            <div class="filter-dropdown-option" data-filter-type="kor" data-filter-value="all-kor">
+                                <input type="checkbox" id="kor-all" hidden>
+                                <label for="kor-all">Összes kor</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="kor" data-filter-value="kolyok">
+                                <input type="checkbox" id="kor-kolyok" hidden>
+                                <label for="kor-kolyok">Kölyök (0-1 év)</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="kor" data-filter-value="fiatal">
+                                <input type="checkbox" id="kor-fiatal" hidden>
+                                <label for="kor-fiatal">Fiatal (1-4 év)</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="kor" data-filter-value="felnott">
+                                <input type="checkbox" id="kor-felnott" hidden>
+                                <label for="kor-felnott">Felnőtt (4-8 év)</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="kor" data-filter-value="idos">
+                                <input type="checkbox" id="kor-idos" hidden>
+                                <label for="kor-idos">Idős (8+ év)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Méret csoport -->
+                    <div class="filter-dropdown-group">
+                        <h4>Méret</h4>
+                        <div class="filter-dropdown-options">
+                            <div class="filter-dropdown-option" data-filter-type="meret" data-filter-value="all-meret">
+                                <input type="checkbox" id="meret-all" hidden>
+                                <label for="meret-all">Összes méret</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="meret" data-filter-value="kis">
+                                <input type="checkbox" id="meret-kis" hidden>
+                                <label for="meret-kis">Kis méret</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="meret" data-filter-value="kozepes">
+                                <input type="checkbox" id="meret-kozepes" hidden>
+                                <label for="meret-kozepes">Közepes méret</label>
+                            </div>
+                            <div class="filter-dropdown-option" data-filter-type="meret" data-filter-value="nagy">
+                                <input type="checkbox" id="meret-nagy" hidden>
+                                <label for="meret-nagy">Nagy méret</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Aktív szűrők -->
+            <div class="filter-actions">
+                <div class="active-filters-tags" id="activeFilters">
+                    <!-- Aktív szűrők ide jönnek -->
+                </div>
+                <div class="filter-stats">
+                    Találatok: <span id="filterCount">0</span>
+                </div>
+                <button id="clearFilters" class="clear-filters-btn">
+                    <i class="fas fa-times"></i> Összes szűrő törlése
+                </button>
+            </div>
+            
+            <!-- Állat grid -->
+            <div class="animal-grid" id="adoptionAnimals">
+                <!-- Örökbefogadható állatok JavaScriptből jönnek -->
+            </div>
+            
+            <!-- Nincs találat üzenet -->
+            <div id="noResults" class="no-results" style="display: none;">
+                <h3>Nincs találat a kiválasztott szűrőkkel</h3>
+                <p>Próbálj meg más szűrőket választani vagy <a href="#" onclick="resetFilters()">töröld az összes szűrőt</a>.</p>
+            </div>
+        </div>
+    </section>
