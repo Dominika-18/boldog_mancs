@@ -476,3 +476,281 @@ function restartSlideshowInterval() {
     }
     startSlideshowInterval();
 }
+
+// =========================
+// SZŰRÉSI FUNKCIÓK (LEGÖRDÜLŐ MENÜ)
+// =========================
+
+// Legördülő menü kezelése
+function setupFilterDropdown() {
+    const dropdownBtn = document.getElementById('filterDropdownBtn');
+    const dropdownContent = document.getElementById('filterDropdownContent');
+    const filterOptions = document.querySelectorAll('.filter-dropdown-option');
+    
+    if (!dropdownBtn || !dropdownContent) return;
+    
+    // Legördülő menü megnyitása/bezárása
+    dropdownBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownContent.classList.toggle('show');
+        dropdownBtn.classList.toggle('active');
+    });
+    
+    // Menü bezárása ha kívülre kattintanak
+    document.addEventListener('click', function(e) {
+        if (!dropdownBtn.contains(e.target) && !dropdownContent.contains(e.target)) {
+            dropdownContent.classList.remove('show');
+            dropdownBtn.classList.remove('active');
+        }
+    });
+    
+    // Szűrő opciók kezelése
+    filterOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const filterType = this.getAttribute('data-filter-type');
+            const filterValue = this.getAttribute('data-filter-value');
+            
+            // Távolítsuk el az összes "összes" opciót azonos típusból
+            if (filterValue === 'all' || filterValue === 'all-nem' || 
+                filterValue === 'all-kor' || filterValue === 'all-meret') {
+                // Visszaállítjuk az adott típus összes szűrőjét
+                resetFilterType(filterType);
+                activeFilters[filterType] = filterValue;
+            } else {
+                // Ha az összes opció aktív, kikapcsoljuk
+                const allOption = document.querySelector(`[data-filter-type="${filterType}"][data-filter-value^="all"]`);
+                if (allOption) {
+                    allOption.classList.remove('active');
+                }
+                
+                // Állítsuk be az új szűrőt
+                activeFilters[filterType] = filterValue;
+            }
+            
+            // Frissítsük a kijelölést
+            updateFilterSelection();
+            updateActiveFiltersDisplay();
+            renderFilteredAnimals();
+        });
+    });
+}
+
+// Szűrő típus visszaállítása
+function resetFilterType(filterType) {
+    // Távolítsuk el az összes kijelölést az adott típusból
+    document.querySelectorAll(`[data-filter-type="${filterType}"]`).forEach(option => {
+        option.classList.remove('active');
+    });
+    
+    // Állítsuk vissza az "összes" opciót
+    const allOption = document.querySelector(`[data-filter-type="${filterType}"][data-filter-value^="all"]`);
+    if (allOption) {
+        allOption.classList.add('active');
+    }
+}
+
+// Szűrő kijelölés frissítése
+function updateFilterSelection() {
+    document.querySelectorAll('.filter-dropdown-option').forEach(option => {
+        option.classList.remove('active');
+        
+        const filterType = option.getAttribute('data-filter-type');
+        const filterValue = option.getAttribute('data-filter-value');
+        
+        if (activeFilters[filterType] === filterValue) {
+            option.classList.add('active');
+        }
+    });
+}
+
+// Kor kategóriák meghatározása
+function getAgeCategory(ageString) {
+    // Kinyerjük a számot az "X éves" stringből
+    const ageMatch = ageString.match(/(\d+)/);
+    if (!ageMatch) return 'fiatal';
+    
+    const age = parseInt(ageMatch[1]);
+    if (age <= 1) return 'kolyok';
+    if (age <= 4) return 'fiatal';
+    if (age <= 8) return 'felnott';
+    return 'idos';
+}
+
+// Szűrés logika
+function filterAnimals() {
+    return animals.filter(animal => {
+        // Csak nem örökbefogadott állatok
+        if (animal.adopted) {
+            return false;
+        }
+        
+        // Faj szűrés
+        if (activeFilters.faj !== 'all' && animal.type !== activeFilters.faj) {
+            return false;
+        }
+        
+        // Nem szűrés
+        if (activeFilters.nem !== 'all-nem') {
+            const genderMap = {
+                'Hím': 'him',
+                'Kan': 'him', 
+                'Kandúr': 'him',
+                'Nőstény': 'nosteny'
+            };
+            
+            const animalGender = genderMap[animal.gender] || animal.gender.toLowerCase();
+            const filterGender = activeFilters.nem === 'him' ? 'him' : 'nosteny';
+            
+            if (animalGender !== filterGender) {
+                return false;
+            }
+        }
+        
+        // Kor szűrés
+        if (activeFilters.kor !== 'all-kor') {
+            const ageCategory = getAgeCategory(animal.age);
+            if (ageCategory !== activeFilters.kor) {
+                return false;
+            }
+        }
+        
+        // Méret szűrés
+        if (activeFilters.meret !== 'all-meret') {
+            // Különleges méretek kezelése
+            if (animal.size === 'kozepes-nagy') {
+                if (activeFilters.meret === 'nagy' || activeFilters.meret === 'kozepes') {
+                    // Megfelel mindkettőnek
+                } else {
+                    return false;
+                }
+            } else if (animal.size !== activeFilters.meret) {
+                return false;
+            }
+        }
+        
+        return true;
+    });
+}
+
+// Aktív szűrők frissítése
+function updateActiveFiltersDisplay() {
+    const activeFiltersContainer = document.getElementById('activeFilters');
+    const filterCountElement = document.getElementById('filterCount');
+    const noResultsElement = document.getElementById('noResults');
+    
+    if (!activeFiltersContainer) return;
+    
+    activeFiltersContainer.innerHTML = '';
+    
+    let activeFilterCount = 0;
+    const filteredAnimals = filterAnimals();
+    
+    // Szűrők hozzáadása
+    Object.keys(activeFilters).forEach(key => {
+        if (activeFilters[key] !== 'all' && 
+            activeFilters[key] !== 'all-nem' && 
+            activeFilters[key] !== 'all-kor' && 
+            activeFilters[key] !== 'all-meret') {
+            
+            activeFilterCount++;
+            
+            let filterName = '';
+            switch(key) {
+                case 'faj':
+                    filterName = activeFilters[key] === 'kutya' ? 'Kutya' : 'Macska';
+                    break;
+                case 'nem':
+                    filterName = activeFilters[key] === 'him' ? 'Hím' : 'Nőstény';
+                    break;
+                case 'kor':
+                    const korNames = {
+                        'kolyok': 'Kölyök (0-1 év)',
+                        'fiatal': 'Fiatal (1-4 év)',
+                        'felnott': 'Felnőtt (4-8 év)',
+                        'idos': 'Idős (8+ év)'
+                    };
+                    filterName = korNames[activeFilters[key]] || activeFilters[key];
+                    break;
+                case 'meret':
+                    const meretNames = {
+                        'kis': 'Kis méret',
+                        'kozepes': 'Közepes méret',
+                        'nagy': 'Nagy méret'
+                    };
+                    filterName = meretNames[activeFilters[key]] || activeFilters[key];
+                    break;
+            }
+            
+            const filterTag = document.createElement('div');
+            filterTag.className = 'active-filter-tag';
+            filterTag.innerHTML = `
+                ${filterName}
+                <button class="remove-filter" data-filter-type="${key}" title="Szűrő eltávolítása">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            filterTag.querySelector('.remove-filter').addEventListener('click', function(e) {
+                e.stopPropagation();
+                const filterType = this.getAttribute('data-filter-type');
+                removeFilter(filterType);
+            });
+            
+            activeFiltersContainer.appendChild(filterTag);
+        }
+    });
+    
+    // Találatok száma
+    if (filterCountElement) {
+        filterCountElement.textContent = filteredAnimals.length;
+    }
+    
+    // Nincs találat üzenet
+    if (noResultsElement && filteredAnimals.length === 0 && activeFilterCount > 0) {
+        noResultsElement.style.display = 'block';
+    } else if (noResultsElement) {
+        noResultsElement.style.display = 'none';
+    }
+}
+
+// Szűrők törlése
+function resetFilters() {
+    activeFilters = {
+        faj: 'all',
+        nem: 'all-nem',
+        kor: 'all-kor',
+        meret: 'all-meret'
+    };
+    
+    updateFilterSelection();
+    updateActiveFiltersDisplay();
+    renderFilteredAnimals();
+}
+
+// Szűrő eltávolítása
+function removeFilter(filterType) {
+    switch(filterType) {
+        case 'faj':
+            activeFilters.faj = 'all';
+            break;
+        case 'nem':
+            activeFilters.nem = 'all-nem';
+            break;
+        case 'kor':
+            activeFilters.kor = 'all-kor';
+            break;
+        case 'meret':
+            activeFilters.meret = 'all-meret';
+            break;
+    }
+    
+    updateFilterSelection();
+    updateActiveFiltersDisplay();
+    renderFilteredAnimals();
+}
+
+// Szűrt állatok renderelése
+function renderFilteredAnimals() {
+    const filteredAnimals = filterAnimals();
+    renderAnimals('adoptionAnimals', filteredAnimals);
+}
