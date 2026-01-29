@@ -754,3 +754,83 @@ function renderFilteredAnimals() {
     const filteredAnimals = filterAnimals();
     renderAnimals('adoptionAnimals', filteredAnimals);
 }
+
+// =========================
+// ÁLLAT KÁRTYÁK GENERÁLÁSA
+// =========================
+function renderAnimals(containerId, animalsToRender = null) {
+    const animalGrid = document.getElementById(containerId);
+    if (!animalGrid) {
+        console.error(`Nem található: ${containerId}`);
+        return;
+    }
+    
+    animalGrid.innerHTML = '';
+    
+    // Ha nem adtunk meg állatlistát, akkor szűrjük
+    if (!animalsToRender && containerId === 'adoptionAnimals') {
+        animalsToRender = filterAnimals();
+    } else if (!animalsToRender && containerId === 'featuredAnimals') {
+        animalsToRender = animals.filter(animal => animal.featured && !animal.adopted);
+    }
+    
+    if (animalsToRender.length === 0 && containerId === 'adoptionAnimals') {
+        return;
+    }
+    
+    animalsToRender.forEach(animal => {
+        const animalCard = document.createElement('div');
+        animalCard.className = 'animal-card fade-in';
+        
+        if (animal.adopted) {
+            animalCard.classList.add('adopted-animal');
+        }
+        
+        if (animal.urgent) {
+            animalCard.classList.add('urgent-animal');
+        }
+        
+        animalCard.innerHTML = `
+            <div class="animal-image">
+                <img src="${animal.image}" alt="${animal.name}" onerror="this.src='https://images.unsplash.com/photo-1514888286974-6d03bde4ba42?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                ${animal.urgent ? '<div class="urgent-label">Sürgős eset!</div>' : ''}
+                ${animal.adopted ? '<div class="adopted-label">Örökbefogadva!</div>' : ''}
+            </div>
+            <div class="animal-info">
+                <h3>${animal.name}</h3>
+                <p>${animal.description}</p>
+                <div class="animal-features">
+                    <span class="feature">${animal.type}</span>
+                    <span class="feature">${animal.breed}</span>
+                    <span class="feature">${animal.age}</span>
+                    <span class="feature">${animal.gender}</span>
+                    <span class="feature">${animal.size}</span>
+                </div>
+                <div class="animal-actions">
+                    ${animal.adopted ? 
+                        '<button class="adopted-btn" disabled>Már örökbefogadva!</button>' : 
+                        `<button class="adopt-btn" data-id="${animal.id}">Örökbefogadom!</button>`
+                    }
+                    <button class="details-btn" data-id="${animal.id}">Részletek</button>
+                </div>
+            </div>
+        `;
+        
+        animalGrid.appendChild(animalCard);
+    });
+    
+    // Gombok eseménykezelői
+    document.querySelectorAll('.adopt-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const animalId = this.getAttribute('data-id');
+            startAdoption(animalId);
+        });
+    });
+    
+    document.querySelectorAll('.details-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const animalId = this.getAttribute('data-id');
+            showAnimalDetails(animalId);
+        });
+    });
+}
