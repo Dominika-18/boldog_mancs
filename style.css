@@ -2584,3 +2584,204 @@ body {
     display: block;
     width: 100%;
 }
+/* Állat kártyák */
+.animal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.animal-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.animal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.animal-image {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.animal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.animal-card:hover .animal-image img {
+    transform: scale(1.05);
+}
+
+.urgent-label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e74c3c;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.animal-info {
+    padding: 20px;
+}
+
+.animal-info h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.animal-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.animal-features .feature {
+    background: rgba(26, 71, 42, 0.1);
+    color: var(--primary);
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+}
+
+.animal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.adopt-btn, .details-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.adopt-btn {
+    background: var(--accent);
+    color: white;
+}
+
+.adopt-btn:hover {
+    background: #e68946;
+}
+
+.details-btn {
+    background: rgba(26, 71, 42, 0.1);
+    color: var(--primary);
+}
+
+.details-btn:hover {
+    background: rgba(26, 71, 42, 0.2);
+}
+
+/* Nincs találat üzenet */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    margin-top: 30px;
+}
+
+.no-results h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.no-results p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Animációk */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Reszponzív design */
+@media (max-width: 768px) {
+    .filter-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    
+    .filter-main-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .filter-stats {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .filter-right-section {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .filter-dropdown.show {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90vw;
+        max-width: none;
+    }
+    
+    .animal-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-right-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .active-filters-tags {
+        justify-content: center;
+    }
+    
+    .clear-filters-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .animal-grid {
+        grid-template-columns: 1fr;
+    }
+}
