@@ -1812,3 +1812,258 @@ footer .container {
 .text-center {
     text-align: center;
 }
+/* Reszponzív design */
+@media (max-width: 1200px) {
+    .container {
+        width: 95%;
+    }
+}
+
+@media (max-width: 992px) {
+    .about-content,
+    .story-intro,
+    .conclusion {
+        grid-template-columns: 1fr;
+    }
+    
+    .animal-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .mission-cards,
+    .values-grid,
+    .plans-content {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    
+    .story-image {
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav ul {
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+    nav ul li {
+        margin: 5px 10px;
+    }
+
+    .hero {
+        height: 70vh;
+    }
+
+    .slide-content h2 {
+        font-size: 2.5rem;
+    }
+
+    .slide-content p {
+        font-size: 1.1rem;
+    }
+
+    .slideshow-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .slideshow-arrow.prev {
+        left: 15px;
+    }
+
+    .slideshow-arrow.next {
+        right: 15px;
+    }
+
+    .team-members, .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    footer .container {
+        flex-direction: column;
+    }
+
+    .footer-links {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+    
+    .adoption-modal-content {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .modal-header {
+        padding: 20px;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .close {
+        top: 15px;
+        right: 15px;
+        font-size: 2rem;
+    }
+    
+    .mission-cards,
+    .values-grid,
+    .plans-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-story,
+    .future-plans {
+        padding: 30px 20px;
+    }
+    
+    #userMenu {
+        right: 10px;
+        top: 70px;
+    }
+    
+    /* Szűrő reszponzív */
+    .filter-actions {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .filter-dropdown-button {
+        min-width: 170px;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .active-filters-tags {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero {
+        height: 60vh;
+    }
+
+    .slide-content h2 {
+        font-size: 2rem;
+    }
+
+    .slide-content p {
+        font-size: 1rem;
+    }
+
+    .section-title h2 {
+        font-size: 1.8rem;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .animal-modal-content {
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .submit-btn,
+    .cancel-btn {
+        width: 100%;
+    }
+    
+    .story-intro,
+    .conclusion {
+        gap: 30px;
+    }
+    
+    .story-text h3,
+    .conclusion-text h3 {
+        font-size: 1.6rem;
+    }
+    
+    .team-members {
+        grid-template-columns: 1fr;
+    }
+    
+    #authButtons {
+        margin-top: 15px;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Szűrő reszponzív */
+    .filter-dropdown-content {
+        min-width: 200px;
+        right: 0;
+    }
+    
+    .active-filter-tag {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 300px;
+    z-index: 2000;
+    animation: slideIn 0.3s ease;
+    border-left: 4px solid var(--success);
+}
+
+.notification.error {
+    border-left-color: #e74c3c;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification i {
+    font-size: 1.2rem;
+}
+
+.notification.success i {
+    color: var(--success);
+}
+
+.notification.error i {
+    color: #e74c3c;
+}
