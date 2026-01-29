@@ -879,3 +879,48 @@ window.showAnimalDetails = function(animalId) {
     document.getElementById('animalModal').style.display = 'flex';
     document.body.classList.add('modal-open');
 }
+
+// =========================
+// ÖRÖKBEFOGADÁS INDÍTÁSA
+// =========================
+window.startAdoption = function(animalId) {
+    currentAnimal = animals.find(a => a.id == animalId);
+    if (!currentAnimal) return;
+    
+    const animalInput = document.getElementById('animalNameInput');
+    if (animalInput) {
+        animalInput.value = currentAnimal.name;
+    }
+    
+    // Frissítjük a modal állat információit
+    const modalAnimalInfo = document.getElementById('modalAnimalInfo');
+    if (modalAnimalInfo && currentAnimal) {
+        modalAnimalInfo.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <img src="${currentAnimal.image}" alt="${currentAnimal.name}" 
+                     style="width: 80px; height: 80px; border-radius: 10px; object-fit: cover;"
+                     onerror="this.src='https://images.unsplash.com/photo-1514888286974-6d03bde4ba42?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                <div>
+                    <h4 style="margin: 0 0 5px 0; color: var(--primary);">${currentAnimal.name}</h4>
+                    <p style="margin: 0; font-size: 0.95rem;">${currentAnimal.type} - ${currentAnimal.breed}</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #666;">${currentAnimal.age} • ${currentAnimal.gender} • ${currentAnimal.size}</p>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Állat részletek modal bezárása
+    document.getElementById('animalModal').style.display = 'none';
+    
+    // Örökbefogadási modal megjelenítése
+    document.getElementById('adoptionModal').style.display = 'flex';
+    document.body.classList.add('modal-open');
+    
+    // Automatikus görgetés a modal tetejére
+    setTimeout(() => {
+        const modalContent = document.querySelector('.adoption-modal-content');
+        if (modalContent) {
+            modalContent.scrollTop = 0;
+        }
+    }, 100);
+}
