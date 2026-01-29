@@ -315,3 +315,213 @@ nav ul li a.active {
     transition: var(--transition);
     border: 2px solid transparent;
 }
+.slideshow-dot.active {
+    background: var(--white);
+    transform: scale(1.3);
+    border-color: var(--accent);
+}
+
+.slideshow-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.2);
+    color: var(--white);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.slideshow-arrow:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.slideshow-arrow.prev {
+    left: 30px;
+}
+
+.slideshow-arrow.next {
+    right: 30px;
+}
+
+/* Állat szekció */
+.featured-animals, .adoption-page {
+    background-color: var(--light);
+    position: relative;
+}
+
+.animal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.animal-card {
+    background: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid rgba(74, 124, 89, 0.1);
+}
+
+.animal-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(26, 71, 42, 0.15);
+}
+
+.animal-image {
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.animal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.animal-card:hover .animal-image img {
+    transform: scale(1.1);
+}
+
+.animal-info {
+    padding: 25px;
+}
+
+.animal-info h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.animal-info p {
+    margin-bottom: 20px;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.animal-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.feature {
+    background: rgba(74, 124, 89, 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--secondary);
+    font-weight: 500;
+}
+
+.animal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.adopt-btn, .details-btn, .adopted-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: var(--transition);
+    border: none;
+}
+
+.adopt-btn {
+    background: va(#1a472a);
+    color: var(--white);
+    cursor: pointer;
+}
+
+.adopt-btn:hover {
+    background: #1a472a;
+    transform: translateY(-3px);
+}
+
+.details-btn {
+    background: transparent;
+    color: var(--secondary);
+    border: 2px solid var(--secondary);
+    cursor: pointer;
+}
+
+.details-btn:hover {
+    background: var(--secondary);
+    color: var(--white);
+    transform: translateY(-3px);
+}
+
+.adopted-btn {
+    background-color: #95a5a6;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Örökbefogadott állat stílusok */
+.adopted-animal {
+    opacity: 0.7;
+    filter: grayscale(0.3);
+    position: relative;
+}
+
+.adopted-animal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 1;
+    border-radius: 15px;
+}
+
+.adopted-animal * {
+    position: relative;
+    z-index: 2;
+}
+
+.adopted-label {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #2a9d8f;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    z-index: 3;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.urgent-label {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #e74c3c;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    z-index: 3;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
