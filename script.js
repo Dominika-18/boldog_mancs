@@ -834,3 +834,48 @@ function renderAnimals(containerId, animalsToRender = null) {
         });
     });
 }
+// =========================
+// ÁLLAT RÉSZLETEK MEGJELENÍTÉSE
+// =========================
+window.showAnimalDetails = function(animalId) {
+    const animal = animals.find(a => a.id == animalId);
+    if (!animal) return;
+    
+    const animalDetails = document.getElementById('animalDetails');
+    if (!animalDetails) return;
+
+    animalDetails.innerHTML = `
+        <div class="animal-details-image">
+            <img src="${animal.image}" alt="${animal.name}" onerror="this.src='https://images.unsplash.com/photo-1514888286974-6d03bde4ba42?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+            ${animal.urgent ? '<div class="urgent-badge">Sürgős eset!</div>' : ''}
+            ${animal.adopted ? '<div class="adopted-badge">Örökbefogadva!</div>' : ''}
+        </div>
+        <div class="animal-details-info">
+            <h3>${animal.name}</h3>
+            <p><strong>Faj:</strong> ${animal.type}</p>
+            <p><strong>Fajta:</strong> ${animal.breed}</p>
+            <p><strong>Életkor:</strong> ${animal.age}</p>
+            <p><strong>Nem:</strong> ${animal.gender}</p>
+            <p><strong>Méret:</strong> ${animal.size}</p>
+            <p><strong>Személyiség:</strong> ${animal.personality}</p>
+            <p><strong>Története:</strong> ${animal.history}</p>
+            <p><strong>Speciális igények:</strong> ${animal.specialNeeds}</p>
+            <p><strong>Státusz:</strong> ${animal.adopted ? '<span style="color: #2a9d8f; font-weight: bold;">Örökbefogadva</span>' : '<span style="color: #e74c3c; font-weight: bold;">Örökbefogadható</span>'}</p>
+
+            <div class="vaccination-list">
+                <h4>Oltások:</h4>
+                <ul>
+                    ${animal.vaccinations.map(vacc => `<li>${vacc}</li>`).join('')}
+                </ul>
+            </div>
+
+            ${animal.adopted ? 
+                '<button class="btn" style="margin-top: 20px; background-color: #95a5a6; cursor: not-allowed;" disabled>Már örökbefogadva</button>' : 
+                `<button class="btn" style="margin-top: 20px;" onclick="startAdoption(${animal.id})">Örökbefogadom!</button>`
+            }
+        </div>
+    `;
+
+    document.getElementById('animalModal').style.display = 'flex';
+    document.body.classList.add('modal-open');
+}
