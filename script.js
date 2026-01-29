@@ -246,4 +246,233 @@ const blogPosts = [
         author: "Leila"
     }
 ];
-];
+// =========================
+// GLOBÁLIS VÁLTOZÓK
+// =========================
+let currentAnimal = null;
+let currentSlide = 0;
+let slideInterval;
+let currentUser = null;
+
+// Szűrési változók
+let activeFilters = {
+    faj: 'all',
+    nem: 'all-nem',
+    kor: 'all-kor',
+    meret: 'all-meret'
+};
+
+// =========================
+// OLDAL NAVIGÁCIÓ - GLOBÁLIS FÜGGVÉNY
+// =========================
+window.showPage = function(pageId) {
+    console.log(`Oldal váltás: ${pageId}`);
+    
+    // Összes oldal elrejtése
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Kiválasztott oldal megjelenítése
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    } else {
+        console.error(`Nem található oldal: ${pageId}`);
+    }
+    
+    // Navigációs linkek aktív állapotának frissítése
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('data-page') === pageId) {
+            link.classList.add('active');
+        }
+    });
+
+    // Görgetés az oldal tetejére
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// =========================
+// NAVIGÁCIÓ ESEMÉNYKEZELŐK
+// =========================
+function setupNavigation() {
+    console.log("Navigáció beállítása...");
+    
+    // Csak a NAVIGÁCIÓS SORBAN lévő linkekre állítunk be eseménykezelőt
+    document.querySelectorAll('nav .nav-link, .footer-links .nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const pageId = this.getAttribute('data-page');
+            console.log(`Navigációs link kattintás: ${pageId}`);
+            window.showPage(pageId);
+        });
+    });
+    
+    // Külön kezeljük a slideshow gombokat
+    setupSlideshowButtons();
+}
+
+// =========================
+// SLIDESHOW GOMBOK
+// =========================
+function setupSlideshowButtons() {
+    console.log("Slideshow gombok beállítása...");
+    
+    // Külön eseménykezelő a slideshow gomboknak
+    const slideshowButtons = document.querySelectorAll('.slideshow .slideshow-btn');
+    console.log(`Slideshow gombok száma: ${slideshowButtons.length}`);
+    
+    slideshowButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            
+            const pageId = this.getAttribute('data-slide-page');
+            console.log(`🚀 SLIDESHOW GOMB: ${pageId}`);
+            
+            if (pageId) {
+                window.showPage(pageId);
+            }
+        }, true); // true = capture phase - ez fontos!
+    });
+}
+
+// =========================
+// SLIDESHOW KEZELÉS
+// =========================
+function initSlideshow() {
+    console.log("Slideshow inicializálása...");
+    
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slideshow-dot');
+    const prevArrow = document.querySelector('.slideshow-arrow.prev');
+    const nextArrow = document.querySelector('.slideshow-arrow.next');
+    
+    if (slides.length === 0) {
+        console.warn("Nincsenek slide elemek!");
+        return;
+    }
+    
+    // 1. Vissza nyíl (balra)
+    if (prevArrow) {
+        prevArrow.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            slides[currentSlide].classList.remove('active');
+            if (dots[currentSlide]) {
+                dots[currentSlide].classList.remove('active');
+            }
+            
+            currentSlide = currentSlide - 1;
+            if (currentSlide < 0) {
+                currentSlide = slides.length - 1;
+            }
+            
+            slides[currentSlide].classList.add('active');
+            if (dots[currentSlide]) {
+                dots[currentSlide].classList.add('active');
+            }
+            
+            restartSlideshowInterval();
+        });
+    }
+    
+    // 2. Előre nyíl (jobbra)
+    if (nextArrow) {
+        nextArrow.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            slides[currentSlide].classList.remove('active');
+            if (dots[currentSlide]) {
+                dots[currentSlide].classList.remove('active');
+            }
+            
+            currentSlide = currentSlide + 1;
+            if (currentSlide >= slides.length) {
+                currentSlide = 0;
+            }
+            
+            slides[currentSlide].classList.add('active');
+            if (dots[currentSlide]) {
+                dots[currentSlide].classList.add('active');
+            }
+            
+            restartSlideshowInterval();
+        });
+    }
+    
+    // 3. Dotok
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', function() {
+            slides[currentSlide].classList.remove('active');
+            if (dots[currentSlide]) {
+                dots[currentSlide].classList.remove('active');
+            }
+            
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+            
+            restartSlideshowInterval();
+        });
+    });
+    
+    // 4. Automatikus slideshow
+    startSlideshowInterval();
+    
+    // 5. Hover effekt
+    const slideshow = document.querySelector('.slideshow');
+    if (slideshow) {
+        slideshow.addEventListener('mouseenter', function() {
+            if (slideInterval) {
+                clearInterval(slideInterval);
+            }
+        });
+        
+        slideshow.addEventListener('mouseleave', function() {
+            startSlideshowInterval();
+        });
+    }
+}
+
+function startSlideshowInterval() {
+    if (slideInterval) {
+        clearInterval(slideInterval);
+    }
+    
+    slideInterval = setInterval(function() {
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slideshow-dot');
+        
+        if (slides.length === 0) return;
+        
+        slides[currentSlide].classList.remove('active');
+        if (dots[currentSlide]) {
+            dots[currentSlide].classList.remove('active');
+        }
+        
+        currentSlide = currentSlide + 1;
+        if (currentSlide >= slides.length) {
+            currentSlide = 0;
+        }
+        
+        slides[currentSlide].classList.add('active');
+        if (dots[currentSlide]) {
+            dots[currentSlide].classList.add('active');
+        }
+    }, 6000);
+}
+
+function restartSlideshowInterval() {
+    if (slideInterval) {
+        clearInterval(slideInterval);
+    }
+    startSlideshowInterval();
+}
