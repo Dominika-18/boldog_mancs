@@ -653,3 +653,90 @@
             </div>
         </div>
     </div>
+    <!-- Örökbefogadási modal -->
+    <div id="adoptionModal" class="modal adoption-modal">
+        <div class="modal-content adoption-modal-content">
+            <div class="modal-header">
+                <h2>Örökbefogadási jelentkezés</h2>
+                <span id="closeAdoption" class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-animal-info">
+                    <p><strong>Örökbefogadás kezdeményezve:</strong></p>
+                    <div id="modalAnimalInfo" class="animal-info-summary">
+                        <!-- Az állat infók ide kerülnek JavaScriptből -->
+                    </div>
+                </div>
+                
+                <form id="adoptionForm">
+                    <input type="hidden" id="animalNameInput" name="animalName">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Teljes név *</label>
+                            <input type="text" id="fullName" name="fullName" required placeholder="Kérjük, add meg a neved">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email cím *</label>
+                            <input type="email" id="email" name="email" required placeholder="pelda@email.hu">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Telefonszám *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+36 20 123 4567">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="homeType">Lakás típusa</label>
+                            <select id="homeType" name="homeType">
+                                <option value="">Válassz...</option>
+                                <option value="lakas">Lakás</option>
+                                <option value="haz_kerttel">Ház kerttel</option>
+                                <option value="haz_kert_nelkul">Ház kert nélkül</option>
+                                <option value="egyeb">Egyéb</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Lakcím</label>
+                        <input type="text" id="address" name="address" placeholder="Város, utca, házszám">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Korábbi állattartási tapasztalat</label>
+                        <textarea id="experience" name="experience" rows="3" placeholder="Írd le, ha van korábbi tapasztalatod állattartásban..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Üzenet (opcionális)</label>
+                        <textarea id="message" name="message" rows="3" placeholder="Egyéb megjegyzések, kérdések..."></textarea>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <span>Elolvastam és elfogadom az <a href="#" class="terms-link">Általános Szerződési Feltételeket</a> és az <a href="#" class="terms-link">Adatvédelmi Nyilatkozatot</a> *</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <span>Szeretnék hírlevelet kapni a menhelyünk híreiről és eseményeiről</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Jelentkezés elküldése
+                        </button>
+                        <button type="button" id="cancelAdoption" class="cancel-btn">Mégse</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
