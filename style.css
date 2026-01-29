@@ -58,3 +58,49 @@ section {
     display: inline-block;
 }
 
+.section-title p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto;
+    color: var(--text);
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 5px;
+    background: var(--accent);
+    margin: 20px auto;
+    border-radius: 3px;
+}
+
+.btn {
+    display: inline-block;
+    background: var(--gradient);
+    color: var(--white);
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: var(--accent);
+    transition: var(--transition);
+    z-index: -1;
+}
