@@ -526,3 +526,34 @@
             </div>
         </div>
     </footer>
+<!-- A meglévő userMenu div MODOSITASA -->
+<div id="userMenu" style="display: none; position: fixed; top: 80px; right: 20px; z-index: 1001; background: white; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); padding: 20px; min-width: 250px;">
+    <div class="user-info" style="display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+        <div class="user-avatar" style="width: 50px; height: 50px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+            <i class="fas fa-user" style="color: white; font-size: 1.5rem;"></i>
+        </div>
+        <div>
+            <div id="userDisplayName" style="font-weight: bold; font-size: 1.1rem;"></div>
+            <div id="userRole" style="font-size: 0.8rem; color: #666; margin-top: 3px;"></div>
+        </div>
+    </div>
+    
+    <div class="user-menu-links">
+        <!-- CSAK ADMINOK LÁTHATJÁK EZT -->
+        <a href="#" id="adminLink" style="display: none; padding: 12px 15px; display: block; border-radius: 8px; color: var(--primary); text-decoration: none; background: rgba(26, 71, 42, 0.1); margin-bottom: 8px; font-weight: 600;">
+            <i class="fas fa-cog"></i> Admin felület
+        </a>
+        
+        <a href="#" id="profileLink" style="padding: 12px 15px; display: block; color: #333; text-decoration: none; border-radius: 8px; transition: all 0.3s;">
+            <i class="fas fa-user"></i> Profilom
+        </a>
+        
+        <a href="#" id="myAdoptions" style="padding: 12px 15px; display: block; color: #333; text-decoration: none; border-radius: 8px; transition: all 0.3s;">
+            <i class="fas fa-heart"></i> Örökbefogadásaim
+        </a>
+        
+        <a href="#" id="logoutLink" style="padding: 12px 15px; display: block; color: #e74c3c; text-decoration: none; border-radius: 8px; transition: all 0.3s; margin-top: 10px; border-top: 1px solid #eee;">
+            <i class="fas fa-sign-out-alt"></i> Kijelentkezés
+        </a>
+    </div>
+</div>
