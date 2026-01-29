@@ -1,1 +1,38 @@
-
+// Állatok adatai
+const animals = [
+    {
+        "id": 1,
+        "name": "Füles",
+        "type": "kutya",
+        "breed": "Labrador keverék",
+        "age": "2 éves",
+        "gender": "Hím",
+        "size": "kozepes",
+        "description": "Füles egy kedves, bújós és kíváncsi kutya, aki imád játszani és sétálni. Gyorsan tanul és nagyon ragaszkodó.",
+        "image": "img/kep1.jpg",
+        "vaccinations": ["Kutya veszettség", "Parvovírus", "Hepatitis", "Leptospirózis"],
+        "personality": "Barátságos, játékos, hűséges",
+        "history": "Utcáról hozták be — valószínűleg elhagyott, mielőtt hozzánk került.",
+        "specialNeeds": "Rendszeres, napi többszöri testmozgásra és figyelemre van szüksége.",
+        "featured": true,
+        "urgent": false,
+        "adopted": false
+    },
+    {
+        "id": 2,
+        "name": "Bea",
+        "type": "macska",
+        "breed": "Rövidszőrű cirmos",
+        "age": "3 éves",
+        "gender": "Nőstény",
+        "size": "kis",
+        "description": "Bea egy nyugodt, figyelmes cica, aki szeret bekuckózni, de játékos percei is vannak. Gyorsan barátkozik, ha lassan közelítenek hozzá.",
+        "image": "img/kep2.jpg",
+        "vaccinations": ["Macska panleukopénia", "Calicivírus", "Herpesz (rhinotracheitis)", "Macska leukózis (FeLV)"],
+        "personality": "Nyugodt, kíváncsi, önálló",
+        "history": "Valószínűleg elkóborolt házi macska — találtuk és behoztuk a menhelyre.",
+        "specialNeeds": "Beltéri tartás ajánlott; rendszeres tiszta almot és nyugodt környezetet igényel.",
+        "featured": true,
+        "urgent": false,
+        "adopted": false
+    },
