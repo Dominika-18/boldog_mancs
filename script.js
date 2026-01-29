@@ -216,4 +216,34 @@ const animals = [
         "urgent": false,
         "adopted": false
     }
+    // Blog bejegyzések
+const blogPosts = [
+    {
+        id: 1,
+        title: "Rekord számú örökbefogadás!",
+        excerpt: "Szeptemberben 25 állat talált örökbefogadót, ami rekord szám a menhelyünk történetében.",
+        content: "Különösen örülünk, hogy a hosszú ideje nálunk élő idősebb állatok is gazdára találtak. A szeptemberi hónapban 25 állatot sikerült örökbefogadtatnunk, ami a menhelyünk történetében eddigi legjobb eredmény. Köszönjük mindenkinek, aki részt vett a sikerben!",
+        image:"img/blog1.jpg",
+        date: "2023-10-05",
+        author: "Dominika"
+    },
+    {
+        id: 2,
+        title: "Új menhelyi program indult!",
+        excerpt: "Bevezetjük a 'Menhelyi Napok' programot, ahol látogatók megismerhetik munkánkat.",
+        content: "A program keretében minden szombaton 10-14 óra között tartunk nyílt napokat. Látogatók megismerhetik az állatokat, beszélgethetnek a gondozókkal és megtekinthetik a menhelyi létesítményeinket. Az első nyílt napok nagy sikert arattak, több mint 50 látogató volt nálunk!",
+        image: "img/blog2.jpg",
+        date: "2023-10-15",
+        author: "Jázmin"
+    },
+    {
+        id: 3,
+        title: "Télire készülünk - adománygyűjtés",
+        excerpt: "Téli takarókat, melegítőket és élelmiszert gyűjtünk az állatok számára.",
+        content: "A hideg időjárás elközeledtével fontos, hogy az állatkák kényelmesen átvészeljék a telet. Gyűjtünk meleg takarókat, kutyaruhákat, macskamelegítőket és minőségi élelmiszereket. Az adományokat a menhelyünkre szállíthatják hétköznap 9-17 óra között.",
+        image: "img/blog3.jpg",
+        date: "2023-09-28",
+        author: "Leila"
+    }
+];
 ];
