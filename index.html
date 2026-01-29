@@ -557,3 +557,59 @@
         </a>
     </div>
 </div>
+ <!-- Regisztrációs Modal -->
+    <div id="registerModal" class="modal register-modal">
+        <div class="modal-content register-modal-content">
+            <div class="modal-header">
+                <h2>Regisztráció</h2>
+                <span id="closeRegister" class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="regUsername">Felhasználónév *</label>
+                        <input type="text" id="regUsername" name="username" required placeholder="Válassz felhasználónevet">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regEmail">Email cím *</label>
+                        <input type="email" id="regEmail" name="email" required placeholder="pelda@email.hu">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regFullName">Teljes név *</label>
+                        <input type="text" id="regFullName" name="fullname" required placeholder="Teljes neved">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regPassword">Jelszó *</label>
+                        <input type="password" id="regPassword" name="password" required placeholder="Minimum 6 karakter">
+                        <small style="color: #666;">Minimum 6 karakter</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regPasswordConfirm">Jelszó megerősítése *</label>
+                        <input type="password" id="regPasswordConfirm" name="passwordConfirm" required placeholder="Írd be újra a jelszót">
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="regTerms" name="terms" required>
+                            <span>Elfogadom az <a href="#" class="terms-link">Általános Szerződési Feltételeket</a> és az <a href="#" class="terms-link">Adatvédelmi Nyilatkozatot</a> *</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-user-plus"></i> Regisztráció
+                        </button>
+                        <button type="button" id="cancelRegister" class="cancel-btn">Mégse</button>
+                    </div>
+                    
+                    <div class="form-footer" style="margin-top: 20px; text-align: center;">
+                        <p>Már van fiókod? <a href="#" id="showLogin" style="color: var(--accent);">Jelentkezz be!</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
