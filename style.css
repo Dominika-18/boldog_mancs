@@ -814,3 +814,143 @@ nav ul li a.active {
     transition: var(--transition);
     border: 1px solid rgba(74, 124, 89, 0.1);
 }
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(26, 71, 42, 0.15);
+}
+
+.team-member img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 4px solid var(--accent);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.team-member h4 {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    color: var(--primary);
+}
+
+.team-member p {
+    color: var(--text);
+    font-size: 1rem;
+}
+
+.about-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.about-images img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.about-images img:hover {
+    transform: scale(1.03);
+}
+
+/* Történet oldal */
+.story-page {
+    background-color: var(--light);
+}
+
+.story-content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.story-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+    align-items: center;
+}
+
+.story-text h3 {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.story-text p {
+    margin-bottom: 20px;
+    font-size: 1.15rem;
+    line-height: 1.8;
+}
+
+.story-image img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.story-image img:hover {
+    transform: scale(1.03);
+}
+
+.story-mission {
+    margin-bottom: 60px;
+}
+
+.story-mission h3 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 40px;
+}
+
+.mission-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.mission-card {
+    background: var(--white);
+    padding: 40px 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid rgba(74, 124, 89, 0.1);
+}
+
+.mission-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(26, 71, 42, 0.15);
+}
+
+.mission-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.mission-card h4 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--secondary);
+}
+
+.mission-card p {
+    line-height: 1.7;
+    color: var(--text);
+}
+
+.project-story {
+    margin-bottom: 60px;
+    padding: 40px;
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
