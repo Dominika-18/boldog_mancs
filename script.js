@@ -969,3 +969,30 @@ function renderBlogPosts() {
         });
     });
 }
+
+// =========================
+// SEGÉDFÜGGVÉNYEK
+// =========================
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('hu-HU', options);
+}
+
+function updateShelterStatus() {
+    const currentAnimals = animals.filter(a => !a.adopted).length;
+    const adoptedThisMonth = animals.filter(a => a.adopted).length;
+    const urgentAnimals = animals.filter(a => a.urgent && !a.adopted).length;
+
+    document.getElementById('currentAnimals').textContent = currentAnimals;
+    document.getElementById('adoptedThisMonth').textContent = adoptedThisMonth;
+    document.getElementById('urgentAnimals').textContent = urgentAnimals;
+}
+
+function handleHeaderScroll() {
+    const header = document.getElementById('mainHeader');
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+}
