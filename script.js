@@ -1,251 +1,3 @@
-// Állatok adatai
-const animals = [
-    {
-        "id": 1,
-        "name": "Füles",
-        "type": "kutya",
-        "breed": "Labrador keverék",
-        "age": "2 éves",
-        "gender": "Hím",
-        "size": "kozepes",
-        "description": "Füles egy kedves, bújós és kíváncsi kutya, aki imád játszani és sétálni. Gyorsan tanul és nagyon ragaszkodó.",
-        "image": "img/kep1.jpg",
-        "vaccinations": ["Kutya veszettség", "Parvovírus", "Hepatitis", "Leptospirózis"],
-        "personality": "Barátságos, játékos, hűséges",
-        "history": "Utcáról hozták be — valószínűleg elhagyott, mielőtt hozzánk került.",
-        "specialNeeds": "Rendszeres, napi többszöri testmozgásra és figyelemre van szüksége.",
-        "featured": true,
-        "urgent": false,
-        "adopted": false
-    },
-    {
-        "id": 2,
-        "name": "Bea",
-        "type": "macska",
-        "breed": "Rövidszőrű cirmos",
-        "age": "3 éves",
-        "gender": "Nőstény",
-        "size": "kis",
-        "description": "Bea egy nyugodt, figyelmes cica, aki szeret bekuckózni, de játékos percei is vannak. Gyorsan barátkozik, ha lassan közelítenek hozzá.",
-        "image": "img/kep2.jpg",
-        "vaccinations": ["Macska panleukopénia", "Calicivírus", "Herpesz (rhinotracheitis)", "Macska leukózis (FeLV)"],
-        "personality": "Nyugodt, kíváncsi, önálló",
-        "history": "Valószínűleg elkóborolt házi macska — találtuk és behoztuk a menhelyre.",
-        "specialNeeds": "Beltéri tartás ajánlott; rendszeres tiszta almot és nyugodt környezetet igényel.",
-        "featured": true,
-        "urgent": false,
-        "adopted": false
-    },
-    {
-        "id": 3,
-        "name": "Bodri",
-        "type": "kutya",
-        "breed": "Beagle",
-        "age": "1 éves",
-        "gender": "Hím",
-        "size": "kozepes",
-        "description": "Bodri egy kíváncsi és vidám kutya, aki mindig készen áll egy új kalandra.",
-        "image": "img/kep3.jpg",
-        "vaccinations": ["Kutya veszettség", "Parvovírus", "Hepatitis", "Leptospirózis"],
-        "personality": "Kíváncsi, vidám, intelligens",
-        "history": "Bodri tenyésztőtől került hozzánk, aki bezárta a vállalkozását.",
-        "specialNeeds": "Rendszeres testmozgásra van szüksége",
-        "featured": true,
-        "urgent": true,
-        "adopted": false
-    },
-    {
-        "id": 4,
-        "name": "Cirmoska",
-        "type": "macska",
-        "breed": "Házimacska (tarka)",
-        "age": "5 éves",
-        "gender": "Nőstény",
-        "size": "kozepes",
-        "description": "Cirmoska egy kedves, visszahúzódó macska, aki szeret puha párnákon pihenni és figyelni a környezetét.",
-        "image": "img/kep4.jpg",
-        "vaccinations": ["Macska veszettség", "Rhinotracheitis", "Calicivírus", "Panleukopenia"],
-        "personality": "Csendes, érzékeny, ragaszkodó",
-        "history": "Egy idősebb hölgytől került be, aki sajnos már nem tudott gondoskodni róla.",
-        "specialNeeds": "Szereti a nyugalmat és a saját kis fekhelyét.",
-        "featured": false,
-        "urgent": false,
-        "adopted": false
-    },
-    {
-        "id": 5,
-        "name": "Bátor",
-        "type": "kutya",
-        "breed": "Kevert (valószínűleg terrier és vizsla keverék)",
-        "age": "3 éves",
-        "gender": "Kan",
-        "size": "kozepes",
-        "description": "Bátor fegyelmezett és figyelmes szolgálati kutya, aki mindig készen áll a feladatokra.",
-        "image": "img/kep5.jpg",
-        "vaccinations": ["Veszettség", "Parvovírus", "Szopornyica", "Leptospirózis"],
-        "personality": "Éber, intelligens, hűséges",
-        "history": "Kölyökkorától kezdve szolgálati kutyának képezték.",
-        "specialNeeds": "Rendszeres tréningekre és sok mozgásra van szüksége.",
-        "featured": false,
-        "urgent": false,
-        "adopted": false
-    },
-    {
-        "id": 6,
-        "name": "Bundás",
-        "type": "macska",
-        "breed": "Házimacska (cirmos)",
-        "age": "2 éves",
-        "gender": "Kandúr",
-        "size": "kozepes",
-        "description": "Bundás egy játékos és aktív fiatal macska, aki imád a játékok között heverészni.",
-        "image": "img/kep6.jpg",
-        "vaccinations": ["Macska veszettség", "Rhinotracheitis", "Calicivírus"],
-        "personality": "Játékos, kíváncsi, energikus",
-        "history": "Egy kertben találták testvérével együtt, majd befogadták.",
-        "specialNeeds": "Sok játékkal és foglalkoztatással érzi jól magát.",
-        "featured": false,
-        "urgent": true,
-        "adopted": false
-    },
-    {
-        "id": 7,
-        "name": "Balu",
-        "type": "kutya",
-        "breed": "keverék (bull típusú)",
-        "age": "kb. 3 éves",
-        "gender": "Hím",
-        "size": "kozepes-nagy",
-        "description": "Balu egy erős, izmos, de meglepően gyengéd kutya. Nagyon szereti a sétákat és az emberek társaságát.",
-        "image": "img/kep7.jpg",
-        "vaccinations": ["Veszettség", "Parvovírus", "Hepatitis", "Leptospirózis"],
-        "personality": "Barátságos, energikus, ragaszkodó",
-        "history": "Gazdától került be, aki már nem tudta ellátni.",
-        "specialNeeds": "Erős kutya, ezért következetes gazdára és sok mozgásra van szüksége.",
-        "featured": true,
-        "urgent": false,
-        "adopted": false
-    },
-    {
-        "id": 8,
-        "name": "Luna",
-        "type": "macska",
-        "breed": "rövidszőrű keverék",
-        "age": "kb. 1 éves",
-        "gender": "Nőstény",
-        "size": "kis",
-        "description": "Luna egy gyönyörű, fekete cica aranyszínű szemekkel. Nyugodt, figyelmes tekintete igazán megnyerő.",
-        "image": "img/kep8.jpg",
-        "vaccinations": ["Macska veszettség", "Rhinotracheitis", "Calicivírus", "Panleukopenia"],
-        "personality": "Kedves, nyugodt, bújós",
-        "history": "Utcáról mentették be sérülten, ma már teljesen egészséges.",
-        "specialNeeds": "Érzékeny lehet a hidegre, így benti tartás ajánlott.",
-        "featured": false,
-        "urgent": false,
-        "adopted": false
-    },
-    {
-        "id": 9,
-        "name": "Max",
-        "type": "kutya",
-        "breed": "keverék",
-        "age": "kb. 5 éves",
-        "gender": "Hím",
-        "size": "nagy",
-        "description": "Max egy kedves, nyugodt kutya, aki imád pihenni a fűben. Hosszú séta után boldogan liheg.",
-        "image": "img/kep9.jpg",
-        "vaccinations": ["Veszettség", "Parvovírus", "Hepatitis", "Leptospirózis"],
-        "personality": "Nyugodt, barátságos, türelmes",
-        "history": "Kóbor kutyaként került be, de hamar megmutatta, mennyire szereti az embereket.",
-        "specialNeeds": "Mérsékelt mozgásigény, érzékeny a melegre.",
-        "featured": true,
-        "urgent": false,
-        "adopted": false
-    },
-    {
-        "id": 10,
-        "name": "Molly",
-        "type": "macska",
-        "breed": "Bengáli",
-        "age": "3 éves",
-        "gender": "Nőstény",
-        "size": "kozepes",
-        "description": "Molly egy aktív és kíváncsi macska, aki szeret magas helyekre mászni.",
-        "image": "img/kep10.jpg",
-        "vaccinations": ["Macska veszettség", "Rhinotracheitis", "Calicivírus", "Panleukopenia"],
-        "personality": "Aktív, kíváncsi, magas helyeket kedveli",
-        "history": "Molly egy tenyésztőtől került hozzánk, aki bezárta a vállalkozását.",
-        "specialNeeds": "Magas kaparófa szükséges",
-        "featured": false,
-        "urgent": true,
-        "adopted": false
-    },
-    {
-        "id": 11,
-        "name": "Bella",
-        "type": "kutya",
-        "breed": "Arany retriever",
-        "age": "1 éves",
-        "gender": "Nőstény",
-        "size": "nagy",
-        "description": "Bella egy gyengéd és ragaszkodó kutya, aki imádja a gyerekeket.",
-        "image": "img/kep11.jpg",
-        "vaccinations": ["Kutya veszettség", "Parvovírus", "Hepatitis", "Leptospirózis"],
-        "personality": "Gyengéd, ragaszkodó, gyerekbarát",
-        "history": "Bella egy családtól került hozzánk, akiknek nem volt idejük rá.",
-        "specialNeeds": "Nincs",
-        "featured": true,
-        "urgent": false,
-        "adopted": false
-    },
-    {
-        "id": 12,
-        "name": "Oscar",
-        "type": "macska",
-        "breed": "Maine Coon",
-        "age": "5 éves",
-        "gender": "Hím",
-        "size": "nagy",
-        "description": "Oscar egy nyugodt és barátságos macska, aki szeret a társaságában lenni.",
-        "image": "img/kep12.jpg",
-        "vaccinations": ["Macska veszettség", "Rhinotracheitis", "Calicivírus", "Panleukopenia"],
-        "personality": "Nyugodt, barátságos, társaságkedvelő",
-        "history": "Oscar előző gazdája idősek otthonába került.",
-        "specialNeeds": "Rendszeres fésülésre van szüksége",
-        "featured": false,
-        "urgent": false,
-        "adopted": false
-    }
-    // Blog bejegyzések
-const blogPosts = [
-    {
-        id: 1,
-        title: "Rekord számú örökbefogadás!",
-        excerpt: "Szeptemberben 25 állat talált örökbefogadót, ami rekord szám a menhelyünk történetében.",
-        content: "Különösen örülünk, hogy a hosszú ideje nálunk élő idősebb állatok is gazdára találtak. A szeptemberi hónapban 25 állatot sikerült örökbefogadtatnunk, ami a menhelyünk történetében eddigi legjobb eredmény. Köszönjük mindenkinek, aki részt vett a sikerben!",
-        image:"img/blog1.jpg",
-        date: "2023-10-05",
-        author: "Dominika"
-    },
-    {
-        id: 2,
-        title: "Új menhelyi program indult!",
-        excerpt: "Bevezetjük a 'Menhelyi Napok' programot, ahol látogatók megismerhetik munkánkat.",
-        content: "A program keretében minden szombaton 10-14 óra között tartunk nyílt napokat. Látogatók megismerhetik az állatokat, beszélgethetnek a gondozókkal és megtekinthetik a menhelyi létesítményeinket. Az első nyílt napok nagy sikert arattak, több mint 50 látogató volt nálunk!",
-        image: "img/blog2.jpg",
-        date: "2023-10-15",
-        author: "Jázmin"
-    },
-    {
-        id: 3,
-        title: "Télire készülünk - adománygyűjtés",
-        excerpt: "Téli takarókat, melegítőket és élelmiszert gyűjtünk az állatok számára.",
-        content: "A hideg időjárás elközeledtével fontos, hogy az állatkák kényelmesen átvészeljék a telet. Gyűjtünk meleg takarókat, kutyaruhákat, macskamelegítőket és minőségi élelmiszereket. Az adományokat a menhelyünkre szállíthatják hétköznap 9-17 óra között.",
-        image: "img/blog3.jpg",
-        date: "2023-09-28",
-        author: "Leila"
-    }
-];
 // =========================
 // GLOBÁLIS VÁLTOZÓK
 // =========================
@@ -253,8 +5,12 @@ let currentAnimal = null;
 let currentSlide = 0;
 let slideInterval;
 let currentUser = null;
+let animals = [];
+let blogPosts = [];
+let allUsers = [];
+let slideshowInitialized = false;
 
-// Szűrési változók
+// Szűrési változók - JAVÍTVA
 let activeFilters = {
     faj: 'all',
     nem: 'all-nem',
@@ -263,856 +19,8 @@ let activeFilters = {
 };
 
 // =========================
-// OLDAL NAVIGÁCIÓ - GLOBÁLIS FÜGGVÉNY
+// MODAL KEZELÉS
 // =========================
-window.showPage = function(pageId) {
-    console.log(`Oldal váltás: ${pageId}`);
-    
-    // Összes oldal elrejtése
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
-    
-    // Kiválasztott oldal megjelenítése
-    const targetPage = document.getElementById(pageId);
-    if (targetPage) {
-        targetPage.classList.add('active');
-    } else {
-        console.error(`Nem található oldal: ${pageId}`);
-    }
-    
-    // Navigációs linkek aktív állapotának frissítése
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('data-page') === pageId) {
-            link.classList.add('active');
-        }
-    });
-
-    // Görgetés az oldal tetejére
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-}
-
-// =========================
-// NAVIGÁCIÓ ESEMÉNYKEZELŐK
-// =========================
-function setupNavigation() {
-    console.log("Navigáció beállítása...");
-    
-    // Csak a NAVIGÁCIÓS SORBAN lévő linkekre állítunk be eseménykezelőt
-    document.querySelectorAll('nav .nav-link, .footer-links .nav-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const pageId = this.getAttribute('data-page');
-            console.log(`Navigációs link kattintás: ${pageId}`);
-            window.showPage(pageId);
-        });
-    });
-    
-    // Külön kezeljük a slideshow gombokat
-    setupSlideshowButtons();
-}
-
-// =========================
-// SLIDESHOW GOMBOK
-// =========================
-function setupSlideshowButtons() {
-    console.log("Slideshow gombok beállítása...");
-    
-    // Külön eseménykezelő a slideshow gomboknak
-    const slideshowButtons = document.querySelectorAll('.slideshow .slideshow-btn');
-    console.log(`Slideshow gombok száma: ${slideshowButtons.length}`);
-    
-    slideshowButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            
-            const pageId = this.getAttribute('data-slide-page');
-            console.log(`🚀 SLIDESHOW GOMB: ${pageId}`);
-            
-            if (pageId) {
-                window.showPage(pageId);
-            }
-        }, true); // true = capture phase - ez fontos!
-    });
-}
-
-// =========================
-// SLIDESHOW KEZELÉS
-// =========================
-function initSlideshow() {
-    console.log("Slideshow inicializálása...");
-    
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.slideshow-dot');
-    const prevArrow = document.querySelector('.slideshow-arrow.prev');
-    const nextArrow = document.querySelector('.slideshow-arrow.next');
-    
-    if (slides.length === 0) {
-        console.warn("Nincsenek slide elemek!");
-        return;
-    }
-    
-    // 1. Vissza nyíl (balra)
-    if (prevArrow) {
-        prevArrow.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            slides[currentSlide].classList.remove('active');
-            if (dots[currentSlide]) {
-                dots[currentSlide].classList.remove('active');
-            }
-            
-            currentSlide = currentSlide - 1;
-            if (currentSlide < 0) {
-                currentSlide = slides.length - 1;
-            }
-            
-            slides[currentSlide].classList.add('active');
-            if (dots[currentSlide]) {
-                dots[currentSlide].classList.add('active');
-            }
-            
-            restartSlideshowInterval();
-        });
-    }
-    
-    // 2. Előre nyíl (jobbra)
-    if (nextArrow) {
-        nextArrow.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            slides[currentSlide].classList.remove('active');
-            if (dots[currentSlide]) {
-                dots[currentSlide].classList.remove('active');
-            }
-            
-            currentSlide = currentSlide + 1;
-            if (currentSlide >= slides.length) {
-                currentSlide = 0;
-            }
-            
-            slides[currentSlide].classList.add('active');
-            if (dots[currentSlide]) {
-                dots[currentSlide].classList.add('active');
-            }
-            
-            restartSlideshowInterval();
-        });
-    }
-    
-    // 3. Dotok
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', function() {
-            slides[currentSlide].classList.remove('active');
-            if (dots[currentSlide]) {
-                dots[currentSlide].classList.remove('active');
-            }
-            
-            currentSlide = index;
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-            
-            restartSlideshowInterval();
-        });
-    });
-    
-    // 4. Automatikus slideshow
-    startSlideshowInterval();
-    
-    // 5. Hover effekt
-    const slideshow = document.querySelector('.slideshow');
-    if (slideshow) {
-        slideshow.addEventListener('mouseenter', function() {
-            if (slideInterval) {
-                clearInterval(slideInterval);
-            }
-        });
-        
-        slideshow.addEventListener('mouseleave', function() {
-            startSlideshowInterval();
-        });
-    }
-}
-
-function startSlideshowInterval() {
-    if (slideInterval) {
-        clearInterval(slideInterval);
-    }
-    
-    slideInterval = setInterval(function() {
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.slideshow-dot');
-        
-        if (slides.length === 0) return;
-        
-        slides[currentSlide].classList.remove('active');
-        if (dots[currentSlide]) {
-            dots[currentSlide].classList.remove('active');
-        }
-        
-        currentSlide = currentSlide + 1;
-        if (currentSlide >= slides.length) {
-            currentSlide = 0;
-        }
-        
-        slides[currentSlide].classList.add('active');
-        if (dots[currentSlide]) {
-            dots[currentSlide].classList.add('active');
-        }
-    }, 6000);
-}
-
-function restartSlideshowInterval() {
-    if (slideInterval) {
-        clearInterval(slideInterval);
-    }
-    startSlideshowInterval();
-}
-
-// =========================
-// SZŰRÉSI FUNKCIÓK (LEGÖRDÜLŐ MENÜ)
-// =========================
-
-// Legördülő menü kezelése
-function setupFilterDropdown() {
-    const dropdownBtn = document.getElementById('filterDropdownBtn');
-    const dropdownContent = document.getElementById('filterDropdownContent');
-    const filterOptions = document.querySelectorAll('.filter-dropdown-option');
-    
-    if (!dropdownBtn || !dropdownContent) return;
-    
-    // Legördülő menü megnyitása/bezárása
-    dropdownBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        dropdownContent.classList.toggle('show');
-        dropdownBtn.classList.toggle('active');
-    });
-    
-    // Menü bezárása ha kívülre kattintanak
-    document.addEventListener('click', function(e) {
-        if (!dropdownBtn.contains(e.target) && !dropdownContent.contains(e.target)) {
-            dropdownContent.classList.remove('show');
-            dropdownBtn.classList.remove('active');
-        }
-    });
-    
-    // Szűrő opciók kezelése
-    filterOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            const filterType = this.getAttribute('data-filter-type');
-            const filterValue = this.getAttribute('data-filter-value');
-            
-            // Távolítsuk el az összes "összes" opciót azonos típusból
-            if (filterValue === 'all' || filterValue === 'all-nem' || 
-                filterValue === 'all-kor' || filterValue === 'all-meret') {
-                // Visszaállítjuk az adott típus összes szűrőjét
-                resetFilterType(filterType);
-                activeFilters[filterType] = filterValue;
-            } else {
-                // Ha az összes opció aktív, kikapcsoljuk
-                const allOption = document.querySelector(`[data-filter-type="${filterType}"][data-filter-value^="all"]`);
-                if (allOption) {
-                    allOption.classList.remove('active');
-                }
-                
-                // Állítsuk be az új szűrőt
-                activeFilters[filterType] = filterValue;
-            }
-            
-            // Frissítsük a kijelölést
-            updateFilterSelection();
-            updateActiveFiltersDisplay();
-            renderFilteredAnimals();
-        });
-    });
-}
-
-// Szűrő típus visszaállítása
-function resetFilterType(filterType) {
-    // Távolítsuk el az összes kijelölést az adott típusból
-    document.querySelectorAll(`[data-filter-type="${filterType}"]`).forEach(option => {
-        option.classList.remove('active');
-    });
-    
-    // Állítsuk vissza az "összes" opciót
-    const allOption = document.querySelector(`[data-filter-type="${filterType}"][data-filter-value^="all"]`);
-    if (allOption) {
-        allOption.classList.add('active');
-    }
-}
-
-// Szűrő kijelölés frissítése
-function updateFilterSelection() {
-    document.querySelectorAll('.filter-dropdown-option').forEach(option => {
-        option.classList.remove('active');
-        
-        const filterType = option.getAttribute('data-filter-type');
-        const filterValue = option.getAttribute('data-filter-value');
-        
-        if (activeFilters[filterType] === filterValue) {
-            option.classList.add('active');
-        }
-    });
-}
-
-// Kor kategóriák meghatározása
-function getAgeCategory(ageString) {
-    // Kinyerjük a számot az "X éves" stringből
-    const ageMatch = ageString.match(/(\d+)/);
-    if (!ageMatch) return 'fiatal';
-    
-    const age = parseInt(ageMatch[1]);
-    if (age <= 1) return 'kolyok';
-    if (age <= 4) return 'fiatal';
-    if (age <= 8) return 'felnott';
-    return 'idos';
-}
-
-// Szűrés logika
-function filterAnimals() {
-    return animals.filter(animal => {
-        // Csak nem örökbefogadott állatok
-        if (animal.adopted) {
-            return false;
-        }
-        
-        // Faj szűrés
-        if (activeFilters.faj !== 'all' && animal.type !== activeFilters.faj) {
-            return false;
-        }
-        
-        // Nem szűrés
-        if (activeFilters.nem !== 'all-nem') {
-            const genderMap = {
-                'Hím': 'him',
-                'Kan': 'him', 
-                'Kandúr': 'him',
-                'Nőstény': 'nosteny'
-            };
-            
-            const animalGender = genderMap[animal.gender] || animal.gender.toLowerCase();
-            const filterGender = activeFilters.nem === 'him' ? 'him' : 'nosteny';
-            
-            if (animalGender !== filterGender) {
-                return false;
-            }
-        }
-        
-        // Kor szűrés
-        if (activeFilters.kor !== 'all-kor') {
-            const ageCategory = getAgeCategory(animal.age);
-            if (ageCategory !== activeFilters.kor) {
-                return false;
-            }
-        }
-        
-        // Méret szűrés
-        if (activeFilters.meret !== 'all-meret') {
-            // Különleges méretek kezelése
-            if (animal.size === 'kozepes-nagy') {
-                if (activeFilters.meret === 'nagy' || activeFilters.meret === 'kozepes') {
-                    // Megfelel mindkettőnek
-                } else {
-                    return false;
-                }
-            } else if (animal.size !== activeFilters.meret) {
-                return false;
-            }
-        }
-        
-        return true;
-    });
-}
-
-// Aktív szűrők frissítése
-function updateActiveFiltersDisplay() {
-    const activeFiltersContainer = document.getElementById('activeFilters');
-    const filterCountElement = document.getElementById('filterCount');
-    const noResultsElement = document.getElementById('noResults');
-    
-    if (!activeFiltersContainer) return;
-    
-    activeFiltersContainer.innerHTML = '';
-    
-    let activeFilterCount = 0;
-    const filteredAnimals = filterAnimals();
-    
-    // Szűrők hozzáadása
-    Object.keys(activeFilters).forEach(key => {
-        if (activeFilters[key] !== 'all' && 
-            activeFilters[key] !== 'all-nem' && 
-            activeFilters[key] !== 'all-kor' && 
-            activeFilters[key] !== 'all-meret') {
-            
-            activeFilterCount++;
-            
-            let filterName = '';
-            switch(key) {
-                case 'faj':
-                    filterName = activeFilters[key] === 'kutya' ? 'Kutya' : 'Macska';
-                    break;
-                case 'nem':
-                    filterName = activeFilters[key] === 'him' ? 'Hím' : 'Nőstény';
-                    break;
-                case 'kor':
-                    const korNames = {
-                        'kolyok': 'Kölyök (0-1 év)',
-                        'fiatal': 'Fiatal (1-4 év)',
-                        'felnott': 'Felnőtt (4-8 év)',
-                        'idos': 'Idős (8+ év)'
-                    };
-                    filterName = korNames[activeFilters[key]] || activeFilters[key];
-                    break;
-                case 'meret':
-                    const meretNames = {
-                        'kis': 'Kis méret',
-                        'kozepes': 'Közepes méret',
-                        'nagy': 'Nagy méret'
-                    };
-                    filterName = meretNames[activeFilters[key]] || activeFilters[key];
-                    break;
-            }
-            
-            const filterTag = document.createElement('div');
-            filterTag.className = 'active-filter-tag';
-            filterTag.innerHTML = `
-                ${filterName}
-                <button class="remove-filter" data-filter-type="${key}" title="Szűrő eltávolítása">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            filterTag.querySelector('.remove-filter').addEventListener('click', function(e) {
-                e.stopPropagation();
-                const filterType = this.getAttribute('data-filter-type');
-                removeFilter(filterType);
-            });
-            
-            activeFiltersContainer.appendChild(filterTag);
-        }
-    });
-    
-    // Találatok száma
-    if (filterCountElement) {
-        filterCountElement.textContent = filteredAnimals.length;
-    }
-    
-    // Nincs találat üzenet
-    if (noResultsElement && filteredAnimals.length === 0 && activeFilterCount > 0) {
-        noResultsElement.style.display = 'block';
-    } else if (noResultsElement) {
-        noResultsElement.style.display = 'none';
-    }
-}
-
-// Szűrők törlése
-function resetFilters() {
-    activeFilters = {
-        faj: 'all',
-        nem: 'all-nem',
-        kor: 'all-kor',
-        meret: 'all-meret'
-    };
-    
-    updateFilterSelection();
-    updateActiveFiltersDisplay();
-    renderFilteredAnimals();
-}
-
-// Szűrő eltávolítása
-function removeFilter(filterType) {
-    switch(filterType) {
-        case 'faj':
-            activeFilters.faj = 'all';
-            break;
-        case 'nem':
-            activeFilters.nem = 'all-nem';
-            break;
-        case 'kor':
-            activeFilters.kor = 'all-kor';
-            break;
-        case 'meret':
-            activeFilters.meret = 'all-meret';
-            break;
-    }
-    
-    updateFilterSelection();
-    updateActiveFiltersDisplay();
-    renderFilteredAnimals();
-}
-
-// Szűrt állatok renderelése
-function renderFilteredAnimals() {
-    const filteredAnimals = filterAnimals();
-    renderAnimals('adoptionAnimals', filteredAnimals);
-}
-
-// =========================
-// ÁLLAT KÁRTYÁK GENERÁLÁSA
-// =========================
-function renderAnimals(containerId, animalsToRender = null) {
-    const animalGrid = document.getElementById(containerId);
-    if (!animalGrid) {
-        console.error(`Nem található: ${containerId}`);
-        return;
-    }
-    
-    animalGrid.innerHTML = '';
-    
-    // Ha nem adtunk meg állatlistát, akkor szűrjük
-    if (!animalsToRender && containerId === 'adoptionAnimals') {
-        animalsToRender = filterAnimals();
-    } else if (!animalsToRender && containerId === 'featuredAnimals') {
-        animalsToRender = animals.filter(animal => animal.featured && !animal.adopted);
-    }
-    
-    if (animalsToRender.length === 0 && containerId === 'adoptionAnimals') {
-        return;
-    }
-    
-    animalsToRender.forEach(animal => {
-        const animalCard = document.createElement('div');
-        animalCard.className = 'animal-card fade-in';
-        
-        if (animal.adopted) {
-            animalCard.classList.add('adopted-animal');
-        }
-        
-        if (animal.urgent) {
-            animalCard.classList.add('urgent-animal');
-        }
-        
-        animalCard.innerHTML = `
-            <div class="animal-image">
-                <img src="${animal.image}" alt="${animal.name}" onerror="this.src='https://images.unsplash.com/photo-1514888286974-6d03bde4ba42?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
-                ${animal.urgent ? '<div class="urgent-label">Sürgős eset!</div>' : ''}
-                ${animal.adopted ? '<div class="adopted-label">Örökbefogadva!</div>' : ''}
-            </div>
-            <div class="animal-info">
-                <h3>${animal.name}</h3>
-                <p>${animal.description}</p>
-                <div class="animal-features">
-                    <span class="feature">${animal.type}</span>
-                    <span class="feature">${animal.breed}</span>
-                    <span class="feature">${animal.age}</span>
-                    <span class="feature">${animal.gender}</span>
-                    <span class="feature">${animal.size}</span>
-                </div>
-                <div class="animal-actions">
-                    ${animal.adopted ? 
-                        '<button class="adopted-btn" disabled>Már örökbefogadva!</button>' : 
-                        `<button class="adopt-btn" data-id="${animal.id}">Örökbefogadom!</button>`
-                    }
-                    <button class="details-btn" data-id="${animal.id}">Részletek</button>
-                </div>
-            </div>
-        `;
-        
-        animalGrid.appendChild(animalCard);
-    });
-    
-    // Gombok eseménykezelői
-    document.querySelectorAll('.adopt-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const animalId = this.getAttribute('data-id');
-            startAdoption(animalId);
-        });
-    });
-    
-    document.querySelectorAll('.details-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const animalId = this.getAttribute('data-id');
-            showAnimalDetails(animalId);
-        });
-    });
-}
-// =========================
-// ÁLLAT RÉSZLETEK MEGJELENÍTÉSE
-// =========================
-window.showAnimalDetails = function(animalId) {
-    const animal = animals.find(a => a.id == animalId);
-    if (!animal) return;
-    
-    const animalDetails = document.getElementById('animalDetails');
-    if (!animalDetails) return;
-
-    animalDetails.innerHTML = `
-        <div class="animal-details-image">
-            <img src="${animal.image}" alt="${animal.name}" onerror="this.src='https://images.unsplash.com/photo-1514888286974-6d03bde4ba42?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
-            ${animal.urgent ? '<div class="urgent-badge">Sürgős eset!</div>' : ''}
-            ${animal.adopted ? '<div class="adopted-badge">Örökbefogadva!</div>' : ''}
-        </div>
-        <div class="animal-details-info">
-            <h3>${animal.name}</h3>
-            <p><strong>Faj:</strong> ${animal.type}</p>
-            <p><strong>Fajta:</strong> ${animal.breed}</p>
-            <p><strong>Életkor:</strong> ${animal.age}</p>
-            <p><strong>Nem:</strong> ${animal.gender}</p>
-            <p><strong>Méret:</strong> ${animal.size}</p>
-            <p><strong>Személyiség:</strong> ${animal.personality}</p>
-            <p><strong>Története:</strong> ${animal.history}</p>
-            <p><strong>Speciális igények:</strong> ${animal.specialNeeds}</p>
-            <p><strong>Státusz:</strong> ${animal.adopted ? '<span style="color: #2a9d8f; font-weight: bold;">Örökbefogadva</span>' : '<span style="color: #e74c3c; font-weight: bold;">Örökbefogadható</span>'}</p>
-
-            <div class="vaccination-list">
-                <h4>Oltások:</h4>
-                <ul>
-                    ${animal.vaccinations.map(vacc => `<li>${vacc}</li>`).join('')}
-                </ul>
-            </div>
-
-            ${animal.adopted ? 
-                '<button class="btn" style="margin-top: 20px; background-color: #95a5a6; cursor: not-allowed;" disabled>Már örökbefogadva</button>' : 
-                `<button class="btn" style="margin-top: 20px;" onclick="startAdoption(${animal.id})">Örökbefogadom!</button>`
-            }
-        </div>
-    `;
-
-    document.getElementById('animalModal').style.display = 'flex';
-    document.body.classList.add('modal-open');
-}
-
-// =========================
-// ÖRÖKBEFOGADÁS INDÍTÁSA
-// =========================
-window.startAdoption = function(animalId) {
-    currentAnimal = animals.find(a => a.id == animalId);
-    if (!currentAnimal) return;
-    
-    const animalInput = document.getElementById('animalNameInput');
-    if (animalInput) {
-        animalInput.value = currentAnimal.name;
-    }
-    
-    // Frissítjük a modal állat információit
-    const modalAnimalInfo = document.getElementById('modalAnimalInfo');
-    if (modalAnimalInfo && currentAnimal) {
-        modalAnimalInfo.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <img src="${currentAnimal.image}" alt="${currentAnimal.name}" 
-                     style="width: 80px; height: 80px; border-radius: 10px; object-fit: cover;"
-                     onerror="this.src='https://images.unsplash.com/photo-1514888286974-6d03bde4ba42?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
-                <div>
-                    <h4 style="margin: 0 0 5px 0; color: var(--primary);">${currentAnimal.name}</h4>
-                    <p style="margin: 0; font-size: 0.95rem;">${currentAnimal.type} - ${currentAnimal.breed}</p>
-                    <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #666;">${currentAnimal.age} • ${currentAnimal.gender} • ${currentAnimal.size}</p>
-                </div>
-            </div>
-        `;
-    }
-    
-    // Állat részletek modal bezárása
-    document.getElementById('animalModal').style.display = 'none';
-    
-    // Örökbefogadási modal megjelenítése
-    document.getElementById('adoptionModal').style.display = 'flex';
-    document.body.classList.add('modal-open');
-    
-    // Automatikus görgetés a modal tetejére
-    setTimeout(() => {
-        const modalContent = document.querySelector('.adoption-modal-content');
-        if (modalContent) {
-            modalContent.scrollTop = 0;
-        }
-    }, 100);
-}
-// =========================
-// BLOG BEJEGYZÉSEK MEGJELENÍTÉSE
-// =========================
-function renderBlogPosts() {
-    const newsGrid = document.getElementById('newsGrid');
-    if (!newsGrid) {
-        console.error("Nem található: newsGrid");
-        return;
-    }
-    
-    newsGrid.innerHTML = '';
-
-    blogPosts.forEach(post => {
-        const postElement = document.createElement('div');
-        postElement.className = 'news-card fade-in';
-
-        postElement.innerHTML = `
-            <div class="news-image">
-                <img src="${post.image}" alt="${post.title}">
-            </div>
-            <div class="news-content">
-                <h3>${post.title}</h3>
-                <p class="news-excerpt">${post.excerpt}</p>
-                <div class="news-meta">
-                    <span class="news-date">${formatDate(post.date)}</span>
-                    <span class="news-author">Írta: ${post.author}</span>
-                </div>
-                <button class="news-read-more" data-id="${post.id}">Tovább olvasom</button>
-            </div>
-        `;
-
-        newsGrid.appendChild(postElement);
-    });
-
-    // Tovább olvasom gombok
-    document.querySelectorAll('.news-read-more').forEach(button => {
-        button.addEventListener('click', function() {
-            const postId = this.getAttribute('data-id');
-            const post = blogPosts.find(p => p.id == postId);
-            if (post) {
-                alert(`A teljes cikk megjelenítése jelenleg fejlesztés alatt áll.\n\n${post.title}\n\n${post.content}`);
-            }
-        });
-    });
-}
-
-// =========================
-// SEGÉDFÜGGVÉNYEK
-// =========================
-function formatDate(dateString) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('hu-HU', options);
-}
-
-function updateShelterStatus() {
-    const currentAnimals = animals.filter(a => !a.adopted).length;
-    const adoptedThisMonth = animals.filter(a => a.adopted).length;
-    const urgentAnimals = animals.filter(a => a.urgent && !a.adopted).length;
-
-    document.getElementById('currentAnimals').textContent = currentAnimals;
-    document.getElementById('adoptedThisMonth').textContent = adoptedThisMonth;
-    document.getElementById('urgentAnimals').textContent = urgentAnimals;
-}
-
-function handleHeaderScroll() {
-    const header = document.getElementById('mainHeader');
-    if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
-}
-// =========================
-// REGISZTRÁCIÓ ÉS BEJELENTKEZÉS FUNKCIÓK
-// =========================
-
-// Auth gombok beállítása
-function setupAuthButtons() {
-    const loginBtn = document.getElementById('loginBtn');
-    const registerBtn = document.getElementById('registerBtn');
-    const showLogin = document.getElementById('showLogin');
-    const showRegister = document.getElementById('showRegister');
-    const closeRegister = document.getElementById('closeRegister');
-    const closeLogin = document.getElementById('closeLogin');
-    const cancelRegister = document.getElementById('cancelRegister');
-    const cancelLogin = document.getElementById('cancelLogin');
-    const logoutLink = document.getElementById('logoutLink');
-    const adminLink = document.getElementById('adminLink');
-    const profileLink = document.getElementById('profileLink');
-    const userMenu = document.getElementById('userMenu');
-
-    // Login gomb
-    if (loginBtn) {
-        loginBtn.addEventListener('click', () => showModal('loginModal'));
-    }
-
-    // Register gomb
-    if (registerBtn) {
-        registerBtn.addEventListener('click', () => showModal('registerModal'));
-    }
-
-    // Modal váltások
-    if (showLogin) {
-        showLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            hideModal('registerModal');
-            showModal('loginModal');
-        });
-    }
-
-    if (showRegister) {
-        showRegister.addEventListener('click', (e) => {
-            e.preventDefault();
-            hideModal('loginModal');
-            showModal('registerModal');
-        });
-    }
-
-    // Modal bezárások
-    if (closeRegister) {
-        closeRegister.addEventListener('click', () => hideModal('registerModal'));
-    }
-
-    if (closeLogin) {
-        closeLogin.addEventListener('click', () => hideModal('loginModal'));
-    }
-
-    if (cancelRegister) {
-        cancelRegister.addEventListener('click', () => hideModal('registerModal'));
-    }
-
-    if (cancelLogin) {
-        cancelLogin.addEventListener('click', () => hideModal('loginModal'));
-    }
-
-    // Kijelentkezés
-    if (logoutLink) {
-        logoutLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            logout();
-        });
-    }
-
-    // Admin link
-    if (adminLink) {
-        adminLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'admin.html';
-        });
-    }
-
-    // Profil link
-    if (profileLink) {
-        profileLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Profil oldal fejlesztés alatt áll!');
-        });
-    }
-
-    // User menü megjelenítése/elrejtése
-    const authButtons = document.getElementById('authButtons');
-    if (authButtons) {
-        authButtons.addEventListener('click', () => {
-            if (currentUser && userMenu) {
-                userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
-            }
-        });
-    }
-
-    // User menü bezárása ha kívülre kattintanak
-    document.addEventListener('click', (e) => {
-        if (userMenu && !userMenu.contains(e.target) && 
-            authButtons && !authButtons.contains(e.target)) {
-            userMenu.style.display = 'none';
-        }
-    });
-
-    // Modal háttér kattintás
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                document.body.classList.remove('modal-open');
-            }
-        });
-    });
-}
-
-// Modal megjelenítése
 function showModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -1121,7 +29,6 @@ function showModal(modalId) {
     }
 }
 
-// Modal elrejtése
 function hideModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -1130,535 +37,1496 @@ function hideModal(modalId) {
     }
 }
 
-// Bejelentkezés
-// script.js - Frissített setupLogin
+// =========================
+// SLIDESHOW
+// =========================
+function initSlideshow() {
+    if (slideshowInitialized) return;
+    
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slideshow-dot');
+    const next = document.querySelector('.slideshow-arrow.next');
+    const prev = document.querySelector('.slideshow-arrow.prev');
+    
+    if (slides.length === 0) {
+        console.log('⚠️ Nincsenek slide-ok');
+        return;
+    }
+    
+    console.log(`🖼️ Slideshow inicializálás, ${slides.length} slide`);
+    
+    preloadImages();
+    
+    if (next) {
+        next.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            changeSlide(1);
+        });
+    }
+    
+    if (prev) {
+        prev.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            changeSlide(-1);
+        });
+    }
+    
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            goToSlide(i);
+        });
+    });
+    
+    setupTouchEvents();
+    
+    const slideshow = document.querySelector('.slideshow');
+    if (slideshow) {
+        slideshow.addEventListener('mouseenter', pauseSlideshow);
+        slideshow.addEventListener('mouseleave', resumeSlideshow);
+    }
+    
+    startSlideshowInterval();
+    slideshowInitialized = true;
+    
+    console.log('✅ Slideshow inicializálva');
+}
+
+function preloadImages() {
+    const slides = document.querySelectorAll('.slide');
+    slides.forEach(slide => {
+        const bgImage = window.getComputedStyle(slide).backgroundImage;
+        if (bgImage && bgImage !== 'none') {
+            const url = bgImage.replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+            if (url && url !== 'none') {
+                const img = new Image();
+                img.src = url;
+            }
+        }
+    });
+}
+
+function setupTouchEvents() {
+    const slideshow = document.querySelector('.slideshow');
+    if (!slideshow) return;
+    
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    slideshow.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    slideshow.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                changeSlide(1);
+            } else {
+                changeSlide(-1);
+            }
+        }
+    }
+}
+
+function changeSlide(direction) {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slideshow-dot');
+    
+    if (!slides.length) return;
+    
+    slides[currentSlide].classList.remove('active');
+    if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+    
+    currentSlide = (currentSlide + direction + slides.length) % slides.length;
+    
+    slides[currentSlide].classList.add('active');
+    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+    
+    restartSlideshowInterval();
+}
+
+function goToSlide(index) {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slideshow-dot');
+    
+    if (!slides.length || index < 0 || index >= slides.length) return;
+    
+    slides[currentSlide].classList.remove('active');
+    if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+    
+    currentSlide = index;
+    
+    slides[currentSlide].classList.add('active');
+    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+    
+    restartSlideshowInterval();
+}
+
+function startSlideshowInterval() {
+    if (slideInterval) clearInterval(slideInterval);
+    slideInterval = setInterval(() => {
+        changeSlide(1);
+    }, 6000);
+}
+
+function restartSlideshowInterval() {
+    clearInterval(slideInterval);
+    startSlideshowInterval();
+}
+
+function pauseSlideshow() {
+    if (slideInterval) {
+        clearInterval(slideInterval);
+        slideInterval = null;
+    }
+}
+
+function resumeSlideshow() {
+    if (!slideInterval) {
+        startSlideshowInterval();
+    }
+}
+
+// =========================
+// NAVIGÁCIÓ
+// =========================
+function setupNavigation() {
+    console.log('🧭 Navigáció beállítása...');
+    
+    document.querySelectorAll('nav .nav-link, .footer-links .nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pageId = link.dataset.page;
+            if (pageId) showPage(pageId);
+        });
+    });
+    
+    document.querySelectorAll('.slideshow .slideshow-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const pageId = btn.dataset.slidePage;
+            if (pageId) {
+                showPage(pageId);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    });
+    
+    document.querySelectorAll('.text-center a, .btn').forEach(link => {
+        if (link.textContent.includes('Összes állat') || 
+            link.textContent.includes('összes állat') ||
+            link.textContent.includes('Összes állat megtekintése')) {
+            
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showPage('adoption');
+                
+                setTimeout(() => {
+                    const adoptionSection = document.getElementById('adoption');
+                    if (adoptionSection) {
+                        adoptionSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
+            });
+        }
+    });
+    
+    console.log('✅ Navigáció beállítva');
+}
+
+window.showPage = function(pageId) {
+    console.log('📄 Navigáció oldalra:', pageId);
+    
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
+        
+        document.querySelectorAll('nav .nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.dataset.page === pageId) {
+                link.classList.add('active');
+            }
+        });
+        
+        if (pageId === 'adoption') {
+            if (typeof renderFilteredAnimals === 'function') {
+                renderFilteredAnimals();
+            }
+        }
+    } else {
+        console.error('❌ Nem található oldal:', pageId);
+    }
+};
+
+// =========================
+// API FUNKCIÓK
+// =========================
+async function loadAnimalsFromAPI() {
+    try {
+        console.log('🐾 Állatok betöltése API-ból...');
+        
+        const response = await fetch('api.php?action=animals&adopted=all');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const apiAnimals = await response.json();
+        
+        if (Array.isArray(apiAnimals) && apiAnimals.length > 0) {
+            animals = apiAnimals;
+            console.log(`✅ Állatok betöltve API-ból: ${animals.length} db`);
+        } else {
+            console.warn('⚠️ API üres választ adott, demo adatok használata');
+            animals = getDemoAnimals();
+            console.log(`✅ Demo állatok betöltve: ${animals.length} db`);
+        }
+        
+        return animals;
+    } catch (error) {
+        console.error('❌ Állatok betöltési hiba:', error);
+        animals = getDemoAnimals();
+        return animals;
+    }
+}
+
+// =========================
+// DEMO ÁLLATOK - JAVÍTVA (MEGFELELŐ MEZŐKKEL)
+// =========================
+function getDemoAnimals() {
+    return [
+        { id: 1, name: "Füles", type: "kutya", breed: "Labrador keverék", age: "2 éves", ageValue: 2, ageCategory: "fiatal", gender: "Hím", size: "kozepes", description: "Füles egy kedves, bújós és kíváncsi kutya.", image: "img/kep1.jpg", featured: true, urgent: false, adopted: false },
+        { id: 2, name: "Bea", type: "macska", breed: "Rövidszőrű cirmos", age: "3 éves", ageValue: 3, ageCategory: "fiatal", gender: "Nőstény", size: "kis", description: "Bea egy nyugodt, figyelmes cica.", image: "img/kep2.jpg", featured: true, urgent: false, adopted: false },
+        { id: 3, name: "Bodri", type: "kutya", breed: "Beagle", age: "1 éves", ageValue: 1, ageCategory: "kolyok", gender: "Hím", size: "kozepes", description: "Bodri egy kíváncsi és vidám kutya.", image: "img/kep3.jpg", featured: true, urgent: true, adopted: false },
+        { id: 4, name: "Cirmoska", type: "macska", breed: "Házimacska", age: "5 éves", ageValue: 5, ageCategory: "felnott", gender: "Nőstény", size: "kozepes", description: "Cirmoska egy kedves, visszahúzódó macska.", image: "img/kep4.jpg", featured: false, urgent: false, adopted: true },
+        { id: 5, name: "Bátor", type: "kutya", breed: "Terrier keverék", age: "3 éves", ageValue: 3, ageCategory: "fiatal", gender: "Hím", size: "kozepes", description: "Bátor fegyelmezett és figyelmes kutya.", image: "img/kep5.jpg", featured: false, urgent: false, adopted: false },
+        { id: 6, name: "Bundás", type: "macska", breed: "Cirmos", age: "2 éves", ageValue: 2, ageCategory: "fiatal", gender: "Hím", size: "kozepes", description: "Bundás egy játékos és aktív fiatal macska.", image: "img/kep6.jpg", featured: false, urgent: true, adopted: false }
+    ];
+}
+
+// =========================
+// SZŰRÉS - TELJESEN JAVÍTVA
+// =========================
+
+// =========================
+// SZŰRŐK BEÁLLÍTÁSA
+// =========================
+function setupFilters() {
+    console.log('🔧 Szűrők beállítása...');
+    
+    const filterDropdownBtn = document.getElementById('filterDropdownBtn');
+    const filterDropdownContent = document.getElementById('filterDropdownContent');
+    
+    if (!filterDropdownBtn || !filterDropdownContent) {
+        console.error('❌ Szűrő elemek nem találhatók!');
+        return;
+    }
+    
+    // Dropdown nyitás/zárás
+    filterDropdownBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        filterDropdownBtn.classList.toggle('active');
+        filterDropdownContent.classList.toggle('show');
+        console.log('Dropdown toggled');
+    });
+    
+    // Szűrő opciók kezelése
+    document.querySelectorAll('.filter-dropdown-option').forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const filterType = this.dataset.filterType;
+            const filterValue = this.dataset.filterValue;
+            
+            console.log(`Szűrő kattintás: ${filterType} = ${filterValue}`);
+            
+            // Először töröljük az aktív osztályt az összes ilyen típusú opcióról
+            document.querySelectorAll(`.filter-dropdown-option[data-filter-type="${filterType}"]`).forEach(opt => {
+                opt.classList.remove('active');
+            });
+            
+            // Aktuális opció aktiválása
+            this.classList.add('active');
+            
+            // Szűrő érték frissítése
+            activeFilters[filterType] = filterValue;
+            
+            console.log('Aktív szűrők:', activeFilters);
+            
+            // Állatok újraszűrése
+            filterAnimals();
+            
+            // Dropdown bezárása (opcionális)
+            filterDropdownBtn.classList.remove('active');
+            filterDropdownContent.classList.remove('show');
+        });
+    });
+    
+    // "Összes" opciók aktiválása alapból
+    document.querySelectorAll('.filter-dropdown-option[data-filter-value="all"], .filter-dropdown-option[data-filter-value="all-nem"], .filter-dropdown-option[data-filter-value="all-kor"], .filter-dropdown-option[data-filter-value="all-meret"]').forEach(opt => {
+        opt.classList.add('active');
+    });
+    
+    // Összes szűrő törlése gomb
+    const clearFiltersBtn = document.getElementById('clearFilters');
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', () => {
+            resetFilters();
+        });
+    }
+    
+    // Kattintás a dokumentumra - dropdown bezárása
+    document.addEventListener('click', (e) => {
+        if (filterDropdownBtn && filterDropdownContent) {
+            if (!filterDropdownBtn.contains(e.target) && !filterDropdownContent.contains(e.target)) {
+                filterDropdownBtn.classList.remove('active');
+                filterDropdownContent.classList.remove('show');
+            }
+        }
+    });
+    
+    console.log('✅ Szűrők beállítva');
+}
+
+// =========================
+// ÁLLATOK SZŰRÉSE
+// =========================
+function filterAnimals() {
+    console.log('Szűrés indítása...');
+    
+    // Összes állat betöltése
+    let filteredAnimals = [...animals];
+    
+    // Faj szűrés
+    if (activeFilters.faj !== 'all') {
+        filteredAnimals = filteredAnimals.filter(animal => {
+            return animal.type === activeFilters.faj;
+        });
+    }
+    
+    // Nem szűrés
+    if (activeFilters.nem !== 'all-nem') {
+        filteredAnimals = filteredAnimals.filter(animal => {
+            if (activeFilters.nem === 'him') {
+                return animal.gender === 'Hím';
+            } else if (activeFilters.nem === 'nosteny') {
+                return animal.gender === 'Nőstény';
+            }
+            return true;
+        });
+    }
+    
+    // Kor szűrés
+    if (activeFilters.kor !== 'all-kor') {
+        filteredAnimals = filteredAnimals.filter(animal => {
+            // Számold ki az életkort években
+            let ageInYears = 0;
+            if (animal.age) {
+                const ageMatch = animal.age.match(/(\d+)/);
+                if (ageMatch) {
+                    ageInYears = parseInt(ageMatch[1]);
+                }
+            }
+            
+            // Ha van ageValue, használjuk azt
+            if (animal.ageValue) {
+                ageInYears = animal.ageValue;
+            }
+            
+            // Kor kategóriák
+            if (activeFilters.kor === 'kolyok') {
+                return ageInYears <= 1;
+            } else if (activeFilters.kor === 'fiatal') {
+                return ageInYears > 1 && ageInYears <= 4;
+            } else if (activeFilters.kor === 'felnott') {
+                return ageInYears > 4 && ageInYears <= 8;
+            } else if (activeFilters.kor === 'idos') {
+                return ageInYears > 8;
+            }
+            
+            return true;
+        });
+    }
+    
+    // Méret szűrés
+    if (activeFilters.meret !== 'all-meret') {
+        filteredAnimals = filteredAnimals.filter(animal => {
+            return animal.size === activeFilters.meret;
+        });
+    }
+    
+    console.log(`Szűrés eredménye: ${filteredAnimals.length} állat`);
+    
+    // Találatok számának frissítése
+    const filterCount = document.getElementById('filterCount');
+    if (filterCount) {
+        filterCount.textContent = filteredAnimals.length;
+    }
+    
+    // Nincs találat üzenet megjelenítése/elrejtése
+    const noResults = document.getElementById('noResults');
+    if (noResults) {
+        noResults.style.display = filteredAnimals.length === 0 ? 'block' : 'none';
+    }
+    
+    // Állatok megjelenítése
+    renderAnimals('adoptionAnimals', filteredAnimals);
+    
+    return filteredAnimals;
+}
+
+// =========================
+// SZŰRŐK ALAPHELYZETBE ÁLLÍTÁSA
+// =========================
+function resetFilters() {
+    console.log('Szűrők alaphelyzetbe állítása...');
+    
+    // Szűrők visszaállítása
+    activeFilters = {
+        faj: 'all',
+        nem: 'all-nem',
+        kor: 'all-kor',
+        meret: 'all-meret'
+    };
+    
+    // Aktív osztályok eltávolítása minden opcióról
+    document.querySelectorAll('.filter-dropdown-option').forEach(opt => {
+        opt.classList.remove('active');
+    });
+    
+    // "Összes" opciók aktiválása
+    document.querySelectorAll('.filter-dropdown-option[data-filter-value="all"], .filter-dropdown-option[data-filter-value="all-nem"], .filter-dropdown-option[data-filter-value="all-kor"], .filter-dropdown-option[data-filter-value="all-meret"]').forEach(opt => {
+        opt.classList.add('active');
+    });
+    
+    // Összes állat megjelenítése
+    filterAnimals();
+    
+    console.log('✅ Szűrők alaphelyzetben');
+}
+
+// =========================
+// RENDERELÉS MÓDOSÍTÁSA
+// =========================
+function renderFilteredAnimals() {
+    filterAnimals();
+}
+
+// =========================
+// BLOG FUNKCIÓK
+// =========================
+async function loadBlogPostsFromAPI() {
+    try {
+        const response = await fetch('api.php?action=blog');
+        if (!response.ok) throw new Error('Hiba a blog betöltésekor');
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0) {
+            blogPosts = data;
+        } else {
+            blogPosts = getDemoBlogPosts();
+        }
+    } catch (error) {
+        console.error('Blog betöltési hiba:', error);
+        blogPosts = getDemoBlogPosts();
+    }
+    renderBlogPosts();
+}
+
+function getDemoBlogPosts() {
+    return [
+        { 
+            id: 1, 
+            title: "Rekord számú örökbefogadás!", 
+            excerpt: "Szeptemberben 25 állat talált örökbefogadót.", 
+            content: "Szeptemberben rekordot döntöttünk: 25 állat talált új otthonra!",
+            image: "img/blog1.jpg", 
+            date: "2026-01-11T10:30:00", 
+            author: "Dominika",
+            created_at: "2026-01-11T10:30:00"
+        },
+        { 
+            id: 2, 
+            title: "Új menhelyi program indult!", 
+            excerpt: "Bevezetjük a 'Menhelyi Napok' programot.", 
+            content: "Elindítottuk a 'Menhelyi Napok' programot.",
+            image: "img/blog2.jpg", 
+            date: "2025-11-15T14:20:00", 
+            author: "Jázmin",
+            created_at: "2025-11-15T14:20:00"
+        },
+        { 
+            id: 3, 
+            title: "Télire készülünk", 
+            excerpt: "Téli takarókat gyűjtünk az állatok számára.", 
+            content: "A tél közeledtével megkezdtük a téli gyűjtést.",
+            image: "img/blog3.jpg", 
+            date: "2025-11-28T09:15:00", 
+            author: "Leila",
+            created_at: "2025-11-28T09:15:00"
+        }
+    ];
+}
+
+function renderBlogPosts() {
+    const newsGrid = document.getElementById('newsGrid');
+    if (!newsGrid) return;
+    
+    newsGrid.innerHTML = '';
+    
+    blogPosts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.className = 'news-card fade-in';
+        
+        const formattedDate = formatBlogDate(post.date || post.created_at);
+        
+        postElement.innerHTML = `
+            <div class="news-image">
+                <img src="${post.image || 'img/blog1.jpg'}" alt="${post.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Blog'">
+            </div>
+            <div class="news-content">
+                <h3>${post.title}</h3>
+                <p>${post.excerpt || post.content?.substring(0, 100) || ''}...</p>
+                <div class="news-meta">
+                    <span class="news-date"><i class="far fa-calendar-alt"></i> ${formattedDate}</span>
+                    <span class="news-author"><i class="far fa-user"></i> ${post.author || 'Boldog Mancs'}</span>
+                </div>
+            </div>
+        `;
+        newsGrid.appendChild(postElement);
+    });
+}
+
+function formatBlogDate(dateString) {
+    if (!dateString) return 'Ismeretlen dátum';
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return 'Ismeretlen dátum';
+        return date.toLocaleDateString('hu-HU', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    } catch {
+        return dateString;
+    }
+}
+
+// =========================
+// FELHASZNÁLÓK BETÖLTÉSE
+// =========================
+async function loadAllUsers() {
+    try {
+        console.log('👥 Felhasználók betöltése...');
+        
+        const storedUsers = localStorage.getItem('admin_users');
+        if (storedUsers) {
+            allUsers = JSON.parse(storedUsers);
+            console.log(`✅ Felhasználók betöltve localStorage-ból: ${allUsers.length} db`);
+        }
+        
+        const token = localStorage.getItem('userToken');
+        const response = await fetch('api.php?action=get_all_users', {
+            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            let apiUsers = [];
+            
+            if (Array.isArray(data)) {
+                apiUsers = data;
+            } else if (data.users) {
+                apiUsers = data.users;
+            }
+            
+            if (apiUsers.length > 0) {
+                const apiIds = apiUsers.map(u => u.id);
+                const localOnly = allUsers.filter(u => !apiIds.includes(u.id));
+                allUsers = [...apiUsers, ...localOnly];
+                console.log(`✅ Felhasználók betöltve API-ból: ${apiUsers.length} db, összesen: ${allUsers.length} db`);
+                
+                localStorage.setItem('admin_users', JSON.stringify(allUsers));
+            }
+        }
+        
+        if (allUsers.length === 0) {
+            allUsers = [
+                { id: 1, username: 'admin', email: 'admin@example.com', fullname: 'Adminisztrátor', role: 'admin', created_at: new Date().toISOString() },
+                { id: 2, username: 'jozsi', email: 'jozsi@example.com', fullname: 'Kiss József', role: 'user', created_at: new Date().toISOString() },
+                { id: 3, username: 'mari', email: 'mari@example.com', fullname: 'Nagy Mária', role: 'user', created_at: new Date().toISOString() },
+                { id: 4, username: 'peti', email: 'peti@example.com', fullname: 'Kovács Péter', role: 'user', created_at: new Date().toISOString() }
+            ];
+            localStorage.setItem('admin_users', JSON.stringify(allUsers));
+            console.log(`✅ Demo felhasználók betöltve: ${allUsers.length} db`);
+        }
+        
+        return allUsers;
+    } catch (error) {
+        console.error('❌ Felhasználók betöltési hiba:', error);
+        return [];
+    }
+}
+
+// =========================
+// FELHASZNÁLÓ KEZELÉS
+// =========================
+async function loadUserData() {
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+        currentUser = null;
+        return null;
+    }
+    
+    const savedUserData = localStorage.getItem('userData');
+    if (savedUserData) {
+        try {
+            currentUser = JSON.parse(savedUserData);
+            console.log('✅ Felhasználó betöltve localStorage-ból:', currentUser);
+            return currentUser;
+        } catch (e) {
+            localStorage.removeItem('userData');
+        }
+    }
+    
+    try {
+        console.log('🔍 Felhasználói adatok lekérése API-ból...');
+        const response = await fetch('api.php?action=user', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            console.log('✅ API válasz:', data);
+            
+            currentUser = {
+                id: data.id || 0,
+                username: data.username || 'Ismeretlen',
+                email: data.email || '',
+                fullname: data.fullname || data.name || data.username,
+                role: data.role || 'user'
+            };
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            console.log('✅ Felhasználó sikeresen betöltve:', currentUser);
+        } else {
+            console.log('❌ API hiba, token törlése');
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('userData');
+            currentUser = null;
+        }
+    } catch (error) {
+        console.error('❌ Felhasználó betöltési hiba:', error);
+        if (!currentUser) {
+            currentUser = { id: 1, username: 'demo', fullname: 'Demo Felhasználó', role: 'user' };
+            console.log('⚠️ Demo felhasználó használata');
+        }
+    }
+    
+    return currentUser;
+}
+
+// =========================
+// BEJELENTKEZÉS
+// =========================
 function setupLogin() {
     const loginForm = document.getElementById('loginForm');
-    if (!loginForm) return;
+    if (!loginForm) {
+        console.log('❌ Login form nem található');
+        return;
+    }
+    
+    console.log('✅ Login form inicializálva');
     
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const username = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value.trim();
-        const errorDiv = document.getElementById('loginError');
         
-        // Reset error
-        if (errorDiv) {
-            errorDiv.textContent = '';
-            errorDiv.style.display = 'none';
-        }
+        console.log('🔐 Bejelentkezési kísérlet:', username);
         
         if (!username || !password) {
-            if (errorDiv) {
-                errorDiv.textContent = 'Kérjük, töltsd ki mindkét mezőt!';
-                errorDiv.style.display = 'block';
-            }
+            alert('Kérjük, töltsd ki mindkét mezőt!');
             return;
         }
         
         try {
-            // Valódi API kérés
             const response = await fetch('api.php?action=login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
             });
             
-            const result = await response.json();
+            const data = await response.json();
+            console.log('📦 Bejelentkezés válasz:', data);
             
-            if (result.success) {
-                // Sikeres bejelentkezés
-                currentUser = result.user;
+            if (data.success) {
+                localStorage.setItem('userToken', data.token);
+                localStorage.setItem('userData', JSON.stringify(data.user));
+                localStorage.setItem('username', data.user.username);
                 
-                // Mentés localStorage-ba
-                localStorage.setItem('user', JSON.stringify(currentUser));
-                localStorage.setItem('authToken', result.token);
+                currentUser = data.user;
                 
-                // UI frissítés
-                updateUIForLoggedInUser();
+                console.log('✅ Bejelentkezés sikeres! Felhasználó:', currentUser);
+                
+                await loadAllUsers();
+                
                 hideModal('loginModal');
-                loginForm.reset();
+                refreshUserMenuState();
                 
-                // Üdvözlő üzenet
-                showNotification(`Sikeres bejelentkezés! Üdvözöljük, ${currentUser.fullname}!`);
+                if (typeof renderFilteredAnimals === 'function') renderFilteredAnimals();
+                if (typeof renderAnimals === 'function') renderAnimals('featuredAnimals');
                 
+                alert(`✅ Sikeres bejelentkezés! Üdvözöljük, ${currentUser.fullname || currentUser.username}!`);
+                
+                if (currentUser.role === 'admin') {
+                    if (confirm('Adminisztrátorként bejelentkeztél. Szeretnéd megnyitni az admin felületet?')) {
+                        window.location.href = 'admin.html';
+                    }
+                }
             } else {
-                throw new Error(result.error || 'Bejelentkezés sikertelen');
+                console.log('❌ Bejelentkezés sikertelen:', data.error);
+                alert(data.error || 'Hibás felhasználónév vagy jelszó!');
             }
         } catch (error) {
-            console.error('Login error:', error);
-            if (errorDiv) {
-                errorDiv.textContent = error.message;
-                errorDiv.style.display = 'block';
-            } else {
-                alert(error.message);
-            }
+            console.error('❌ Bejelentkezési hiba:', error);
+            alert('Hiba történt a bejelentkezés során! Ellenőrizd az API kapcsolatot.');
         }
     });
 }
 
-// Frissített UI update függvény
-function updateUIForLoggedInUser() {
-    const authButtons = document.getElementById('authButtons');
-    const userMenu = document.getElementById('userMenu');
-    const userDisplayName = document.getElementById('userDisplayName');
-    const userRole = document.getElementById('userRole');
-    const adminLink = document.getElementById('adminLink');
-    
-    if (currentUser) {
-        // Elrejtjük a login/register gombokat
-        if (authButtons) {
-            authButtons.style.display = 'none';
-        }
-        
-        // Megjelenítjük a user menüt
-        if (userMenu) {
-            userMenu.style.display = 'block';
-            
-            // Frissítjük a felhasználó adatait
-            if (userDisplayName) {
-                userDisplayName.textContent = currentUser.fullname || currentUser.username;
-            }
-            
-            if (userRole) {
-                userRole.textContent = currentUser.role === 'admin' ? 'Adminisztrátor' : 'Felhasználó';
-            }
-            
-            // Admin link megjelenítése CSAK ha admin
-            if (adminLink) {
-                if (currentUser.role === 'admin') {
-                    adminLink.style.display = 'block';
-                    adminLink.onclick = function(e) {
-                        e.preventDefault();
-                        window.location.href = 'admin.html';
-                    };
-                } else {
-                    adminLink.style.display = 'none';
-                }
-            }
-        }
-    } else {
-        // Megjelenítjük a login/register gombokat
-        if (authButtons) {
-            authButtons.style.display = 'flex';
-        }
-        
-        // Elrejtjük a user menüt
-        if (userMenu) {
-            userMenu.style.display = 'none';
-        }
-    }
-}
-
-// Notification függvény
-function showNotification(message, type = 'success') {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-            <span>${message}</span>
-        </div>
-        <button class="notification-close"><i class="fas fa-times"></i></button>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Automatikus eltűnés
-    setTimeout(() => {
-        notification.remove();
-    }, 5000);
-    
-    // Kézi bezárás
-    notification.querySelector('.notification-close').onclick = () => {
-        notification.remove();
-    };
-}
-
-// Regisztráció
-// script.js - setupRegistration függvény javítása
+// =========================
+// REGISZTRÁCIÓ
+// =========================
 function setupRegistration() {
     const registerForm = document.getElementById('registerForm');
-    if (registerForm) {
-        registerForm.addEventListener('submit', async (e) => {
+    if (!registerForm) {
+        console.log('❌ Register form nem található');
+        return;
+    }
+    
+    console.log('✅ Register form inicializálva');
+    
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const username = document.getElementById('regUsername').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const fullname = document.getElementById('regFullName').value.trim();
+        const password = document.getElementById('regPassword').value.trim();
+        const passwordConfirm = document.getElementById('regPasswordConfirm').value.trim();
+        const terms = document.getElementById('regTerms').checked;
+        
+        console.log('📝 Regisztrációs kísérlet:', { username, email, fullname });
+        
+        if (!username || !email || !fullname || !password || !passwordConfirm || !terms) {
+            alert('Kérjük, töltsd ki az összes mezőt és fogadd el a feltételeket!');
+            return;
+        }
+        
+        if (password.length < 6) {
+            alert('A jelszónak legalább 6 karakter hosszúnak kell lennie!');
+            return;
+        }
+        
+        if (password !== passwordConfirm) {
+            alert('A jelszavak nem egyeznek!');
+            return;
+        }
+        
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert('Érvényes email címet adj meg!');
+            return;
+        }
+        
+        try {
+            const response = await fetch('api.php?action=register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, fullname, password })
+            });
+            
+            const data = await response.json();
+            console.log('📦 Regisztráció válasz:', data);
+            
+            if (data.success) {
+                localStorage.setItem('userToken', data.token);
+                localStorage.setItem('userData', JSON.stringify(data.user));
+                localStorage.setItem('username', data.user.username);
+                
+                currentUser = data.user;
+                
+                console.log('✅ Regisztráció sikeres! Felhasználó:', currentUser);
+                
+                await loadAllUsers();
+                
+                hideModal('registerModal');
+                refreshUserMenuState();
+                
+                if (typeof renderFilteredAnimals === 'function') renderFilteredAnimals();
+                if (typeof renderAnimals === 'function') renderAnimals('featuredAnimals');
+                
+                alert('✅ Sikeres regisztráció! Most már örökbefogadhatsz!');
+            } else {
+                console.log('❌ Regisztráció sikertelen:', data.error);
+                alert(data.error || 'Hiba történt a regisztráció során!');
+            }
+        } catch (error) {
+            console.error('❌ Regisztrációs hiba:', error);
+            alert('Hiba történt a regisztráció során! Ellenőrizd az API kapcsolatot.');
+        }
+    });
+}
+
+// =========================
+// USER MENU FRISSÍTÉS - JAVÍTVA (CSAK ADMINNAK JELENIK MEG)
+// =========================
+function refreshUserMenuState() {
+    console.log('🔄 User menu frissítése, currentUser:', currentUser);
+
+    const authButtons = document.getElementById('authButtons');
+    const userMenuButton = document.getElementById('userMenuButton');
+    const dropdownUserName = document.getElementById('dropdownUserName');
+    const dropdownUserRole = document.getElementById('dropdownUserRole');
+    const dropdownAdminLink = document.getElementById('dropdownAdminLink');
+
+    if (!authButtons || !userMenuButton) {
+        console.log('❌ Auth gombok vagy user menu gomb nem található');
+        return;
+    }
+
+    if (currentUser) {
+        // Bejelentkezett állapot
+        authButtons.style.display = 'none';
+        userMenuButton.style.display = 'block';
+
+        if (dropdownUserName) {
+            dropdownUserName.textContent = currentUser.fullname || currentUser.username;
+        }
+        if (dropdownUserRole) {
+            dropdownUserRole.textContent = currentUser.role === 'admin' ? 'Adminisztrátor' : 'Felhasználó';
+        }
+        if (dropdownAdminLink) {
+            // CSAK ADMINOKNAK JELENIK MEG - SENKI MÁSNAK
+            dropdownAdminLink.style.display = currentUser.role === 'admin' ? 'flex' : 'none';
+        }
+
+        console.log('✅ User menu frissítve, felhasználó:', currentUser.username);
+    } else {
+        // Kijelentkezett állapot
+        authButtons.style.display = 'flex';
+        userMenuButton.style.display = 'none';
+        console.log('✅ User menu elrejtve, auth gombok megjelenítve');
+    }
+}
+
+// =========================
+// KIJELENTKEZÉS
+// =========================
+async function logout() {
+    if (!confirm('Biztosan ki szeretnél jelentkezni?')) return;
+    
+    console.log('🚪 Kijelentkezés...');
+    
+    const token = localStorage.getItem('userToken');
+    if (token) {
+        try {
+            await fetch('api.php?action=logout', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ token })
+            });
+        } catch (error) {
+            console.log('⚠️ Kijelentkezés API hiba:', error);
+        }
+    }
+    
+    currentUser = null;
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('username');
+    
+    console.log('✅ Kijelentkezés sikeres');
+    
+    refreshUserMenuState();
+    
+    if (typeof renderFilteredAnimals === 'function') renderFilteredAnimals();
+    if (typeof renderAnimals === 'function') renderAnimals('featuredAnimals');
+    
+    window.showPage('home');
+}
+
+// =========================
+// USER DROPDOWN KEZELÉS
+// =========================
+function setupUserDropdown() {
+    const userAvatarBtn = document.getElementById('userAvatarBtn');
+    const userDropdown = document.getElementById('userDropdown');
+    const dropdownLogoutLink = document.getElementById('dropdownLogoutLink');
+
+    if (!userAvatarBtn || !userDropdown) return;
+
+    userAvatarBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const isVisible = userDropdown.style.display === 'block';
+        userDropdown.style.display = isVisible ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!userAvatarBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+            userDropdown.style.display = 'none';
+        }
+    });
+
+    if (dropdownLogoutLink) {
+        dropdownLogoutLink.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            const username = document.getElementById('regUsername').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const fullname = document.getElementById('regFullName').value.trim();
-            const password = document.getElementById('regPassword').value.trim();
-            const passwordConfirm = document.getElementById('regPasswordConfirm').value.trim();
-            const terms = document.getElementById('regTerms').checked;
-            
-            // Validáció
-            if (!username || !email || !fullname || !password || !passwordConfirm || !terms) {
-                alert('Kérjük, töltsd ki az összes mezőt és fogadd el a feltételeket!');
-                return;
-            }
-            
-            if (password.length < 6) {
-                alert('A jelszónak legalább 6 karakter hosszúnak kell lennie!');
-                return;
-            }
-            
-            if (password !== passwordConfirm) {
-                alert('A jelszavak nem egyeznek!');
-                return;
-            }
-            
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Kérjük, érvényes email címet adj meg!');
-                return;
-            }
-            
-            try {
-                // JAVÍTOTT URL: api.php?action=register
-                const response = await fetch('api.php?action=register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        email: email,
-                        fullname: fullname,
-                        password: password
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    currentUser = data.user;
-                    
-                    // Mentés localStorage-ba
-                    localStorage.setItem('user', JSON.stringify(currentUser));
-                    localStorage.setItem('authToken', data.token);
-                    
-                    updateUIForLoggedInUser();
-                    hideModal('registerModal');
-                    registerForm.reset();
-                    
-                    // Üdvözlő üzenet
-                    showNotification('Sikeres regisztráció! Üdvözöljük!', 'success');
-                    
-                } else {
-                    alert(data.error || 'Hiba történt a regisztráció során!');
-                }
-            } catch (error) {
-                console.error('Regisztrációs hiba:', error);
-                alert('Hiba történt a regisztráció során!');
-            }
+            logout();
         });
     }
 }
 
-// Kijelentkezés
-// script.js fájlban keresd meg a logout függvényt (kb. 1400. sor) és cseréld le:
-
-// Kijelentkezés - JAVÍTVA
-async function logout() {
-    try {
-        if (confirm('Biztosan ki szeretnél jelentkezni?')) {
-            // Összes felhasználói adat törlése
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('user');
-            
-            // UI frissítése
-            currentUser = null;
-            updateUIForLoggedInUser();
-            
-            // Bezárjuk a user menüt
-            const userMenu = document.getElementById('userMenu');
-            if (userMenu) {
-                userMenu.style.display = 'none';
-            }
-            
-            // Ha admin oldalon vagyunk, visszairányítjuk a főoldalra
-            if (window.location.pathname.includes('admin.html')) {
-                window.location.href = 'index.html';
-            }
-            
-            // Üzenet megjelenítése
-            showNotification('Sikeres kijelentkezés!', 'success');
-        }
-    } catch (error) {
-        console.error('Kijelentkezési hiba:', error);
-        showNotification('Hiba történt a kijelentkezés során!', 'error');
+// =========================
+// AUTH GOMBOK BEÁLLÍTÁSA
+// =========================
+function setupAuthButtons() {
+    console.log('🔧 Auth gombok beállítása...');
+    
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const showLogin = document.getElementById('showLogin');
+    const showRegister = document.getElementById('showRegister');
+    const closeLogin = document.getElementById('closeLogin');
+    const closeRegister = document.getElementById('closeRegister');
+    const cancelLogin = document.getElementById('cancelLogin');
+    const cancelRegister = document.getElementById('cancelRegister');
+    
+    if (loginBtn) {
+        loginBtn.addEventListener('click', () => {
+            console.log('🔑 Bejelentkezés gomb klikk');
+            showModal('loginModal');
+        });
     }
+    
+    if (registerBtn) {
+        registerBtn.addEventListener('click', () => {
+            console.log('📝 Regisztráció gomb klikk');
+            showModal('registerModal');
+        });
+    }
+    
+    if (showLogin) {
+        showLogin.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            console.log('➡️ Átváltás bejelentkezésre');
+            hideModal('registerModal'); 
+            showModal('loginModal'); 
+        });
+    }
+    
+    if (showRegister) {
+        showRegister.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            console.log('➡️ Átváltás regisztrációra');
+            hideModal('loginModal'); 
+            showModal('registerModal'); 
+        });
+    }
+    
+    if (closeLogin) {
+        closeLogin.addEventListener('click', () => {
+            console.log('❌ Bejelentkezés bezárása');
+            hideModal('loginModal');
+        });
+    }
+    
+    if (closeRegister) {
+        closeRegister.addEventListener('click', () => {
+            console.log('❌ Regisztráció bezárása');
+            hideModal('registerModal');
+        });
+    }
+    
+    if (cancelLogin) {
+        cancelLogin.addEventListener('click', () => {
+            console.log('❌ Bejelentkezés mégsem');
+            hideModal('loginModal');
+        });
+    }
+    
+    if (cancelRegister) {
+        cancelRegister.addEventListener('click', () => {
+            console.log('❌ Regisztráció mégsem');
+            hideModal('registerModal');
+        });
+    }
+    
+    console.log('✅ Auth gombok beállítva');
 }
 
-// Felhasználói interfész frissítése
-function updateUIForLoggedInUser() {
-    const authButtons = document.getElementById('authButtons');
-    const userMenu = document.getElementById('userMenu');
-    const userDisplayName = document.getElementById('userDisplayName');
-    const userRole = document.getElementById('userRole');
-    const adminLink = document.getElementById('adminLink');
+// =========================
+// ÁLLAT KÁRTYÁK MEGJELENÍTÉSE - JAVÍTVA (ÖRÖKBEFOGADOTT ÁLLATOK KEZELÉSE)
+// =========================
+function renderAnimals(containerId, animalsToRender = null) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.error('Container nem található:', containerId);
+        return;
+    }
+    
+    container.innerHTML = '';
+    
+    if (!animalsToRender) {
+        if (containerId === 'adoptionAnimals') {
+            animalsToRender = animals;
+            animalsToRender = applyFilters(animalsToRender);
+        } else if (containerId === 'featuredAnimals') {
+            animalsToRender = animals.filter(a => a.featured && !a.adopted);
+        } else {
+            animalsToRender = animals.filter(a => !a.adopted);
+        }
+    }
+    
+    if (!animalsToRender || animalsToRender.length === 0) {
+        container.innerHTML = '<div class="no-results"><i class="fas fa-paw"></i><h3>Nincs megjeleníthető állat</h3><p>Kérjük, nézz vissza később!</p></div>';
+        return;
+    }
+    
+    const isLoggedIn = !!(localStorage.getItem('userToken') && currentUser);
+    const isAdmin = currentUser?.role === 'admin';
+    
+    const sortedAnimals = [...animalsToRender].sort((a, b) => {
+        if (a.adopted === b.adopted) return 0;
+        return a.adopted ? 1 : -1;
+    });
+    
+    sortedAnimals.forEach(animal => {
+        const card = document.createElement('div');
+        card.className = `animal-card fade-in ${animal.urgent ? 'urgent-animal' : ''} ${animal.adopted ? 'adopted-animal' : ''}`;
+        
+        let actionButtonHtml = '';
+        if (animal.adopted) {
+            actionButtonHtml = '<button class="adopted-btn" disabled><i class="fas fa-home"></i> Örökbefogadva</button>';
+        } else if (isAdmin) {
+            actionButtonHtml = '<button class="disabled-admin-btn" disabled><i class="fas fa-shield-alt"></i> Admin</button>';
+        } else if (!isLoggedIn) {
+            actionButtonHtml = '<button class="login-required-btn"><i class="fas fa-sign-in-alt"></i> Bejelentkezés</button>';
+        } else {
+            actionButtonHtml = '<button class="adopt-btn"><i class="fas fa-heart"></i> Örökbefogadom!</button>';
+        }
+        
+        let statusBadge = '';
+        if (animal.adopted) {
+            statusBadge = '<div class="adopted-label"><i class="fas fa-home"></i> Örökbefogadva</div>';
+        } else if (animal.urgent) {
+            statusBadge = '<div class="urgent-label"><i class="fas fa-exclamation-triangle"></i> Sürgős!</div>';
+        }
+        
+        card.innerHTML = `
+            <div class="animal-image">
+                <img src="${animal.image}" alt="${animal.name}" onerror="this.src='https://via.placeholder.com/300x200?text=${animal.name}'">
+                ${statusBadge}
+            </div>
+            <div class="animal-info">
+                <h3>${animal.name}</h3>
+                <p>${(animal.description || '').substring(0, 80)}...</p>
+                <div class="animal-features">
+                    <span class="feature"><i class="fas fa-paw"></i> ${animal.type === 'kutya' ? 'Kutya' : animal.type === 'macska' ? 'Macska' : 'Egyéb'}</span>
+                    <span class="feature"><i class="fas fa-dna"></i> ${animal.breed || 'Ismeretlen'}</span>
+                    <span class="feature"><i class="fas fa-birthday-cake"></i> ${animal.age || '?'}</span>
+                </div>
+                <div class="animal-actions">
+                    ${actionButtonHtml}
+                    <button class="details-btn"><i class="fas fa-info-circle"></i> Részletek</button>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(card);
+    });
+    
+    // Eseménykezelők az örökbefogadás gombokhoz
+    document.querySelectorAll(`#${containerId} .adopt-btn`).forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            const nonAdoptedAnimals = sortedAnimals.filter(a => !a.adopted);
+            const buttonIndex = Array.from(document.querySelectorAll(`#${containerId} .adopt-btn`)).indexOf(btn);
+            if (buttonIndex < nonAdoptedAnimals.length) {
+                const animal = nonAdoptedAnimals[buttonIndex];
+                if (animal) startAdoption(animal.id);
+            }
+        });
+    });
+    
+    document.querySelectorAll(`#${containerId} .details-btn`).forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            const buttonIndex = Array.from(document.querySelectorAll(`#${containerId} .details-btn`)).indexOf(btn);
+            if (buttonIndex < sortedAnimals.length) {
+                const animal = sortedAnimals[buttonIndex];
+                if (animal) showAnimalDetails(animal.id);
+            }
+        });
+    });
+    
+    document.querySelectorAll(`#${containerId} .login-required-btn`).forEach(btn => {
+        btn.addEventListener('click', function() {
+            alert('Örökbefogadáshoz be kell jelentkezned!');
+            showModal('loginModal');
+        });
+    });
+}
+
+// =========================
+// ÁLLAT RÉSZLETEK - JAVÍTVA
+// =========================
+function showAnimalDetails(animalId) {
+    const animal = animals.find(a => a.id == animalId);
+    if (!animal) return;
+    
+    const detailsDiv = document.getElementById('animalDetails');
+    if (!detailsDiv) return;
+    
+    const isLoggedIn = !!(localStorage.getItem('userToken') && currentUser);
+    const isAdmin = currentUser?.role === 'admin';
+    
+    let actionButtonHtml = '';
+    if (animal.adopted) {
+        actionButtonHtml = '<div class="adopted-message"><i class="fas fa-home"></i> Ez az állat már örökbefogadásra került.</div>';
+    } else if (isAdmin) {
+        actionButtonHtml = '<div class="admin-message"><i class="fas fa-shield-alt"></i> Adminok nem fogadhatnak örökbe.</div>';
+    } else if (!isLoggedIn) {
+        actionButtonHtml = '<button class="btn" onclick="showModal(\'loginModal\')"><i class="fas fa-sign-in-alt"></i> Bejelentkezés</button>';
+    } else {
+        actionButtonHtml = `<button class="btn" onclick="startAdoption(${animal.id})"><i class="fas fa-heart"></i> Örökbefogadom!</button>`;
+    }
+    
+    detailsDiv.innerHTML = `
+        <div class="animal-details-image">
+            <img src="${animal.image}" alt="${animal.name}" onerror="this.src='https://via.placeholder.com/400x300?text=${animal.name}'">
+            ${animal.urgent ? '<div class="urgent-badge"><i class="fas fa-exclamation-triangle"></i> Sürgős!</div>' : ''}
+            ${animal.adopted ? '<div class="adopted-badge"><i class="fas fa-home"></i> Örökbefogadva</div>' : ''}
+        </div>
+        <div class="animal-details-info">
+            <h2>${animal.name}</h2>
+            <div class="details-grid">
+                <p><strong>Faj:</strong> ${animal.type === 'kutya' ? 'Kutya' : animal.type === 'macska' ? 'Macska' : 'Egyéb'}</p>
+                <p><strong>Fajta:</strong> ${animal.breed || 'Ismeretlen'}</p>
+                <p><strong>Életkor:</strong> ${animal.age || 'Ismeretlen'}</p>
+                <p><strong>Nem:</strong> ${animal.gender === 'Hím' ? 'Hím' : 'Nőstény'}</p>
+                <p><strong>Méret:</strong> ${animal.size === 'kis' ? 'Kis' : animal.size === 'kozepes' ? 'Közepes' : animal.size === 'nagy' ? 'Nagy' : 'Ismeretlen'}</p>
+            </div>
+            <div class="description">
+                <h3>Leírás</h3>
+                <p>${animal.description || 'Nincs leírás'}</p>
+            </div>
+            <div class="details-actions">
+                ${actionButtonHtml}
+            </div>
+        </div>
+    `;
+    
+    showModal('animalModal');
+}
+
+// =========================
+// ÖRÖKBEFOGADÁS INDÍTÁSA - JAVÍTVA
+// =========================
+function startAdoption(animalId) {
+    if (!localStorage.getItem('userToken') || !currentUser) {
+        alert('Örökbefogadáshoz be kell jelentkezned!');
+        showModal('loginModal');
+        return;
+    }
+    
+    if (currentUser.role === 'admin') {
+        alert('Adminisztrátorok nem fogadhatnak örökbe!');
+        return;
+    }
+    
+    const animal = animals.find(a => a.id == animalId);
+    if (!animal) return;
+    
+    if (animal.adopted) {
+        alert('Ez az állat már örökbefogadásra került!');
+        return;
+    }
+    
+    currentAnimal = animal;
+    
+    let animalIdInput = document.getElementById('animalIdInput');
+    if (!animalIdInput) {
+        const adoptionForm = document.getElementById('adoptionForm');
+        animalIdInput = document.createElement('input');
+        animalIdInput.type = 'hidden';
+        animalIdInput.id = 'animalIdInput';
+        animalIdInput.name = 'animal_id';
+        adoptionForm.appendChild(animalIdInput);
+    }
+    animalIdInput.value = animal.id;
+    // A startAdoption függvényben, a beállítás után:
+animalIdInput.value = animal.id;
+console.log('✅ Animal ID beállítva:', animalIdInput.value, 'típus:', typeof animalIdInput.value);
+    const animalNameInput = document.getElementById('animalNameInput');
+    if (animalNameInput) animalNameInput.value = animal.name;
+    
+    const modalAnimalInfo = document.getElementById('modalAnimalInfo');
+    if (modalAnimalInfo) {
+        modalAnimalInfo.innerHTML = `
+            <div class="animal-info-summary">
+                <img src="${animal.image}" alt="${animal.name}" onerror="this.src='https://via.placeholder.com/80x80?text=${animal.name}'">
+                <div>
+                    <h4>${animal.name}</h4>
+                    <p>${animal.type === 'kutya' ? 'Kutya' : animal.type === 'macska' ? 'Macska' : 'Egyéb'} · ${animal.breed || 'ismeretlen fajta'} · ${animal.age}</p>
+                </div>
+            </div>
+        `;
+    }
     
     if (currentUser) {
-        // Elrejtjük a login/register gombokat
-        if (authButtons) authButtons.style.display = 'none';
+        const fullNameInput = document.getElementById('fullName');
+        const emailInput = document.getElementById('email');
         
-        // Megjelenítjük a user menüt
-        if (userMenu) {
-            userMenu.style.display = 'block';
-        }
-        
-        // Frissítjük a felhasználó adatait
-        if (userDisplayName) userDisplayName.textContent = currentUser.fullname;
-        if (userRole) userRole.textContent = currentUser.role === 'admin' ? 'Adminisztrátor' : 'Felhasználó';
-        
-        // Ha admin, akkor megjelenítjük az admin linket
-        if (adminLink) {
-            adminLink.style.display = currentUser.role === 'admin' ? 'block' : 'none';
-        }
-    } else {
-        // Megjelenítjük a login/register gombokat
-        if (authButtons) authButtons.style.display = 'flex';
-        
-        // Elrejtjük a user menüt
-        if (userMenu) userMenu.style.display = 'none';
-        
-        // Ha admin oldalon vagyunk, visszairányítjuk
-        if (window.location.pathname.includes('admin.html')) {
-            alert('Nincs bejelentkezve!');
-            window.location.href = 'index.html';
-        }
+        if (fullNameInput && currentUser.fullname) fullNameInput.value = currentUser.fullname;
+        if (emailInput && currentUser.email) emailInput.value = currentUser.email;
     }
+    
+    hideModal('animalModal');
+    showModal('adoptionModal');
 }
 
-// Felhasználó betöltése session storage-ból
-async function loadUserFromSession() {
-    try {
-        const response = await fetch('api.php/user', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
+// =========================
+// ÖRÖKBEFOGADÁSI ŰRLAP - JAVÍTVA
+// =========================
+function setupAdoptionForm() {
+    const adoptionForm = document.getElementById('adoptionForm');
+    if (!adoptionForm) {
+        console.error('❌ Adoption form nem található!');
+        return;
+    }
+    
+    console.log('✅ Adoption form inicializálva');
+    
+    if (!document.getElementById('animalIdInput')) {
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.id = 'animalIdInput';
+        hiddenInput.name = 'animal_id';
+        adoptionForm.appendChild(hiddenInput);
+    }
+    
+    adoptionForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('📝 Adoption form elküldve');
+        
+        if (currentUser?.role === 'admin') {
+            alert('Adminisztrátorok nem fogadhatnak örökbe!');
+            hideModal('adoptionModal');
+            return;
+        }
+        
+        const animalId = document.getElementById('animalIdInput')?.value;
+        
+        const animal = animals.find(a => a.id == animalId);
+        if (animal && animal.adopted) {
+            alert('❌ Ez az állat már örökbefogadásra került!');
+            hideModal('adoptionModal');
+            return;
+        }
+        
+       const formData = {
+    animalId: animalId || '',  // maradhat, mert a submitAdoption is használja
+    animal_id: animalId || '', 
+    animalName: document.getElementById('animalNameInput')?.value || '',
+    fullName: document.getElementById('fullName')?.value || '',
+    email: document.getElementById('email')?.value || '',
+    phone: document.getElementById('phone')?.value || '',
+    homeType: document.getElementById('homeType')?.value || '',
+    address: document.getElementById('address')?.value || '',
+    experience: document.getElementById('experience')?.value || '',
+    message: document.getElementById('message')?.value || '',
+    newsletter: document.getElementById('newsletter')?.checked || false
+};
+        
+        if (!formData.animalId) {
+            alert('Hiba: Nem sikerült azonosítani az állatot!');
+            return;
+        }
+        
+        if (!formData.fullName || !formData.email || !formData.phone) {
+            alert('Kérjük, töltsd ki a kötelező mezőket!');
+            return;
+        }
+        
+        try {
+            const result = await submitAdoption(formData);
+            if (result.success) {
+                alert('✅ Köszönjük! Az örökbefogadási jelentkezésed fogadtuk. Hamarosan felvesszük veled a kapcsolatot!');
+                
+                saveAdoptionToLocalStorage(formData);
+                
+                hideModal('adoptionModal');
+                adoptionForm.reset();
+            } else {
+                alert(result.error || 'Hiba történt a jelentkezés elküldése során!');
             }
-        });
-        
-        if (response.ok) {
-            const userData = await response.json();
-            currentUser = userData;
-            updateUIForLoggedInUser();
+        } catch (error) {
+            console.error('Adoption error:', error);
+            
+            saveAdoptionToLocalStorage(formData);
+            
+            alert('✅ Demo mód: Az örökbefogadási kérelmed rögzítettük!');
+            hideModal('adoptionModal');
+            adoptionForm.reset();
         }
-    } catch (error) {
-        console.log('Nincs bejelentkezett felhasználó');
+    });
+    
+    const cancelBtn = document.getElementById('cancelAdoption');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+            hideModal('adoptionModal');
+        });
+    }
+    
+    const closeBtn = document.getElementById('closeAdoption');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            hideModal('adoptionModal');
+        });
     }
 }
 
-// =========================
-// OLDAL BETÖLTÉSEKOR
-// =========================
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("📱 Oldal betöltődött, inicializálás...");
+function saveAdoptionToLocalStorage(formData) {
+    try {
+        let existingAdoptions = [];
+        const stored = localStorage.getItem('admin_adoptions');
+        if (stored) {
+            existingAdoptions = JSON.parse(stored);
+        }
+        
+        const newAdoption = {
+            id: existingAdoptions.length > 0 ? Math.max(...existingAdoptions.map(a => a.id)) + 1 : 1,
+            animal_id: parseInt(formData.animalId),
+            animal_name: formData.animalName,
+            user_id: currentUser?.id || 0,
+            full_name: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            home_type: formData.homeType,
+            address: formData.address,
+            experience: formData.experience,
+            message: formData.message,
+            status: 'pending',
+            created_at: new Date().toISOString()
+        };
+        
+        existingAdoptions.push(newAdoption);
+        localStorage.setItem('admin_adoptions', JSON.stringify(existingAdoptions));
+        localStorage.setItem('adoptionsUpdated', Date.now().toString());
+        
+        console.log('✅ Örökbefogadás mentve localStorage-ba:', newAdoption);
+    } catch (error) {
+        console.error('❌ Hiba a localStorage mentéskor:', error);
+    }
+}
+
+async function submitAdoption(data) {
+    const headers = { 'Content-Type': 'application/json' };
+    const token = localStorage.getItem('userToken');
+    if (token) headers['Authorization'] = `Bearer ${token}`;
     
-    // 1. Először a navigáció beállítása
-    setupNavigation();
+    const animalId = document.getElementById('animalIdInput')?.value;
     
-    // 2. Aztán a slideshow
+    const requestData = {
+        animal_id: animalId,
+        full_name: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        home_type: data.homeType,
+        address: data.address,
+        experience: data.experience,
+        message: data.message
+    };
+    
+    const response = await fetch('api.php?action=adoptions', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(requestData)
+    });
+    
+    return await response.json();
+}
+
+// =========================
+// OLDAL BETÖLTÉS
+// =========================
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🚀 Oldal betöltődött...');
+    
+    animals = getDemoAnimals();
+    blogPosts = getDemoBlogPosts();
+    
     initSlideshow();
     
-    // 3. Legördülő szűrő beállítása
-    setupFilterDropdown();
+    await loadAllUsers();
+    await loadUserData();
     
-    // 4. Összes szűrő törlése gomb
-    const clearFiltersBtn = document.getElementById('clearFilters');
-    if (clearFiltersBtn) {
-        clearFiltersBtn.addEventListener('click', resetFilters);
-    }
-    
-    // 5. Adatok betöltése localStorage-ból
-    try {
-        const savedAdoptions = localStorage.getItem('boldogMancsAdoptions');
-        if (savedAdoptions) {
-            const adoptions = JSON.parse(savedAdoptions);
-            adoptions.forEach(adoption => {
-                const animal = animals.find(a => a.id === adoption.animalId);
-                if (animal) {
-                    animal.adopted = true;
-                }
-            });
-        }
-    } catch (e) {
-        console.error('Hiba localStorage betöltésekor:', e);
-    }
-    
-    // 6. Állatok és blog bejegyzések renderelése
-    updateFilterSelection();
-    updateActiveFiltersDisplay();
-    renderFilteredAnimals();
-    renderAnimals('featuredAnimals');
-    renderBlogPosts();
-    updateShelterStatus();
-    
-    // 7. Modal kezelés
-    const closeAdoptionBtn = document.getElementById('closeAdoption');
-    const closeAnimalBtn = document.getElementById('closeAnimal');
-    const adoptionModal = document.getElementById('adoptionModal');
-    const animalModal = document.getElementById('animalModal');
-    const cancelBtn = document.getElementById('cancelAdoption');
-    
-    if (closeAdoptionBtn) {
-        closeAdoptionBtn.addEventListener('click', function() {
-            if (adoptionModal) {
-                adoptionModal.style.display = 'none';
-                document.body.classList.remove('modal-open');
-            }
-        });
-    }
-    
-    if (closeAnimalBtn) {
-        closeAnimalBtn.addEventListener('click', function() {
-            if (animalModal) {
-                animalModal.style.display = 'none';
-                document.body.classList.remove('modal-open');
-            }
-        });
-    }
-    
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', function() {
-            if (adoptionModal) {
-                adoptionModal.style.display = 'none';
-                document.body.classList.remove('modal-open');
-            }
-        });
-    }
-    
-    // Modal háttér kattintás
-    if (adoptionModal) {
-        adoptionModal.addEventListener('click', function(e) {
-            if (e.target === adoptionModal) {
-                adoptionModal.style.display = 'none';
-                document.body.classList.remove('modal-open');
-            }
-        });
-    }
-    
-    if (animalModal) {
-        animalModal.addEventListener('click', function(e) {
-            if (e.target === animalModal) {
-                animalModal.style.display = 'none';
-                document.body.classList.remove('modal-open');
-            }
-        });
-    }
-    
-    // 8. Űrlap kezelés
-    const adoptionForm = document.getElementById('adoptionForm');
-    if (adoptionForm) {
-        adoptionForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            
-            const fullName = document.getElementById('fullName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const animalName = document.getElementById('animalNameInput').value;
-            const terms = document.getElementById('terms').checked;
-            
-            // Validáció
-            if (!fullName || !email || !phone || !animalName || !terms) {
-                alert('Kérjük, töltsd ki az összes kötelező mezőt (*) és fogadd el a feltételeket!');
-                return;
-            }
-            
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Kérjük, érvényes email címet adj meg!');
-                return;
-            }
-            
-            const adoptedAnimal = animals.find(a => a.name === animalName);
-            if (!adoptedAnimal) {
-                alert('Hiba történt az állat azonosítása során.');
-                return;
-            }
-            
-            if (adoptedAnimal.adopted) {
-                alert(`Sajnáljuk, de ${animalName} már örökbefogadásra került.`);
-                document.getElementById('adoptionModal').style.display = 'none';
-                document.body.classList.remove('modal-open');
-                return;
-            }
-            
-            const confirmAdoption = confirm(`Biztosan örökbefogadod ${animalName}-t?\n\nA jelentkezésed elküldése után hamarosan felvesszük veled a kapcsolatot.`);
-            
-            if (!confirmAdoption) return;
-            
-            // Sikeres örökbefogadás
-            adoptedAnimal.adopted = true;
-            
-            alert(`
- Sikeresen elküldted a jelentkezést ${animalName} örökbefogadására!
-
-Adatok:
-- Név: ${fullName}
-- Email: ${email}
-- Telefon: ${phone}
-
-Hamarosan felvesszük veled a kapcsolatot!
-
-Köszönjük, hogy otthont adsz egy szeretetre vágyó léleknek! 🐾
-            `);
-            
-            // Frissítések
-            renderAnimals('featuredAnimals');
-            renderFilteredAnimals();
-            updateShelterStatus();
-            
-            // Űrlap reset
-            adoptionForm.reset();
-            document.getElementById('adoptionModal').style.display = 'none';
-            document.body.classList.remove('modal-open');
-            
-            // Mentés localStorage-ba
-            try {
-                let adoptions = JSON.parse(localStorage.getItem('boldogMancsAdoptions')) || [];
-                adoptions.push({
-                    animalId: adoptedAnimal.id,
-                    animalName: adoptedAnimal.name,
-                    adopterName: fullName,
-                    email: email,
-                    date: new Date().toISOString()
-                });
-                localStorage.setItem('boldogMancsAdoptions', JSON.stringify(adoptions));
-            } catch (e) {
-                console.error('Hiba localStorage mentésekor:', e);
-            }
-        });
-    }
-    
-    // 9. Auth funkciók beállítása
+    setupNavigation();
     setupAuthButtons();
     setupLogin();
     setupRegistration();
+    setupAdoptionForm();
+    setupUserDropdown();
     
-    // 10. Felhasználó betöltése
-    setTimeout(() => {
-        loadUserFromSession();
-    }, 100);
+    // Szűrők beállítása
+    setupFilters();
     
-    // 11. Scroll esemény
-    window.addEventListener('scroll', handleHeaderScroll);
+    const closeAnimal = document.getElementById('closeAnimal');
+    if (closeAnimal) {
+        closeAnimal.addEventListener('click', () => hideModal('animalModal'));
+    }
     
-    // 12. Hibakezelő képekhez
-    window.addEventListener('error', function(e) {
-        if (e.target.tagName === 'IMG') {
-            e.target.src = 'https://images.unsplash.com/photo-1514888286974-6d03bde4ba42?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80';
+    window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+            document.body.classList.remove('modal-open');
         }
-    }, true);
+    });
     
-    // 13. Konzol üzenet
-    console.log("Oldal sikeresen inicializálva!");
-    console.log(`Összes állat: ${animals.length}`);
-    console.log(`Kutyák: ${animals.filter(a => a.type === 'kutya').length}`);
-    console.log(`Macskák: ${animals.filter(a => a.type === 'macska').length}`);
+    try {
+        await loadAnimalsFromAPI();
+        await loadBlogPostsFromAPI();
+    } catch (e) {
+        console.error('Adatok betöltési hiba:', e);
+    }
+    
+    console.log('🐾 Állatok megjelenítése... Összes állat:', animals.length);
+    console.log('🐾 Örökbefogadott állatok:', animals.filter(a => a.adopted).length);
+    
+    renderFilteredAnimals();
+    renderAnimals('featuredAnimals');
+    renderBlogPosts();
+    
+    refreshUserMenuState();
+    
+    console.log(`✅ Kész! Állatok: ${animals.length}, Blog: ${blogPosts.length}, Felhasználók: ${allUsers.length}`);
+    console.log('👤 Aktuális felhasználó:', currentUser);
 });
-
-console.log(" script.js fájl betöltve");
