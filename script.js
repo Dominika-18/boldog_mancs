@@ -270,11 +270,16 @@ window.showPage = function(pageId) {
                 renderFilteredAnimals();
             }
         }
+        
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' 
+        });
+        
     } else {
         console.error('❌ Nem található oldal:', pageId);
     }
 };
-
 // =========================
 // API FUNKCIÓK
 // =========================
@@ -1354,7 +1359,7 @@ function setupAdoptionForm() {
         
        const formData = {
     animalId: animalId || '',  // maradhat, mert a submitAdoption is használja
-    animal_id: animalId || '', 
+    animal_id: animalId || '', // <- EZT ADD HOZZÁ!
     animalName: document.getElementById('animalNameInput')?.value || '',
     fullName: document.getElementById('fullName')?.value || '',
     email: document.getElementById('email')?.value || '',

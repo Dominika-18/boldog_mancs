@@ -1,0 +1,917 @@
+/* profil.css - Javított stílusok a profil oldalhoz */
+:root {
+    --primary: #1e4d2e;
+    --primary-light: #2d6a3f;
+    --primary-dark: #0a2b18;
+    --accent: #c49a6c;
+    --secondary: #8b6b4b;
+    --dark: #1a2e2a;
+    --white: #ffffff;
+    
+    --bg: #f4f2ee;
+    --card: #ffffff;
+    --text: #2c3e4f;
+    --text-light: #5a6b7a;
+    --border: #e2dfda;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.08);
+    --danger: #c44536;
+    --success: #3a6b4b;
+    --warning: #d9a066;
+    --info: #577b8c;
+    --gray: #8f9aa7;
+    
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+}
+
+/* =========================
+   HEADER STÍLUSOK - JAVÍTVA (EGYSÉGESÍTVE AZ ADMINNAL)
+   ========================= */
+#mainHeader {
+    background: var(--primary) !important;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 15px 0;
+}
+
+#mainHeader .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    color: white;
+}
+
+#mainHeader .logo a {
+    color: white !important;
+    text-decoration: none !important;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#mainHeader .logo-icon {
+    font-size: 2.8rem;
+    color: white;
+    transition: var(--transition);
+}
+
+#mainHeader .logo:hover .logo-icon {
+    transform: rotate(15deg) scale(1.1);
+}
+
+#mainHeader .logo-text h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: white;
+}
+
+#mainHeader .logo-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.9);
+}
+
+#mainHeader #authButtons {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#mainHeader .btn {
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 2px solid white !important;
+    background: transparent !important;
+    color: white !important;
+}
+
+#mainHeader .btn:hover {
+    background: rgba(255,255,255,0.2) !important;
+    transform: translateY(-3px);
+}
+
+#mainHeader .btn:last-child {
+    background: var(--accent) !important;
+    border: 2px solid var(--accent) !important;
+}
+
+#mainHeader .btn:last-child:hover {
+    background: var(--secondary) !important;
+    border-color: var(--secondary) !important;
+}
+
+/* =========================
+   PROFIL KONTÉNER - JAVÍTVA
+   ========================= */
+.profile-container {
+    max-width: 1400px;
+    margin: 100px auto 50px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 992px) {
+    .profile-container {
+        grid-template-columns: 1fr;
+        margin-top: 80px;
+    }
+}
+
+/* =========================
+   PROFIL SIDEBAR - JAVÍTVA
+   ========================= */
+.profile-sidebar {
+    background: var(--card);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 30px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+    border: 1px solid var(--border);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: white;
+    border: 5px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: var(--transition);
+}
+
+.profile-avatar:hover {
+    transform: scale(1.05);
+}
+
+.profile-header h2 {
+    color: var(--primary);
+    margin-bottom: 5px;
+    font-size: 1.5rem;
+}
+
+.profile-role {
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    padding: 5px 15px;
+    background: rgba(196, 154, 108, 0.1);
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* =========================
+   STATISZTIKÁK - JAVÍTVA
+   ========================= */
+.profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 15px;
+    background: var(--bg);
+    border-radius: 12px;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-top: 5px;
+}
+
+/* =========================
+   PROFIL NAVIGÁCIÓ - JAVÍTVA
+   ========================= */
+.profile-nav {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.profile-nav a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 12px;
+    transition: var(--transition);
+    gap: 12px;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+
+.profile-nav a:hover {
+    background: var(--bg);
+    color: var(--primary);
+    border-color: var(--border);
+}
+
+.profile-nav a.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 10px rgba(30, 77, 46, 0.2);
+}
+
+.profile-nav a i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* =========================
+   FŐ TARTALOM - JAVÍTVA
+   ========================= */
+.profile-content {
+    min-height: 500px;
+}
+
+.profile-section {
+    background: var(--card);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border);
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border);
+}
+
+.section-header h3 {
+    color: var(--primary);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.section-header h3 i {
+    color: var(--accent);
+}
+
+/* =========================
+   INFORMÁCIÓS ELEMEK - JAVÍTVA
+   ========================= */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.info-item {
+    padding: 20px;
+    background: var(--bg);
+    border-radius: 12px;
+    border-left: 4px solid var(--accent);
+    transition: var(--transition);
+}
+
+.info-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow);
+}
+
+.info-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* =========================
+   ÖRÖKBEFOGADÁSI KÁRTYÁK - JAVÍTVA
+   ========================= */
+.adoptions-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.adoption-card {
+    display: flex;
+    gap: 20px;
+    padding: 25px;
+    background: var(--bg);
+    border-radius: 16px;
+    border-left: 4px solid var(--accent);
+    transition: var(--transition);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.adoption-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+@media (max-width: 768px) {
+    .adoption-card {
+        flex-direction: column;
+    }
+}
+
+.adoption-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 3px solid white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.adoption-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.adoption-card:hover .adoption-image img {
+    transform: scale(1.1);
+}
+
+.adoption-info {
+    flex: 1;
+}
+
+.adoption-info h4 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.adoption-description {
+    color: var(--text-light);
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.adoption-meta {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.adoption-meta span {
+    background: var(--card);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.adoption-meta i {
+    color: var(--accent);
+}
+
+.adoption-date {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+    color: var(--text-light);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* =========================
+   STÁTUSZ BADGE-EK - JAVÍTVA (EGYSÉGESÍTVE)
+   ========================= */
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 10px;
+    min-width: 100px;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.status-pending {
+    background: #fff6e5;
+    color: #b85e00;
+    border-color: #ffd9b3;
+}
+
+.status-approved {
+    background: #e3f0e8;
+    color: #1e6b3b;
+    border-color: #b8d9c7;
+}
+
+.status-completed {
+    background: #e1f0f5;
+    color: #166b7a;
+    border-color: #b8d9e5;
+}
+
+.status-rejected {
+    background: #fce9e7;
+    color: #b33a2c;
+    border-color: #f7c5bf;
+}
+
+/* =========================
+   ADOPTED OVERLAY - JAVÍTVA
+   ========================= */
+.adopted-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(46, 204, 113, 0.9);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 1.2rem;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.adoption-card:hover .adopted-overlay {
+    opacity: 1;
+}
+
+.adopted-overlay i {
+    font-size: 2rem;
+}
+
+.adopted-badge-small {
+    display: inline-block;
+    background: #27ae60;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* =========================
+   LOADING - JAVÍTVA
+   ========================= */
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+}
+
+.loading i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* =========================
+   ÜRES ÁLLAPOT - JAVÍTVA
+   ========================= */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+    background: var(--bg);
+    border-radius: 16px;
+}
+
+.empty-state i {
+    font-size: 3.5rem;
+    color: var(--border);
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    color: var(--text);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.empty-state p {
+    max-width: 400px;
+    margin: 0 auto 25px;
+    line-height: 1.6;
+    color: var(--text-light);
+}
+
+.empty-state .btn {
+    padding: 12px 30px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.empty-state .btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* =========================
+   LÁBLÉC - JAVÍTVA
+   ========================= */
+footer {
+    background: var(--primary-dark) !important;
+    margin-top: 50px;
+    padding: 60px 0 20px;
+    color: white;
+}
+
+footer .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+footer .footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+footer .logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+footer .logo-icon {
+    font-size: 2.5rem;
+    color: var(--accent);
+}
+
+footer .logo-text h1 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: white;
+}
+
+footer .logo-text p {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+}
+
+footer .social-links {
+    display: flex;
+    gap: 15px;
+}
+
+footer .social-links a {
+    width: 45px;
+    height: 45px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: var(--transition);
+    font-size: 1.2rem;
+}
+
+footer .social-links a:hover {
+    background: var(--accent);
+    transform: translateY(-5px);
+}
+
+footer .footer-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+footer .footer-column h4 {
+    color: var(--accent);
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+footer .footer-column ul {
+    list-style: none;
+}
+
+footer .footer-column ul li {
+    margin-bottom: 10px;
+}
+
+footer .footer-column ul li a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+footer .footer-column ul li a:hover {
+    color: white;
+    padding-left: 5px;
+}
+
+footer .copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5);
+    font-size: 0.9rem;
+}
+
+/* =========================
+   DEBUG ELEMEK - JAVÍTVA
+   ========================= */
+#debugPanel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ffcc00;
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 9999;
+    font-size: 12px;
+    max-width: 300px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-left: 4px solid #333;
+}
+
+#debugToggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ffcc00;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    z-index: 10000;
+    font-size: 1.2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: var(--transition);
+}
+
+#debugToggle:hover {
+    transform: scale(1.1);
+}
+
+.error-message {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: var(--danger);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    z-index: 10000;
+    display: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-left: 4px solid #fff;
+    max-width: 350px;
+}
+
+/* =========================
+   BEÁLLÍTÁSOK SZEKCIÓ - JAVÍTVA
+   ========================= */
+#settingsContent .info-item {
+    margin-bottom: 15px;
+}
+
+#settingsContent .btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: var(--primary);
+    color: white;
+}
+
+#settingsContent .btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+#settingsContent .btn:last-child {
+    background: var(--danger);
+}
+
+#settingsContent .btn:last-child:hover {
+    background: #a63628;
+}
+
+#sessionInfo {
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--bg);
+    border-radius: 8px;
+    border-left: 4px solid var(--info);
+    font-family: monospace;
+    font-size: 0.9rem;
+    overflow-x: auto;
+}
+
+/* =========================
+   RESZPONZÍV JAVÍTÁSOK
+   ========================= */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 0 20px;
+    }
+    
+    .profile-sidebar {
+        position: static;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .adoption-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    footer .footer-logo {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    footer .logo {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-container {
+        padding: 0 15px;
+    }
+    
+    .profile-sidebar,
+    .profile-section {
+        padding: 20px;
+    }
+    
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+    }
+    
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .adoption-image {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    #debugToggle {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    #debugPanel {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        width: auto;
+    }
+}

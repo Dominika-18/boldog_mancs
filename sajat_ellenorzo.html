@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Saját API Ellenőrző</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial; margin: 20px; background: #f0f0f0; }
+        .card { background: white; border-radius: 8px; padding: 15px; margin: 10px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .ok { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow: auto; }
+        h1 { color: #333; }
+    </style>
+</head>
+<body>
+    <h1>🐾 Boldog Mancs API Ellenőrző (Saját)</h1>
+    <p>API címe: <strong>http://boldogmancsallatmenhely.hu/api.php</strong></p>
+    
+    <div id="results"></div>
+
+    <script>
+    const endpoints = [
+        { name: 'Állatok listázása', action: 'animals' },
+        { name: 'Statisztikák', action: 'stats' },
+        { name: 'Blog bejegyzések', action: 'blog' },
+        { name: 'Örökbefogadások (admin)', action: 'adoptions' }
+    ];
+
+    async function testApi() {
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '<div class="card">Tesztelés folyamatban...</div>';
+        
+        let html = '';
+        
+        for (let ep of endpoints) {
+            try {
+                const url = `http://boldogmancsallatmenhely.hu/api.php?action=${ep.action}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                const statusClass = response.ok ? 'ok' : 'error';
+                const statusText = response.ok ? '✅ OK' : '❌ HIBA';
+                
+                let dataPreview = '';
+                if (response.ok) {
+                    const count = Array.isArray(data) ? data.length : 'objektum';
+                    dataPreview = ` (${count} elem)`;
+                }
+                
+                html += `<div class="card">
+                    <h3>${ep.name} <span class="${statusClass}">${statusText} ${response.status}</span></h3>
+                    <p><strong>URL:</strong> ${url}</p>
+                    <pre>${JSON.stringify(data, null, 2).substring(0, 300)}${JSON.stringify(data, null, 2).length > 300 ? '...' : ''}</pre>
+                </div>`;
+                
+            } catch (error) {
+                html += `<div class="card error">
+                    <h3>${ep.name} <span class="error">❌ HÁLÓZATI HIBA</span></h3>
+                    <p>${error.message}</p>
+                </div>`;
+            }
+        }
+        
+        resultsDiv.innerHTML = html;
+    }
+    
+    testApi();
+    </script>
+</body>
+</html>
