@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Boldog Mancs Állatmenhely</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<header id="mainHeader" style="background: var(--primary); box-shadow: 0 2px 20px rgba(0,0,0,0.1);">
+    <div class="container">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 15px;">
+                <div class="logo-icon">
+                    <i class="fas fa-paw"></i>
+                </div>
+                <div class="logo-text">
+                    <h1 style="font-size: 1.5rem; margin: 0;">Boldog Mancs Admin</h1>
+                    <p style="margin: 0; font-size: 0.9rem;">Állatok kezelése</p>
+                </div>
+            </a>
+        </div>
+        
+        <!-- BEJELENTKEZÉS vagy ADMIN MENÜ -->
+        <div id="authSection" style="margin-left: auto; display: flex; gap: 10px; align-items: center;">
+            <!-- Bejelentkezés űrlap, ha nincs bejelentkezve -->
+            <div id="loginFormContainer" style="display: none;">
+                <form id="quickLoginForm" style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" id="loginUsername" placeholder="Felhasználónév" 
+                           style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;" 
+                           value="admin">
+                    <input type="password" id="loginPassword" placeholder="Jelszó" 
+                           style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;" 
+                           value="admin123">
+                    <button type="submit" class="btn" style="padding: 8px 20px;">
+                        <i class="fas fa-sign-in-alt"></i> Bejelentkezés
+                    </button>
+                </form>
+                <div id="loginError" style="color: red; font-size: 12px; margin-top: 5px;"></div>
+            </div>
+            
+            <!-- Admin menü, ha be van jelentkezve -->
+            <div id="adminMenu" style="display: none; display: flex; gap: 10px; align-items: center;">
+                <span id="welcomeMessage" style="font-weight: 500;"></span>
+                <button class="btn" style="background: transparent; border: 2px solid white;" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Főoldal
+                </button>
+                <button class="btn" style="background: var(--accent);" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Kijelentkezés
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="admin-container">
+    <h2>Adminisztrációs felület</h2>
+    
+    <div class="admin-stats" id="adminStats">
+        <div class="stat-card">
+            <span class="stat-number" id="totalAnimals">0</span>
+            <span>Összes állat</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number" id="availableAnimals">0</span>
+            <span>Örökbefogadható</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number" id="adoptedAnimals">0</span>
+            <span>Örökbefogadott</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number" id="pendingAdoptions">0</span>
+            <span>Függőben lévő</span>
+        </div>
+    </div>
+
+    <div class="admin-actions">
+        <button class="btn" onclick="showAddAnimalModal()">
+            <i class="fas fa-plus"></i> Új állat
+        </button>
+        <button class="btn" onclick="window.location.href='admin_adoptions.html'">
+            <i class="fas fa-heart"></i> Örökbefogadások kezelése
+        </button>
+    </div>
+
+    <div class="animals-table">
+        <h3 style="padding: 20px; margin: 0;">Állatok listája</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Név</th>
+                    <th>Faj</th>
+                    <th>Fajta</th>
+                    <th>Kor</th>
+                    <th>Státusz</th>
+                    <th>Műveletek</th>
+                </tr>
+            </thead>
+            <tbody id="animalsTableBody">
+                <!-- Állatok ide kerülnek -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Új állat modal - JAVÍTVA: admin-modal osztállyal -->
+<div id="addAnimalModal" class="admin-modal" style="display: none;">
+    <div class="admin-modal-content">
+        <div class="admin-modal-header">
+            <h2><i class="fas fa-paw"></i> Új állat hozzáadása</h2>
+            <span class="admin-modal-close" onclick="closeAddAnimalModal()">&times;</span>
+        </div>
+        <div class="admin-modal-body">
+            <form id="addAnimalForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addName">Név *</label>
+                        <input type="text" id="addName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addType">Faj *</label>
+                        <select id="addType" name="type" required>
+                            <option value="">Válassz...</option>
+                            <option value="kutya">Kutya</option>
+                            <option value="macska">Macska</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addBreed">Fajta</label>
+                        <input type="text" id="addBreed" name="breed">
+                    </div>
+                    <div class="form-group">
+                        <label for="addAge">Kor</label>
+                        <input type="text" id="addAge" name="age" placeholder="pl.: 2 éves">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addGender">Nem</label>
+                        <select id="addGender" name="gender">
+                            <option value="Hím">Hím</option>
+                            <option value="Nőstény">Nőstény</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addSize">Méret</label>
+                        <select id="addSize" name="size">
+                            <option value="kis">Kis</option>
+                            <option value="kozepes" selected>Közepes</option>
+                            <option value="nagy">Nagy</option>
+                            <option value="kozepes-nagy">Közepes-nagy</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="addDescription">Leírás</label>
+                    <textarea id="addDescription" name="description" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="addImage">Kép URL</label>
+                    <input type="text" id="addImage" name="image" placeholder="pl.: img/kutyam.jpg">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="addFeatured" name="featured" style="width: auto;">
+                        <label for="addFeatured" style="margin: 0;">Kiemelt</label>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="addUrgent" name="urgent" style="width: auto;">
+                        <label for="addUrgent" style="margin: 0;">Sürgős eset</label>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="addAdopted" name="adopted" style="width: auto;">
+                        <label for="addAdopted" style="margin: 0;">Örökbefogadott</label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Mentés</button>
+                    <button type="button" class="cancel-btn" onclick="closeAddAnimalModal()">Mégse</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Először a külső admin.js betöltése -->
+<script src="admin.js"></script>
+
+</body>
+</html>

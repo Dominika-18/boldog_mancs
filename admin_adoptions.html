@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Örökbefogadások kezelése - Boldog Mancs Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background: #f5f5f5;
+        }
+        
+        .admin-header {
+            background-color: #1a472a;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color:#1a472a;
+            font-size: 24px;
+        }
+        
+        .admin-main {
+            padding: 40px 0;
+        }
+        
+        .page-title {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: #1a472a;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1a472a;
+        }
+        
+        .btn-success {
+            background: #1a472a;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #1a472a;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab {
+            padding: 12px 25px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .filter-tab:hover {
+            background: #f0f0f0;
+        }
+        
+        .filter-tab.active {
+            background: #1a472a;
+            color: white;
+            border-color: #1a472a;
+        }
+        
+        .adoptions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 25px;
+        }
+        
+        .adoption-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .adoption-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .status-approved {
+            background: #28a745;
+        }
+        
+        .status-rejected {
+            background: #dc3545;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .animal-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .animal-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .animal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .animal-details h4 {
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .animal-details p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .applicant-info {
+            margin-bottom: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 12px;
+            font-size: 14px;
+            padding: 5px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .info-label {
+            width: 100px;
+            color: #666;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            color: #333;
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .message-box {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2a9d8f;
+        }
+        
+        .message-box h5 {
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .message-box p {
+            color: #333;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .card-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .btn-approve {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-approve:hover {
+            background: #218838;
+        }
+        
+        .btn-reject {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-reject:hover {
+            background: #c82333;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 10px;
+            grid-column: 1/-1;
+        }
+        
+        .empty-state i {
+            font-size: 70px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h3 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2a9d8f;
+            display: block;
+        }
+        
+        
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .adoptions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-tabs {
+                flex-direction: column;
+            }
+            
+            .filter-tab {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                    <h1>Örökbefogadások kezelése</h1>
+                </div>
+                <div>
+                    <a href="admin.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i> Vissza
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="admin-main">
+        <div class="container">
+            <div class="page-title">
+                <h2>Örökbefogadási kérelmek</h2>
+                <button class="btn btn-primary" onclick="loadAdoptions()">
+                    <i class="fas fa-sync-alt"></i> Frissítés
+                </button>
+            </div>
+            
+            <div class="stats-bar" id="statsBar">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalCount">0</span>
+                    <span class="stat-label">Összes kérelem</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="pendingCount">0</span>
+                    <span class="stat-label">Függőben</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="approvedCount">0</span>
+                    <span class="stat-label">Elfogadva</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="rejectedCount">0</span>
+                    <span class="stat-label">Elutasítva</span>
+                </div>
+            </div>
+            
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-status="all">Összes</button>
+                <button class="filter-tab" data-status="pending">Függőben</button>
+                <button class="filter-tab" data-status="approved">Elfogadva</button>
+                <button class="filter-tab" data-status="rejected">Elutasítva</button>
+            </div>
+            
+            <div id="adoptionsGrid" class="adoptions-grid">
+                <!-- Ide jönnek az örökbefogadások -->
+                <div class="empty-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <h3>Betöltés...</h3>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        let allAdoptions = [];
+        let currentFilter = 'all';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAdminAuth();
+            loadAdoptions();
+            
+            // Filter tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.status;
+                    renderAdoptions();
+                });
+            });
+        });
+        
+        async function checkAdminAuth() {
+            const userData = localStorage.getItem('userData');
+            if (!userData) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                if (user.role !== 'admin') {
+                    alert('Nincs admin jogosultságod!');
+                    window.location.href = 'index.html';
+                }
+            } catch (e) {
+                window.location.href = 'index.html';
+            }
+        }
+        
+        async function loadAdoptions() {
+            const grid = document.getElementById('adoptionsGrid');
+            grid.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h3>Betöltés...</h3></div>';
+            
+            try {
+                const token = localStorage.getItem('userToken');
+                const response = await fetch('api.php?action=adoptions', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    allAdoptions = await response.json();
+                    updateStats();
+                    renderAdoptions();
+                } else {
+                    grid.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><h3>Hiba történt a betöltés során</h3></div>';
+                }
+            } catch (error) {
+                console.error('Hiba:', error);
+                grid.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><h3>Hiba történt a betöltés során</h3></div>';
+            }
+        }
+        
+        function updateStats() {
+            document.getElementById('totalCount').textContent = allAdoptions.length;
+            document.getElementById('pendingCount').textContent = allAdoptions.filter(a => a.status === 'pending').length;
+            document.getElementById('approvedCount').textContent = allAdoptions.filter(a => a.status === 'approved').length;
+            document.getElementById('rejectedCount').textContent = allAdoptions.filter(a => a.status === 'rejected').length;
+        }
+        
+        function renderAdoptions() {
+            const grid = document.getElementById('adoptionsGrid');
+            
+            let filtered = allAdoptions;
+            if (currentFilter !== 'all') {
+                filtered = allAdoptions.filter(a => a.status === currentFilter);
+            }
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><h3>Nincs megjeleníthető örökbefogadás</h3><p>A kiválasztott szűrővel nem található kérelem.</p></div>';
+                return;
+            }
+            
+            grid.innerHTML = filtered.map(adoption => `
+                <div class="adoption-card">
+                    <div class="card-header status-${adoption.status}">
+                        <span><strong>#${adoption.id}</strong> - ${formatDate(adoption.created_at)}</span>
+                        <span class="badge">${getStatusText(adoption.status)}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="animal-info">
+                            <div class="animal-image">
+                                <img src="${adoption.animal_image || 'img/kep1.jpg'}" alt="${adoption.animal_name}" onerror="this.src='img/kep1.jpg'">
+                            </div>
+                            <div class="animal-details">
+                                <h4>${adoption.animal_name || 'Ismeretlen'}</h4>
+                                <p>${adoption.animal_type || 'Állat'}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="applicant-info">
+                            <div class="info-row">
+                                <span class="info-label">Jelentkező:</span>
+                                <span class="info-value"><strong>${adoption.full_name}</strong></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Email:</span>
+                                <span class="info-value">${adoption.email}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Telefon:</span>
+                                <span class="info-value">${adoption.phone}</span>
+                            </div>
+                            ${adoption.user_username ? `
+                            <div class="info-row">
+                                <span class="info-label">Felhasználó:</span>
+                                <span class="info-value">${adoption.user_username}</span>
+                            </div>
+                            ` : ''}
+                            ${adoption.home_type ? `
+                            <div class="info-row">
+                                <span class="info-label">Lakás típusa:</span>
+                                <span class="info-value">${adoption.home_type}</span>
+                            </div>
+                            ` : ''}
+                            ${adoption.address ? `
+                            <div class="info-row">
+                                <span class="info-label">Cím:</span>
+                                <span class="info-value">${adoption.address}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+                        
+                        ${adoption.experience ? `
+                        <div class="message-box">
+                            <h5><i class="fas fa-paw"></i> Tapasztalat:</h5>
+                            <p>${adoption.experience}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${adoption.message ? `
+                        <div class="message-box">
+                            <h5><i class="fas fa-envelope"></i> Üzenet:</h5>
+                            <p>${adoption.message}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${adoption.status === 'pending' ? `
+                        <div class="card-actions">
+                            <button class="btn-approve" onclick="updateStatus(${adoption.id}, 'approved')">
+                                <i class="fas fa-check"></i> Elfogadás
+                            </button>
+                            <button class="btn-reject" onclick="updateStatus(${adoption.id}, 'rejected')">
+                                <i class="fas fa-times"></i> Elutasítás
+                            </button>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return 'Ismeretlen';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('hu-HU', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        function getStatusText(status) {
+            switch(status) {
+                case 'pending': return 'Függőben';
+                case 'approved': return 'Elfogadva';
+                case 'rejected': return 'Elutasítva';
+                default: return status;
+            }
+        }
+        
+async function updateStatus(id, status) {
+       console.log('updateStatus hívva - ID:', id, 'típus:', typeof id, 'státusz:', status);
+    
+    if (!id) {
+        alert('❌ HIBA: Az örökbefogadás ID-ja hiányzik! (ID: ' + id + ')');
+        return;
+    }
+    if (!confirm(`Biztosan ${status === 'approved' ? 'elfogadod' : 'elutasítod'} ezt a jelentkezést?`)) {
+        return;
+    }
+    
+    try {
+        const token = localStorage.getItem('userToken');
+        const response = await fetch(`api.php?action=adoptions&id=${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ status })
+        });
+        
+        // DEBUG: Írd ki a válasz státuszát és típusát
+        console.log('Válasz státusz:', response.status);
+        console.log('Válasz content-type:', response.headers.get('content-type'));
+        
+        // Ha nem JSON, olvasd be szövegként
+        const text = await response.text();
+        console.log('Válasz szöveg:', text);
+        
+        try {
+            const result = JSON.parse(text);
+            console.log('Parsolt JSON:', result);
+            
+            if (result.success) {
+                alert(`✅ Jelentkezés ${status === 'approved' ? 'elfogadva' : 'elutasítva'}!`);
+                loadAdoptions();
+            } else {
+                alert('❌ Hiba: ' + result.error);
+            }
+        } catch (e) {
+            console.error('Nem JSON válasz:', text);
+            alert('❌ Szerverhiba: ' + text.substring(0, 100));
+        }
+    } catch (error) {
+        console.error('Hiba:', error);
+        alert('❌ Hiba történt a művelet során');
+    }
+}
+        
+        // Kijelentkezés
+        function logout() {
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('userData');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
