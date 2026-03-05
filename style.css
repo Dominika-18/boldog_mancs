@@ -1,4 +1,4 @@
-﻿﻿/* Alap stílusok */
+/* Alap stílusok */
 * {
     margin: 0;
     padding: 0;
@@ -3957,5 +3957,300 @@ header.scrolled {
     .news::after {
         font-size: 40px;
         opacity: 0.05;
+    }
+}
+    /* Meglévő stílusok megtartása mellett */
+    .footer-buttons {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0 30px 0;
+        justify-content: center;
+    }
+    
+    .footer-btn {
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 2px solid transparent;
+    }
+    
+    .github-btn {
+        background: #333;
+        color: white;
+        border-color: #555;
+    }
+    
+    .github-btn:hover {
+        background: #555;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .drive-btn {
+        background: #0F9D58;
+        color: white;
+        border-color: #0B7E44;
+    }
+    
+    .drive-btn:hover {
+        background: #0B7E44;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(15,157,88,0.3);
+    }
+    
+    /* Vízszintes menü stílusok */
+    .footer-links-horizontal {
+        text-align: center;
+        margin: 30px 0 20px 0;
+        width: 100%;
+    }
+    
+    .footer-links-horizontal h4 {
+        color: var(--accent);
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+    
+    .footer-links-horizontal h4::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 25%;
+        width: 50%;
+        height: 2px;
+        background: var(--accent);
+    }
+    
+    .horizontal-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+    
+    .horizontal-menu li {
+        margin: 0;
+    }
+    
+    .horizontal-menu li a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 5px 10px;
+        position: relative;
+    }
+    
+    .horizontal-menu li a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+    
+    .horizontal-menu li a:hover {
+        color: white;
+    }
+    
+    .horizontal-menu li a:hover::after {
+        width: 80%;
+    }
+    
+    /* Reszponzív beállítások */
+    @media (max-width: 768px) {
+        .horizontal-menu {
+            gap: 15px;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .horizontal-menu li a {
+            font-size: 1rem;
+        }
+        
+        .footer-buttons {
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .footer-btn {
+            width: 200px;
+            justify-content: center;
+        }
+    }
+
+    .footer-buttons {
+        display: flex;
+        gap: 15px;
+        margin-left: auto;
+    }
+    
+    .footer-btn {
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 2px solid transparent;
+    }
+    
+    .github-btn {
+        background: #333;
+        color: white;
+        border-color: #555;
+    }
+    
+    .github-btn:hover {
+        background: #555;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .drive-btn {
+        background: #0F9D58;
+        color: white;
+        border-color: #0B7E44;
+    }
+    
+    .drive-btn:hover {
+        background: #0B7E44;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(15,157,88,0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .footer-buttons {
+            margin-left: 0;
+            margin-top: 20px;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .footer-btn {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+        }
+    }
+/* =========================
+   JAVÍTÁSOK - NINCS MARGO, STICKY HEADER (2026.03.05)
+   ========================= */
+   html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+#mainHeader {
+    margin: 0 !important;
+    padding: 15px 0 !important;
+    position: sticky !important;  /* STICKY - fixen fent marad */
+    top: 0 !important;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--primary) !important;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+
+/* Ha a hero közvetlenül a header alatt kezdődik, adj hozzá egy kis eltolást, hogy ne takarja */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+    max-height: 600px;
+    overflow: hidden;
+    margin: 0 !important;
+    padding: 0 !important;
+    /* Ha a header takarná a hero tetejét, akkor ez kell:
+    scroll-margin-top: 80px; */
+}
+
+.page {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+footer {
+    margin: 0 !important;
+}
+
+/* Reszponzív */
+@media (max-width: 768px) {
+    .featured-animals,
+    .adoption-page,
+    .story-page,
+    .contact,
+    .news,
+    .about-page {
+        padding: 60px 0 !important;
+    }
+}
+/* VISSZA A TETEJÉRE GOMB */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: #1a472a;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 20px;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    text-decoration: none;
+    display: block;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background-color: #2d5a3d;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        font-size: 18px;
     }
 }
