@@ -204,14 +204,19 @@ function resumeSlideshow() {
 function setupNavigation() {
     console.log('🧭 Navigáció beállítása...');
     
-    document.querySelectorAll('nav .nav-link, .footer-links .nav-link').forEach(link => {
+    // Összes nav-link figyelése (beleértve a láblécben lévőket is)
+    document.querySelectorAll('nav .nav-link, .footer-links .nav-link, .horizontal-menu .nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const pageId = link.dataset.page;
-            if (pageId) showPage(pageId);
+            if (pageId) {
+                console.log('🔗 Kattintás a linkre:', pageId);
+                showPage(pageId);
+            }
         });
     });
     
+    // Slideshow gombok...
     document.querySelectorAll('.slideshow .slideshow-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -219,10 +224,12 @@ function setupNavigation() {
             const pageId = btn.dataset.slidePage;
             if (pageId) {
                 showPage(pageId);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         });
     });
+    
+    console.log('✅ Navigáció beállítva');
+
     
     document.querySelectorAll('.text-center a, .btn').forEach(link => {
         if (link.textContent.includes('Összes állat') || 
@@ -246,10 +253,15 @@ function setupNavigation() {
     
     console.log('✅ Navigáció beállítva');
 }
-
 window.showPage = function(pageId) {
     console.log('📄 Navigáció oldalra:', pageId);
     
+    // 1. LÉPÉS: Azonnali ugrás az oldal tetejére (több módszerrel)
+    document.documentElement.scrollTop = 0; // HTML elem
+    document.body.scrollTop = 0; // Body elem (Safari miatt)
+    window.scrollTo(0, 0); // Window objektum
+    
+    // 2. LÉPÉS: Oldalváltás
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
@@ -271,10 +283,14 @@ window.showPage = function(pageId) {
             }
         }
         
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth' 
-        });
+        // 3. LÉPÉS: Biztos, ami biztos - újra az oldal tetejére ugrunk
+        setTimeout(() => {
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            window.scrollTo(0, 0);
+        }, 10);
+        
+        console.log('✅ Oldalváltás sikeres:', pageId);
         
     } else {
         console.error('❌ Nem található oldal:', pageId);
@@ -1534,4 +1550,54 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     console.log(`✅ Kész! Állatok: ${animals.length}, Blog: ${blogPosts.length}, Felhasználók: ${allUsers.length}`);
     console.log('👤 Aktuális felhasználó:', currentUser);
+});
+// =========================
+// VISSZA A TETEJÉRE GOMB - EGYSZERŰ
+// =========================
+(function() {
+    var backToTop = document.getElementById('backToTop');
+    
+    if (!backToTop) return;
+    
+    // Görgetés figyelése
+    window.onscroll = function() {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    };
+    
+    // Kattintás kezelése
+    backToTop.onclick = function(e) {
+        e.preventDefault();
+        document.body.scrollTop = 0; // Safari
+        document.documentElement.scrollTop = 0; // Chrome, Firefox, IE
+        return false;
+    };
+})();// =========================
+// VISSZA A TETEJÉRE GOMB
+// =========================
+document.addEventListener('DOMContentLoaded', function() {
+    var backToTop = document.getElementById('backToTop');
+    
+    if (!backToTop) return;
+    
+    // Görgetés figyelése
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    });
+    
+    // Kattintás
+    backToTop.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
 });
