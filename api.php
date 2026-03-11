@@ -1,6 +1,5 @@
 <?php
-// api.php - TELJES JAVÍTOTT VERZIÓ PHP 5.6 KOMPATIBILIS
-// EGYSÉGESÍTETT VÉGPONTOK: MINDENHOL "adoptions"
+
 // ÁTIRÁNYÍTÁS - ha action=adoption jön, átírjuk adoptions-ra
 if (isset($_GET['action']) && $_GET['action'] === 'adoption') {
     $_GET['action'] = 'adoptions';
@@ -29,7 +28,6 @@ function debug_log($message) {
 }
 
 debug_log("API hívás: " . $_SERVER['REQUEST_URI']);
-debug_log("handleRequest indul: action=" . (isset($_GET['action']) ? $_GET['action'] : 'nincs'));
 
 class API {
     private $db;
@@ -47,6 +45,8 @@ class API {
     public function handleRequest() {
         $method = $_SERVER['REQUEST_METHOD'];
         $endpoint = isset($_GET['action']) ? $_GET['action'] : '';
+        
+        debug_log("handleRequest: method=$method, endpoint=$endpoint");
         
         if ($method === 'OPTIONS') {
             exit(0);
@@ -79,7 +79,7 @@ class API {
             case 'animal':
                 $this->getAnimal();
                 break;
-            case 'adoptions':  // EGYSÉGESÍTVE
+            case 'adoptions':
                 $this->getAdoptions();
                 break;
             case 'my_adoptions':
@@ -117,42 +117,45 @@ class API {
     }
     
     private function handlePost($endpoint) {
-    $data = json_decode(file_get_contents('php://input'), true);
-    
-    switch($endpoint) {
-        case 'login':
-            $this->login($data);
-            break;
-        case 'register':
-            $this->register($data);
-            break;
-        case 'adoption':      // RÉGI - a frontend ezt hívja
-            $this->createAdoption($data);
-            break;
-        case 'adoptions':      // ÚJ - egységesítve
-            $this->createAdoption($data);
-            break;
-        case 'animal':
-            $this->createAnimal($data);
-            break;
-        case 'logout':
-            $this->logout($data);
-            break;
-        case 'favorite':
-            $this->addFavorite();
-            break;
-        default:
-            http_response_code(404);
-            echo json_encode(array('error' => 'Endpoint not found: ' . $endpoint));
+        $data = json_decode(file_get_contents('php://input'), true);
+        debug_log("POST data: " . json_encode($data));
+        
+        switch($endpoint) {
+            case 'login':
+                $this->login($data);
+                break;
+            case 'register':
+                $this->register($data);
+                break;
+            case 'adoption':
+                $this->createAdoption($data);
+                break;
+            case 'adoptions':
+                $this->createAdoption($data);
+                break;
+            case 'animal':
+                // ÚJ ÁLLAT HOZZÁADÁSA - mindig új állatot hozunk létre
+                $this->createAnimal($data);
+                break;
+            case 'logout':
+                $this->logout($data);
+                break;
+            case 'favorite':
+                $this->addFavorite();
+                break;
+            default:
+                http_response_code(404);
+                echo json_encode(array('error' => 'Endpoint not found: ' . $endpoint));
+        }
     }
-}
     
     private function handlePut($endpoint) {
         $data = json_decode(file_get_contents('php://input'), true);
         $id = isset($_GET['id']) ? $_GET['id'] : null;
+        debug_log("PUT data: " . json_encode($data) . ", id: $id");
         
         switch($endpoint) {
-            case 'adoptions':  // EGYSÉGESÍTVE
+            case 'adoptions':
                 if ($id) {
                     $this->updateAdoptionStatus($id, $data);
                 } else {
@@ -177,8 +180,33 @@ class API {
     private function handleDelete($endpoint) {
         $id = isset($_GET['id']) ? $_GET['id'] : null;
         $animalId = isset($_GET['animal_id']) ? $_GET['animal_id'] : null;
+        debug_log("DELETE endpoint: $endpoint, id: $id");
         
         switch($endpoint) {
+            case 'delete_animal':
+                if ($id) {
+                    $this->deleteAnimal($id);
+                } else {
+                    http_response_code(400);
+                    echo json_encode(array('error' => 'Animal ID required'));
+                }
+                break;
+            case 'delete_adoption':
+                if ($id) {
+                    $this->deleteAdoption($id);
+                } else {
+                    http_response_code(400);
+                    echo json_encode(array('error' => 'Adoption ID required'));
+                }
+                break;
+            case 'delete_user':
+                if ($id) {
+                    $this->deleteUser($id);
+                } else {
+                    http_response_code(400);
+                    echo json_encode(array('error' => 'User ID required'));
+                }
+                break;
             case 'animal':
                 if ($id) {
                     $this->deleteAnimal($id);
@@ -399,7 +427,7 @@ class API {
             $sql .= " WHERE " . implode(' AND ', $conditions);
         }
         
-        $sql .= " ORDER BY created_at DESC";
+        $sql .= " ORDER BY id DESC";
         
         $result = $this->db->query($sql);
         $animals = array();
@@ -439,6 +467,9 @@ class API {
             return;
         }
         
+        // Debug: írjuk ki a kapott adatokat
+        debug_log("createAnimal called with data: " . json_encode($data));
+        
         $required = array('name', 'type');
         foreach ($required as $field) {
             if (empty($data[$field])) {
@@ -448,28 +479,22 @@ class API {
             }
         }
         
-        $fields = array(
-            'name' => $this->db->real_escape_string($data['name']),
-            'type' => $this->db->real_escape_string($data['type']),
-            'breed' => $this->db->real_escape_string(isset($data['breed']) ? $data['breed'] : ''),
-            'age' => $this->db->real_escape_string(isset($data['age']) ? $data['age'] : ''),
-            'gender' => $this->db->real_escape_string(isset($data['gender']) ? $data['gender'] : 'Hím'),
-            'size' => $this->db->real_escape_string(isset($data['size']) ? $data['size'] : 'kozepes'),
-            'description' => $this->db->real_escape_string(isset($data['description']) ? $data['description'] : ''),
-            'image' => $this->db->real_escape_string(isset($data['image']) ? $data['image'] : ''),
-            'personality' => $this->db->real_escape_string(isset($data['personality']) ? $data['personality'] : ''),
-            'history' => $this->db->real_escape_string(isset($data['history']) ? $data['history'] : ''),
-            'special_needs' => $this->db->real_escape_string(isset($data['special_needs']) ? $data['special_needs'] : ''),
-            'vaccinations' => $this->db->real_escape_string(isset($data['vaccinations']) ? $data['vaccinations'] : '[]'),
-            'featured' => isset($data['featured']) ? (int)$data['featured'] : 0,
-            'urgent' => isset($data['urgent']) ? (int)$data['urgent'] : 0,
-            'adopted' => isset($data['adopted']) ? (int)$data['adopted'] : 0
-        );
+        $name = $this->db->real_escape_string($data['name']);
+        $type = $this->db->real_escape_string($data['type']);
+        $breed = $this->db->real_escape_string(isset($data['breed']) ? $data['breed'] : 'Ismeretlen');
+        $age = $this->db->real_escape_string(isset($data['age']) ? $data['age'] : 'Ismeretlen');
+        $gender = $this->db->real_escape_string(isset($data['gender']) ? $data['gender'] : 'Hím');
+        $size = $this->db->real_escape_string(isset($data['size']) ? $data['size'] : 'kozepes');
+        $description = $this->db->real_escape_string(isset($data['description']) ? $data['description'] : 'Nincs leírás');
+        $image = $this->db->real_escape_string(isset($data['image']) ? $data['image'] : 'img/default-animal.jpg');
+        $featured = isset($data['featured']) && $data['featured'] ? 1 : 0;
+        $urgent = isset($data['urgent']) && $data['urgent'] ? 1 : 0;
+        $adopted = isset($data['adopted']) && $data['adopted'] ? 1 : 0;
         
-        $columns = implode(', ', array_keys($fields));
-        $values = "'" . implode("', '", array_values($fields)) . "'";
+        $sql = "INSERT INTO animals (name, type, breed, age, gender, size, description, image, featured, urgent, adopted) 
+                VALUES ('$name', '$type', '$breed', '$age', '$gender', '$size', '$description', '$image', $featured, $urgent, $adopted)";
         
-        $sql = "INSERT INTO animals ($columns) VALUES ($values)";
+        debug_log("SQL: " . $sql);
         
         if ($this->db->query($sql)) {
             $animalId = $this->db->insert_id;
@@ -512,6 +537,7 @@ class API {
         }
         
         $sql = "UPDATE animals SET " . implode(', ', $updates) . " WHERE id = $id";
+        debug_log("UPDATE SQL: " . $sql);
         
         if ($this->db->query($sql)) {
             echo json_encode(array(
@@ -532,7 +558,16 @@ class API {
         }
         
         $id = (int)$id;
+        
+        // Először töröljük a kapcsolódó örökbefogadásokat
+        $this->db->query("DELETE FROM adoptions WHERE animal_id = $id");
+        
+        // Töröljük a kedvenceket
+        $this->db->query("DELETE FROM favorites WHERE animal_id = $id");
+        
+        // Most töröljük az állatot
         $sql = "DELETE FROM animals WHERE id = $id";
+        debug_log("DELETE SQL: " . $sql);
         
         if ($this->db->query($sql)) {
             echo json_encode(array(
@@ -541,7 +576,88 @@ class API {
             ));
         } else {
             http_response_code(500);
-            echo json_encode(array('error' => 'Hiba az állat törlésekor'));
+            echo json_encode(array('error' => 'Hiba az állat törlésekor: ' . $this->db->error));
+        }
+    }
+    
+    private function deleteAdoption($id) {
+        if (!$this->isAdmin()) {
+            http_response_code(403);
+            echo json_encode(array('error' => 'Admin access required'));
+            return;
+        }
+        
+        $id = (int)$id;
+        
+        // Lekérdezzük az állat ID-t
+        $adoption = $this->db->query("SELECT animal_id FROM adoptions WHERE id = $id")->fetch_assoc();
+        
+        $sql = "DELETE FROM adoptions WHERE id = $id";
+        debug_log("DELETE ADOPTION SQL: " . $sql);
+        
+        if ($this->db->query($sql)) {
+            // Ha volt ilyen örökbefogadás, ellenőrizzük, hogy az állatnak van-e más elfogadott kérelme
+            if ($adoption) {
+                $animalId = $adoption['animal_id'];
+                $checkOthers = $this->db->query("SELECT id FROM adoptions WHERE animal_id = $animalId AND status IN ('approved', 'completed')");
+                
+                // Ha nincs más elfogadott kérelem, állítsuk vissza az állat adopted státuszát
+                if ($checkOthers->num_rows == 0) {
+                    $this->db->query("UPDATE animals SET adopted = 0 WHERE id = $animalId");
+                }
+            }
+            
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Örökbefogadás sikeresen törölve'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('error' => 'Hiba az örökbefogadás törlésekor: ' . $this->db->error));
+        }
+    }
+    
+    private function deleteUser($id) {
+        if (!$this->isAdmin()) {
+            http_response_code(403);
+            echo json_encode(array('error' => 'Admin access required'));
+            return;
+        }
+        
+        $id = (int)$id;
+        
+        // Ellenőrizzük, hogy nem admin-e
+        $checkUser = $this->db->query("SELECT role FROM users WHERE id = $id");
+        if ($checkUser->num_rows > 0) {
+            $user = $checkUser->fetch_assoc();
+            if ($user['role'] === 'admin') {
+                http_response_code(403);
+                echo json_encode(array('error' => 'Admin felhasználó nem törölhető'));
+                return;
+            }
+        }
+        
+        // Töröljük a kapcsolódó tokeneket
+        $this->db->query("DELETE FROM user_tokens WHERE user_id = $id");
+        
+        // Örökbefogadásoknál nullázzuk a user_id-t
+        $this->db->query("UPDATE adoptions SET user_id = NULL WHERE user_id = $id");
+        
+        // Töröljük a kedvenceket
+        $this->db->query("DELETE FROM favorites WHERE user_id = $id");
+        
+        // Most töröljük a felhasználót
+        $sql = "DELETE FROM users WHERE id = $id";
+        debug_log("DELETE USER SQL: " . $sql);
+        
+        if ($this->db->query($sql)) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Felhasználó sikeresen törölve'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('error' => 'Hiba a felhasználó törlésekor: ' . $this->db->error));
         }
     }
     
@@ -622,6 +738,8 @@ class API {
         $sql = "INSERT INTO adoptions (animal_id, user_id, full_name, email, phone, home_type, address, experience, message, status) 
                 VALUES ($animalId, $userIdSql, '$fullName', '$email', '$phone', '$homeType', '$address', '$experience', '$message', 'pending')";
         
+        debug_log("CREATE ADOPTION SQL: " . $sql);
+        
         if ($this->db->query($sql)) {
             echo json_encode(array(
                 'success' => true,
@@ -652,7 +770,7 @@ class API {
                 LEFT JOIN animals an ON a.animal_id = an.id 
                 LEFT JOIN users u ON a.user_id = u.id";
         
-        if ($status && in_array($status, array('pending', 'approved', 'rejected'))) {
+        if ($status && in_array($status, array('pending', 'approved', 'rejected', 'completed'))) {
             $sql .= " WHERE a.status = '$status'";
         }
         
@@ -705,7 +823,7 @@ class API {
         $id = (int)$id;
         $status = isset($data['status']) ? $data['status'] : '';
         
-        if (!in_array($status, array('approved', 'rejected'))) {
+        if (!in_array($status, array('approved', 'rejected', 'completed', 'pending'))) {
             http_response_code(400);
             echo json_encode(array('error' => 'Érvénytelen státusz'));
             return;
@@ -717,13 +835,24 @@ class API {
             $sql = "UPDATE adoptions SET status = '$status' WHERE id = $id";
             $this->db->query($sql);
             
-            if ($status === 'approved') {
+            if ($status === 'approved' || $status === 'completed') {
                 $adoption = $this->db->query("SELECT animal_id FROM adoptions WHERE id = $id")->fetch_assoc();
                 if ($adoption) {
                     $animalId = $adoption['animal_id'];
                     $this->db->query("UPDATE animals SET adopted = 1 WHERE id = $animalId");
                     
                     $this->db->query("UPDATE adoptions SET status = 'rejected' WHERE animal_id = $animalId AND id != $id AND status = 'pending'");
+                }
+            } else if ($status === 'rejected' || $status === 'pending') {
+                // Ha visszavonjuk az elfogadást, ellenőrizzük, hogy kell-e állítani az adopted státuszt
+                $adoption = $this->db->query("SELECT animal_id FROM adoptions WHERE id = $id")->fetch_assoc();
+                if ($adoption) {
+                    $animalId = $adoption['animal_id'];
+                    $checkOthers = $this->db->query("SELECT id FROM adoptions WHERE animal_id = $animalId AND status IN ('approved', 'completed') AND id != $id");
+                    
+                    if ($checkOthers->num_rows == 0) {
+                        $this->db->query("UPDATE animals SET adopted = 0 WHERE id = $animalId");
+                    }
                 }
             }
             
@@ -756,6 +885,9 @@ class API {
         
         $result = $this->db->query("SELECT COUNT(*) as total FROM users");
         $stats['totalUsers'] = (int)$result->fetch_assoc()['total'];
+        
+        $result = $this->db->query("SELECT COUNT(*) as total FROM blog_posts WHERE published = 1");
+        $stats['totalBlogPosts'] = (int)$result->fetch_assoc()['total'];
         
         echo json_encode($stats);
     }
