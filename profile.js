@@ -1,5 +1,4 @@
-// profile.js - JAVÍTOTT VERZIÓ VALÓS IDEJŰ FRISSÍTÉSSEL
-// MOST MÁR REAGÁL AZ ADMIN ÁLTAL VÉGREHAJTOTT VÁLTOZÁSOKRA IS!
+// profile.js - JAVÍTOTT VERZIÓ ADMIN PROFILLAL
 
 let currentUser = null;
 let userAdoptions = [];
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Alapértelmezett szekció megjelenítése
             showSection('profile');
             
-            // Figyeljük a localStorage változásait (ha admin módosítja az adoptionsUpdated-et)
+            // Figyeljük a localStorage változásait
             window.addEventListener('storage', function(e) {
                 if (e.key === 'adoptionsUpdated' || e.key === 'animalsUpdated') {
                     logDebug('Észlelt változás a localStorage-ban, adatok újratöltése...');
@@ -59,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
             });
             
-            // Automatikus frissítés 10 másodpercenként (gyakrabban, hogy látszódjon a változás)
+            // Automatikus frissítés
             setInterval(autoRefreshData, 10000);
             
         } catch (error) {
@@ -88,7 +87,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 });
 
-// ==================== NAVIGÁCIÓ - SZEKCIÓVÁLTÁSKOR FRISSÍTÉS ====================
+// ==================== NAVIGÁCIÓ ====================
 
 window.showSection = function(sectionId) {
     logDebug(`Navigáció: ${sectionId} szakasz`);
@@ -140,7 +139,6 @@ window.showSection = function(sectionId) {
 
 async function autoRefreshData() {
     const now = Date.now();
-    // Ne frissítsünk túl gyakran (min. 3 másodperc)
     if (now - lastUpdateCheck < 3000) {
         return;
     }
@@ -154,12 +152,10 @@ async function autoRefreshData() {
     await loadUserAdoptions();
     await loadUserActivity();
     
-    // Ellenőrizzük, hogy történt-e változás a státuszokban
     let statusChanged = false;
     if (oldAdoptionsCount !== userAdoptions.length) {
         statusChanged = true;
     } else {
-        // Összehasonlítjuk a státuszokat
         for (let i = 0; i < userAdoptions.length; i++) {
             const oldStatus = oldAdoptionsStatuses.find(s => s.id === userAdoptions[i].id)?.status;
             if (oldStatus && oldStatus !== userAdoptions[i].status) {
@@ -170,16 +166,14 @@ async function autoRefreshData() {
     }
     
     if (statusChanged) {
-        logDebug('Változás történt az adatokban (státusz módosult), UI frissítése...');
+        logDebug('Változás történt az adatokban, UI frissítése...');
         updateUI();
         
-        // Ha az adoptions szekció látható, frissítsük a megjelenítést
         const adoptionsSection = document.getElementById('adoptionsSection');
         if (adoptionsSection && adoptionsSection.style.display === 'block') {
             renderAdoptions();
         }
         
-        // Értesítés a felhasználónak
         showTemporaryNotification('Az örökbefogadás státusza frissült!');
     }
 }
@@ -206,20 +200,37 @@ function showTemporaryNotification(message) {
     }, 3000);
 }
 
-// ==================== HITELESÍTÉS ====================
+// ==================== HITELESÍTÉS - JAVÍTVA ====================
 
 async function checkAuth() {
     try {
         logDebug('Hitelesítés ellenőrzése...');
         
         const token = localStorage.getItem('userToken');
-        if (!token) {
+        const username = localStorage.getItem('username');
+        
+        if (!token && !username) {
             logDebug('Nincs token a localStorage-ban');
             currentUser = null;
             return;
         }
         
-        logDebug(`Token megtalálva: ${token.substring(0, 20)}...`);
+        logDebug(`Token megtalálva: ${token ? token.substring(0, 20) + '...' : 'nincs token'}, Username: ${username}`);
+        
+        // Ellenőrizzük, hogy admin-e
+        if (username === 'admin' || username?.toLowerCase().includes('admin')) {
+            logDebug('Admin felhasználó azonosítva');
+            currentUser = {
+                id: 7,
+                username: 'admin',
+                email: 'admin@boldogmancs.hu',
+                fullname: 'Rendszergazda',
+                role: 'admin',
+                created_at: '2026-02-10 12:57:00'
+            };
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            return;
+        }
         
         try {
             const response = await fetch(`${API_BASE_URL}?action=user`, {
@@ -267,11 +278,29 @@ async function checkAuth() {
                     currentUser = JSON.parse(localData);
                     logDebug('Helyi adatokból betöltve:', currentUser);
                 } catch (e) {
-                    localStorage.removeItem('userToken');
-                    localStorage.removeItem('userData');
+                    if (username) {
+                        currentUser = {
+                            id: 1,
+                            username: username,
+                            email: localStorage.getItem('email') || `${username}@example.com`,
+                            fullname: username,
+                            role: 'user',
+                            created_at: new Date().toISOString()
+                        };
+                    } else {
+                        localStorage.removeItem('userToken');
+                        localStorage.removeItem('userData');
+                    }
                 }
-            } else {
-                localStorage.removeItem('userToken');
+            } else if (username) {
+                currentUser = {
+                    id: 1,
+                    username: username,
+                    email: localStorage.getItem('email') || `${username}@example.com`,
+                    fullname: username,
+                    role: 'user',
+                    created_at: new Date().toISOString()
+                };
             }
         }
         
@@ -287,19 +316,27 @@ async function checkAuth() {
     }
 }
 
-// ==================== ÖRÖKBEFOGADÁSOK BETÖLTÉSE - JAVÍTVA ====================
+// ==================== ÖRÖKBEFOGADÁSOK BETÖLTÉSE ====================
 
 async function loadUserAdoptions() {
     try {
         const token = localStorage.getItem('userToken');
-        if (!token || !currentUser) {
-            logDebug('Nincs token vagy felhasználó, örökbefogadások kihagyva');
+        
+        if (!currentUser) {
+            logDebug('Nincs felhasználó, örökbefogadások kihagyva');
             return;
         }
         
+        // Admin felhasználónak nincsenek örökbefogadásai
         if (currentUser.role === 'admin') {
             logDebug('Admin felhasználó, örökbefogadások nem jelennek meg');
             userAdoptions = [];
+            return;
+        }
+        
+        if (!token) {
+            logDebug('Nincs token, demo adatok betöltése');
+            await loadDemoAdoptions();
             return;
         }
         
@@ -319,7 +356,6 @@ async function loadUserAdoptions() {
                 logDebug('my_adoptions válasz:', data);
                 
                 if (data.success && data.adoptions) {
-                    // MINDEN státuszú örökbefogadást megtartunk
                     userAdoptions = data.adoptions;
                     logDebug(`${userAdoptions.length} örökbefogadás betöltve API-ból`);
                     
@@ -351,12 +387,11 @@ async function loadUserAdoptions() {
                     allAdoptions = data.adoptions;
                 }
                 
-                // MINDEN státuszú örökbefogadást megtartunk
                 userAdoptions = allAdoptions.filter(adoption => 
                     adoption.user_id == currentUser.id
                 );
                 
-                logDebug(`${userAdoptions.length} örökbefogadás betöltve (minden státusz)`);
+                logDebug(`${userAdoptions.length} örökbefogadás betöltve`);
                 
                 if (userAdoptions.length > 0) {
                     await loadAnimalsForAdoptions();
@@ -368,9 +403,7 @@ async function loadUserAdoptions() {
         }
         
         // 3. PRÓBÁLKOZÁS: DEMO adatok
-        if (currentUser.role !== 'admin') {
-            await loadDemoAdoptions();
-        }
+        await loadDemoAdoptions();
         
     } catch (error) {
         showErrorMessage(`Örökbefogadások betöltési hiba: ${error.message}`);
@@ -385,7 +418,7 @@ async function loadDemoAdoptions() {
     
     await loadDemoAnimals();
     
-    if (userAnimals.length > 0) {
+    if (userAnimals.length > 0 && currentUser.role !== 'admin') {
         const now = new Date();
         const twoDaysAgo = new Date(now);
         twoDaysAgo.setDate(now.getDate() - 2);
@@ -439,6 +472,8 @@ async function loadDemoAdoptions() {
         }
         
         logDebug(`${userAdoptions.length} demo örökbefogadás generálva`);
+    } else {
+        userAdoptions = [];
     }
 }
 
@@ -524,22 +559,46 @@ async function loadUserActivity() {
     try {
         logDebug('Tevékenységek betöltése...');
         
-        userActivity = [
-            {
-                id: 1,
-                type: 'login',
-                description: 'Bejelentkezés',
-                date: new Date().toISOString(),
-                icon: 'fa-sign-in-alt'
-            },
-            {
-                id: 2,
-                type: 'profile_view',
-                description: 'Profil megtekintése',
-                date: new Date(Date.now() - 3600000).toISOString(),
-                icon: 'fa-user'
-            }
-        ];
+        userActivity = [];
+        
+        // Admin tevékenységek
+        if (currentUser && currentUser.role === 'admin') {
+            userActivity = [
+                {
+                    id: 1,
+                    type: 'login',
+                    description: 'Bejelentkezés az admin felületre',
+                    date: new Date().toISOString(),
+                    icon: 'fa-sign-in-alt'
+                },
+                {
+                    id: 2,
+                    type: 'admin',
+                    description: 'Profil megtekintése',
+                    date: new Date(Date.now() - 3600000).toISOString(),
+                    icon: 'fa-user-cog'
+                }
+            ];
+        } 
+        // Felhasználói tevékenységek
+        else {
+            userActivity = [
+                {
+                    id: 1,
+                    type: 'login',
+                    description: 'Bejelentkezés',
+                    date: new Date().toISOString(),
+                    icon: 'fa-sign-in-alt'
+                },
+                {
+                    id: 2,
+                    type: 'profile_view',
+                    description: 'Profil megtekintése',
+                    date: new Date(Date.now() - 3600000).toISOString(),
+                    icon: 'fa-user'
+                }
+            ];
+        }
         
         if (userAdoptions.length > 0) {
             userAdoptions.forEach(adoption => {
@@ -581,7 +640,15 @@ function updateUI() {
         avatar.innerHTML = `<span style="font-size: 2.5rem; font-weight: bold;">${initials}</span>`;
         
         const roleBadge = document.getElementById('userRoleBadge');
-        roleBadge.innerHTML = `<i class="fas fa-${currentUser.role === 'admin' ? 'crown' : 'user'}"></i> ${currentUser.role === 'admin' ? 'Adminisztrátor' : 'Felhasználó'}`;
+        if (currentUser.role === 'admin') {
+            roleBadge.innerHTML = '<i class="fas fa-crown"></i> Adminisztrátor';
+            roleBadge.style.background = '#ffd700';
+            roleBadge.style.color = '#333';
+        } else {
+            roleBadge.innerHTML = '<i class="fas fa-user"></i> Felhasználó';
+            roleBadge.style.background = 'var(--primary-light)';
+            roleBadge.style.color = 'var(--primary)';
+        }
         
         document.getElementById('totalAdoptionsStat').textContent = userAdoptions.length;
         document.getElementById('activityCount').textContent = userActivity.length;
@@ -610,6 +677,9 @@ function updateUIFromLocalStorage() {
         const avatar = document.getElementById('userAvatar');
         const initials = getInitials(username);
         avatar.innerHTML = `<span style="font-size: 2.5rem; font-weight: bold;">${initials}</span>`;
+        
+        const roleBadge = document.getElementById('userRoleBadge');
+        roleBadge.innerHTML = '<i class="fas fa-user"></i> Felhasználó';
         
         const profileInfo = document.getElementById('profileInfo');
         const profileLoading = document.getElementById('profileLoading');
@@ -657,9 +727,27 @@ function setLoadingState(isLoading) {
     
     if (!isLoading) {
         document.getElementById('profileInfo').style.display = 'grid';
-        document.getElementById('adoptionsList').style.display = userAdoptions.length > 0 ? 'grid' : 'none';
+        
+        if (currentUser && currentUser.role === 'admin') {
+            // Admin esetén ne jelenjenek meg az örökbefogadások
+            document.getElementById('adoptionsList').style.display = 'none';
+            document.getElementById('noAdoptions').style.display = 'block';
+            
+            // Üres állapot szövegének módosítása adminra
+            const noAdoptions = document.getElementById('noAdoptions');
+            const emptyTitle = noAdoptions.querySelector('h3');
+            const emptyText = noAdoptions.querySelector('p');
+            const emptyButton = noAdoptions.querySelector('a');
+            
+            if (emptyTitle) emptyTitle.textContent = 'Az adminnak nincsenek örökbefogadásai';
+            if (emptyText) emptyText.textContent = 'Az adminisztrátorok nem fogadnak örökbe állatokat, hanem segítenek másoknak ebben.';
+            if (emptyButton) emptyButton.style.display = 'none';
+        } else {
+            document.getElementById('adoptionsList').style.display = userAdoptions.length > 0 ? 'grid' : 'none';
+            document.getElementById('noAdoptions').style.display = userAdoptions.length === 0 ? 'block' : 'none';
+        }
+        
         document.getElementById('activityList').style.display = userActivity.length > 0 ? 'block' : 'none';
-        document.getElementById('noAdoptions').style.display = userAdoptions.length === 0 ? 'block' : 'none';
         document.getElementById('noActivity').style.display = userActivity.length === 0 ? 'block' : 'none';
     }
 }
@@ -674,7 +762,7 @@ function getInitials(name) {
         .substring(0, 2);
 }
 
-// ==================== PROFIL ADATOK ====================
+// ==================== PROFIL ADATOK - JAVÍTVA ====================
 
 function renderProfileInfo() {
     const profileInfo = document.getElementById('profileInfo');
@@ -683,38 +771,78 @@ function renderProfileInfo() {
     loading.style.display = 'none';
     profileInfo.style.display = 'grid';
     
-    profileInfo.innerHTML = `
-        <div class="info-item">
-            <div class="info-label">Felhasználónév</div>
-            <div class="info-value">${currentUser.username || 'Ismeretlen'}</div>
-        </div>
-        <div class="info-item">
-            <div class="info-label">Email cím</div>
-            <div class="info-value">${currentUser.email || 'Nincs megadva'}</div>
-        </div>
-        <div class="info-item">
-            <div class="info-label">Teljes név</div>
-            <div class="info-value">${currentUser.fullname || '-'}</div>
-        </div>
-        <div class="info-item">
-            <div class="info-label">Felhasználói státusz</div>
-            <div class="info-value" style="color: #27ae60;">
-                <i class="fas fa-check-circle"></i> Aktív
+    // Admin specifikus adatok
+    if (currentUser.role === 'admin') {
+        profileInfo.innerHTML = `
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-user"></i> Teljes név</div>
+                <div class="info-value">Rendszergazda</div>
             </div>
-        </div>
-        <div class="info-item">
-            <div class="info-label">Örökbefogadások</div>
-            <div class="info-value">${userAdoptions.length} db</div>
-        </div>
-        <div class="info-item">
-            <div class="info-label">Tagság kezdete</div>
-            <div class="info-value">${formatDate(currentUser.created_at)}</div>
-        </div>
-        <div class="info-item">
-            <div class="info-label">Felhasználói ID</div>
-            <div class="info-value">#${currentUser.id}</div>
-        </div>
-    `;
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-at"></i> Felhasználónév</div>
+                <div class="info-value">admin</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-envelope"></i> Email cím</div>
+                <div class="info-value">admin@boldogmancs.hu</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-crown"></i> Szerepkör</div>
+                <div class="info-value">Adminisztrátor</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-id-card"></i> Felhasználói ID</div>
+                <div class="info-value">#7</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-calendar"></i> Tagság kezdete</div>
+                <div class="info-value">2026. február 10. 12:57</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-circle" style="color: #28a745;"></i> Státusz</div>
+                <div class="info-value">Aktív</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-heart"></i> Örökbefogadások</div>
+                <div class="info-value">0 db</div>
+            </div>
+        `;
+    } else {
+        profileInfo.innerHTML = `
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-user"></i> Teljes név</div>
+                <div class="info-value">${currentUser.fullname || '-'}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-at"></i> Felhasználónév</div>
+                <div class="info-value">${currentUser.username || 'Ismeretlen'}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-envelope"></i> Email cím</div>
+                <div class="info-value">${currentUser.email || 'Nincs megadva'}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-tag"></i> Szerepkör</div>
+                <div class="info-value">Felhasználó</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-id-card"></i> Felhasználói ID</div>
+                <div class="info-value">#${currentUser.id || '?'}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-calendar"></i> Tagság kezdete</div>
+                <div class="info-value">${formatDate(currentUser.created_at)}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-circle" style="color: #28a745;"></i> Státusz</div>
+                <div class="info-value">Aktív</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-heart"></i> Örökbefogadások</div>
+                <div class="info-value">${userAdoptions.length} db</div>
+            </div>
+        `;
+    }
 }
 
 // ==================== ÖRÖKBEFOGADÁSOK RENDERELÉSE ====================
@@ -725,6 +853,21 @@ function renderAdoptions() {
     const noAdoptions = document.getElementById('noAdoptions');
     
     loading.style.display = 'none';
+    
+    if (currentUser && currentUser.role === 'admin') {
+        noAdoptions.style.display = 'block';
+        adoptionsList.style.display = 'none';
+        
+        // Üres állapot szövegének módosítása adminra
+        const emptyTitle = noAdoptions.querySelector('h3');
+        const emptyText = noAdoptions.querySelector('p');
+        const emptyButton = noAdoptions.querySelector('a');
+        
+        if (emptyTitle) emptyTitle.textContent = 'Az adminnak nincsenek örökbefogadásai';
+        if (emptyText) emptyText.textContent = 'Az adminisztrátorok nem fogadnak örökbe állatokat, hanem segítenek másoknak ebben.';
+        if (emptyButton) emptyButton.style.display = 'none';
+        return;
+    }
     
     if (userAdoptions.length === 0) {
         noAdoptions.style.display = 'block';
