@@ -253,15 +253,11 @@ function setupNavigation() {
     
     console.log('✅ Navigáció beállítva');
 }
+// script.js - JAVÍTOTT showPage függvény
+
 window.showPage = function(pageId) {
     console.log('📄 Navigáció oldalra:', pageId);
     
-    // 1. LÉPÉS: Azonnali ugrás az oldal tetejére (több módszerrel)
-    document.documentElement.scrollTop = 0; // HTML elem
-    document.body.scrollTop = 0; // Body elem (Safari miatt)
-    window.scrollTo(0, 0); // Window objektum
-    
-    // 2. LÉPÉS: Oldalváltás
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
@@ -283,14 +279,16 @@ window.showPage = function(pageId) {
             }
         }
         
-        // 3. LÉPÉS: Biztos, ami biztos - újra az oldal tetejére ugrunk
+        // JAVÍTOTT GÖRGETÉS - biztos, hogy felmegy az oldal tetejére
         setTimeout(() => {
-            document.documentElement.scrollTop = 0;
-            document.body.scrollTop = 0;
-            window.scrollTo(0, 0);
-        }, 10);
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }, 50);
         
-        console.log('✅ Oldalváltás sikeres:', pageId);
+        // Alternatív megoldás - azonnali scroll
+        window.scrollTo(0, 0);
         
     } else {
         console.error('❌ Nem található oldal:', pageId);
