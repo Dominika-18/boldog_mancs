@@ -255,8 +255,13 @@ function setupNavigation() {
 }
 // script.js - JAVÍTOTT showPage függvény
 
+// script.js - MEGERŐSÍTETT showPage függvény
+
 window.showPage = function(pageId) {
     console.log('📄 Navigáció oldalra:', pageId);
+    
+    // Először görgetünk fel (azonnal)
+    window.scrollTo(0, 0);
     
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
@@ -266,7 +271,7 @@ window.showPage = function(pageId) {
     if (targetPage) {
         targetPage.classList.add('active');
         
-        document.querySelectorAll('nav .nav-link').forEach(link => {
+        document.querySelectorAll('nav .nav-link, .footer-links .nav-link').forEach(link => {
             link.classList.remove('active');
             if (link.dataset.page === pageId) {
                 link.classList.add('active');
@@ -279,16 +284,13 @@ window.showPage = function(pageId) {
             }
         }
         
-        // JAVÍTOTT GÖRGETÉS - biztos, hogy felmegy az oldal tetejére
+        // Még egy görgetés biztos, ami belemegy
         setTimeout(() => {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
-        }, 50);
-        
-        // Alternatív megoldás - azonnali scroll
-        window.scrollTo(0, 0);
+        }, 100);
         
     } else {
         console.error('❌ Nem található oldal:', pageId);
